@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "stitch": {
+      "type": "command",
+      "command": "npx",
+      "args": ["-y", "stitch-mcp"],
+      "env": {
+        "STITCH_API_KEY": "YOUR_ACTUAL_KEY_HERE"
+      },
+      "enabled": true
+    }
+  }
+}

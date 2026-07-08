@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WEARVEYRO | EXPLORER</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#e5e2e1",
+                    "surface-container": "#20201f",
+                    "primary-fixed": "#c3f400",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#131313",
+                    "primary": "#ffffff",
+                    "tertiary-fixed": "#e5e2e1",
+                    "primary-fixed-dim": "#abd600",
+                    "inverse-primary": "#506600",
+                    "on-secondary-fixed-variant": "#454747",
+                    "surface-variant": "#353535",
+                    "secondary-fixed": "#e2e2e2",
+                    "secondary-container": "#454747",
+                    "on-primary": "#283500",
+                    "tertiary-fixed-dim": "#c9c6c5",
+                    "on-primary-fixed": "#161e00",
+                    "on-surface-variant": "#c4c9ac",
+                    "error-container": "#93000a",
+                    "on-tertiary": "#313030",
+                    "on-primary-fixed-variant": "#3c4d00",
+                    "on-error": "#690005",
+                    "on-background": "#e5e2e1",
+                    "surface-container-low": "#1c1b1b",
+                    "surface-container-highest": "#353535",
+                    "secondary": "#c6c6c7",
+                    "surface-tint": "#abd600",
+                    "surface-container-lowest": "#0e0e0e",
+                    "inverse-on-surface": "#313030",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "on-tertiary-container": "#656464",
+                    "outline": "#8e9379",
+                    "surface": "#131313",
+                    "surface-bright": "#393939",
+                    "on-tertiary-fixed-variant": "#474646",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-primary-container": "#556d00",
+                    "tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#1c1b1b",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary-container": "#b4b5b5",
+                    "on-secondary": "#2f3131",
+                    "on-error-container": "#ffdad6",
+                    "background": "#131313",
+                    "primary-container": "#c3f400",
+                    "outline-variant": "#444933",
+                    "tertiary-container": "#e5e2e1",
+                    "on-surface": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0rem",
+                    "lg": "0rem",
+                    "xl": "0rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "12px",
+                    "section-gap-sm": "40px",
+                    "container-margin": "20px",
+                    "unit": "4px",
+                    "section-gap-lg": "80px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Syne"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "display-xl": ["Syne"],
+                    "label-bold": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Syne"]
+            },
+            "fontSize": {
+                    "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.0", "fontWeight": "500"}],
+                    "display-xl": ["80px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "label-bold": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #0A0A0A; color: #e5e2e1; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .neon-glow:hover { box-shadow: 0 0 15px rgba(195, 244, 0, 0.4); }
+        .custom-scrollbar::-webkit-scrollbar { width: 2px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #131313; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c3f400; }
+        .product-card:hover .quick-add { transform: translateY(0); opacity: 1; }
+        .product-card .quick-add { transform: translateY(10px); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .product-card:hover .img-primary { opacity: 0; }
+        .product-card:hover .img-secondary { opacity: 1; }
+        .img-secondary { opacity: 0; transition: opacity 0.4s ease; }
+        .marquee-container { overflow: hidden; white-space: nowrap; }
+        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    </style>
+</head>
+<body class="custom-scrollbar">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-white/15 flex justify-between items-center px-container-margin py-4">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md tracking-tighter text-primary">wearveyro</span>
+<div class="hidden md:flex gap-6">
+<a class="font-label-bold text-label-bold text-primary-fixed hover:text-primary-fixed transition-colors" href="#">EXPLORER</a>
+<a class="font-label-bold text-label-bold text-secondary hover:text-primary-fixed transition-colors" href="#">ARCHIVE</a>
+<a class="font-label-bold text-label-bold text-secondary hover:text-primary-fixed transition-colors" href="#">DROPS</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="text-secondary hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute -top-1 -right-1 bg-primary-fixed text-on-primary-fixed text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">0</span>
+</button>
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</nav>
+<main class="max-w-[1600px] mx-auto pt-32 pb-24 px-container-margin">
+<!-- Header Section -->
+<header class="mb-section-gap-sm border-l border-primary-fixed pl-6">
+<p class="font-label-bold text-label-bold text-primary-fixed mb-2">COLLECTION 004 / 2024</p>
+<h1 class="font-display-xl text-display-xl uppercase tracking-tighter leading-none mb-4">VOL. 04 /<br/>THE ARCHIVE</h1>
+<div class="w-full h-px bg-white/15"></div>
+</header>
+<!-- Filters & Layout Controls -->
+<section class="flex flex-col md:flex-row justify-between items-end mb-12 gap-gutter">
+<div class="flex gap-4 border-b border-white/15 pb-2 w-full md:w-auto">
+<button class="font-label-bold text-label-bold text-primary-fixed border-b-2 border-primary-fixed px-4 pb-2">ALL</button>
+<button class="font-label-bold text-label-bold text-secondary hover:text-primary transition-colors px-4 pb-2">TOPS</button>
+<button class="font-label-bold text-label-bold text-secondary hover:text-primary transition-colors px-4 pb-2">OUTERWEAR</button>
+<button class="font-label-bold text-label-bold text-secondary hover:text-primary transition-colors px-4 pb-2">ACCESSORIES</button>
+</div>
+<div class="flex items-center gap-4 text-secondary font-label-sm">
+<span>VIEWING 24 ITEMS</span>
+<div class="h-4 w-px bg-white/15"></div>
+<button class="flex items-center gap-1 hover:text-primary transition-colors uppercase font-label-bold">
+                    Filter <span class="material-symbols-outlined text-sm">tune</span>
+</button>
+</div>
+</section>
+<!-- Marquee Announcement -->
+<div class="marquee-container mb-12 border-y border-white/10 py-3">
+<div class="marquee-content font-display-xl text-[40px] opacity-20 italic">
+                RESTOCK COMING SOON — ARCHIVE DROP 04 — LIMITED QUANTITIES ONLY — WEARVEYRO GLOBAL — RESTOCK COMING SOON — ARCHIVE DROP 04 — LIMITED QUANTITIES ONLY — WEARVEYRO GLOBAL —
+            </div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-0 border-t border-l border-white/15">
+<!-- Card 1 -->
+<div class="product-card group relative border-r border-b border-white/15 flex flex-col">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="img-primary absolute inset-0 w-full h-full object-cover grayscale brightness-75 transition-opacity duration-500" data-alt="High-fashion streetwear photography of a minimalist technical jacket in obsidian black, studio lighting with sharp shadows, monochromatic palette, high contrast, brutalist aesthetic for wearveyro brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMcfKDy2cyY-dSQ0shZRu5YKGHomqo5HRByBS1-5KcKTSTWEl5sB1uaK-naEfD8x8_Wh8445_UR3shoKI38f6R6Y0gd3JSDC2PtmKrYfDJc5uPdPcMliRBP-wcUCNjMxIcjMvag6Q4qIWkRYcgCYqdRdob_nR2Z0yhdyHyemJXRK6exoGglw-nBDSRJWeikufL7nqMcoV-gYf4pg8aDqsw-LhatUjsNuQQ2oXhttE0lDYZl8f6CxNqSMQ4Xpyz9XJli170KNhZz6xw"/>
+<img class="img-secondary absolute inset-0 w-full h-full object-cover grayscale brightness-90" data-alt="Detailed close-up of a high-tech garment texture showing intricate stitching and premium fabric, moody cinematic lighting, deep blacks and sharp highlights, minimalist fashion design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7X0iuSwzVskBy0ZyPPLF5EcoK39bUlWC0xLnnorgMVbKybyRdrpWoKSiGvJ3GEE-GnxNoLsa-gYvu-eI9Cj5z6yd0j4kSQKd1VEpnUjqrhj-BFcGGKfHbcR4ZgOsrwBGJ1TiPZncutBfaFfOohBBBVdgNAPsKviX302SN-yQXps9O7v4iLMHHc0J7X4FQSpiCQUNtDbOlfQPdm6DZNgVQLhBWyaDjNlCvze4OlIPHA7kGvdtelu780kVRUQwRRu6Ih2i5disbOpjv"/>
+<!-- Quick Add Hover Overlay -->
+<div class="quick-add absolute inset-x-0 bottom-0 p-4 bg-black/60 backdrop-blur-sm border-t border-primary-fixed">
+<p class="font-label-bold text-[10px] text-primary-fixed mb-2">QUICK ADD SIZE</p>
+<div class="flex justify-between gap-1">
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">S</button>
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">M</button>
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">L</button>
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">XL</button>
+</div>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold uppercase tracking-tight">KINETIC SHELL V1</h3>
+<span class="font-label-bold text-primary-fixed">Rs. 18,500</span>
+</div>
+<p class="text-secondary font-label-sm uppercase mb-4 opacity-60">ARCHIVE / OUTERWEAR</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></div>
+<span class="text-[10px] font-label-bold uppercase text-primary-fixed">Low Stock</span>
+</div>
+<button class="text-primary hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="product-card group relative border-r border-b border-white/15 flex flex-col">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="img-primary absolute inset-0 w-full h-full object-cover grayscale brightness-75 transition-opacity duration-500" data-alt="Avant-garde oversized t-shirt design with raw edges and brutalist typography print, studio lighting, dramatic shadows, dark fashion aesthetic with Cyber Lime accent lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbGvsBIN6LTbA2tqDEFQIqAMgPsh2X6JW435Sa6kuLheWOkAaW9mTcXiq59XfCtgnZ5YL2ITemLk9jPjFYUaLpEIQ6jXYUiFrPxnAojcpxJ0Iw864nKB__YQy608soEJVU3aT1-x1n23dNHDAtL-in1YUH_jQnzHOZ7kM5GiKHpoWq2nEqnirQb7JYfDYzrOMwfvX4uXHs65TBJpvj8Q59178-oZgMlA3HL1nShlts6KIW8Fz_MPbnMgVy0tZC2Ug1qgaB5BzhBZ7s"/>
+<img class="img-secondary absolute inset-0 w-full h-full object-cover grayscale brightness-90" data-alt="Model posing in architectural streetwear, cinematic lighting, moody atmosphere, sharp focus on luxury garment details, futuristic urban fashion style for wearveyro." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc6IyilOQDVI3InLRCJ-TiyvLTpL2zyIgo8PFok5gQUD9fV0cTQKjU7ET-El8Cc3lA_3VvvWoZ4JxTOBSHcg0WKZSdIt-ybbTCTVfhfP9QSRLh2gt9BSD13K2pE7rmEoWF69ICpk6Om0sQihJc8EC_MIOoarkyauIesb05oQsvF7jH-6_onaRXBLa6u7gvaJXnIibKr4fXY0-pyi9rdr0cQ0MR1ghq4i_I4pHghY5pgu8uMGsjrVv_fAPj9TSgqH5x5pTxaZ26KB4n"/>
+<div class="quick-add absolute inset-x-0 bottom-0 p-4 bg-black/60 backdrop-blur-sm border-t border-primary-fixed">
+<p class="font-label-bold text-[10px] text-primary-fixed mb-2">QUICK ADD SIZE</p>
+<div class="flex justify-between gap-1">
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">S</button>
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">M</button>
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">L</button>
+</div>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold uppercase tracking-tight">VOID BOX TEE</h3>
+<span class="font-label-bold text-primary-fixed">Rs. 6,800</span>
+</div>
+<p class="text-secondary font-label-sm uppercase mb-4 opacity-60">ARCHIVE / TOPS</p>
+<div class="mt-auto">
+<div class="w-full h-[2px] bg-white/10 mb-2">
+<div class="w-3/4 h-full bg-primary-fixed"></div>
+</div>
+<div class="flex justify-between text-[9px] font-label-bold uppercase">
+<span>Inventory Status</span>
+<span class="text-primary-fixed">75% Sold</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="product-card group relative border-r border-b border-white/15 flex flex-col">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="img-primary absolute inset-0 w-full h-full object-cover grayscale brightness-75 transition-opacity duration-500" data-alt="Sleek black utility vest with multiple tactical pockets and chrome hardware, dark warehouse background, sharp futuristic lighting, techwear aesthetic for premium streetwear label." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpDRnQyT1UOikjNEWCCAt5WK7dy78cNQBdymCtrGOo_WTCb1E5S9zO4aFsJFRIt_D-PFht8XWApgheeBeyTmN2IWxFYhHAbcC5jeKm7FMRCsz1_c1o9TB11UijS_BTOTmzDJ4XsuS3tAVeqrixnsyYJPrBTT_wYcvn9m32dPm_95jJyrF3r3VA8BCbRXRc3ca8uYLL1MnskT3dY-RqkGwsSRR8HmqHcXxPSpPl9LHNEfMZ4zEyHEyP49UZW1E1rP0SwEhU9Ve8djJv"/>
+<img class="img-secondary absolute inset-0 w-full h-full object-cover grayscale brightness-90" data-alt="Editorial fashion shot of high-end accessories and apparel, heavy contrast lighting, monochrome color scheme, luxury retail atmosphere for wearveyro explorer." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_Ry0WRnyl2QWVIYtaNU80W5Dj8kbnaqNUv-26QmFfCG2KNSlqnp0BEUhkSmruNLCiHWAzf-cJ5D6yWHRlZEYBlMeskGkY9Q9pq-Okrhjh9aao-Ci2uWaMMCXEjeX3XvGsX4ZVl_tbsfQqqqjS_2BphgKFWUwuoLA6-1tb7CFjX_WR-D76iNDW1ljzJfZssX-65POrQfIgyPN2pKlG95w1I-1DnhMTFcxUPLMEsdr3TUJgN6XUDOvjyvW4zkTSGKahlMgn__pkM5lT"/>
+<div class="quick-add absolute inset-x-0 bottom-0 p-4 bg-black/60 backdrop-blur-sm border-t border-primary-fixed">
+<p class="font-label-bold text-[10px] text-primary-fixed mb-2">QUICK ADD SIZE</p>
+<div class="flex justify-between gap-1">
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">OS</button>
+</div>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold uppercase tracking-tight">CARGO VEST 02</h3>
+<span class="font-label-bold text-primary-fixed">Rs. 14,200</span>
+</div>
+<p class="text-secondary font-label-sm uppercase mb-4 opacity-60">ARCHIVE / OUTERWEAR</p>
+<div class="mt-auto">
+<button class="w-full py-2 border border-white/15 font-label-bold text-[10px] uppercase hover:bg-primary-fixed hover:text-on-primary-fixed transition-all duration-300">View Details</button>
+</div>
+</div>
+</div>
+<!-- Card 4 (Sold Out) -->
+<div class="product-card group relative border-r border-b border-white/15 flex flex-col opacity-80">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container-lowest grayscale">
+<img class="img-primary absolute inset-0 w-full h-full object-cover grayscale brightness-50" data-alt="Distressed heavy-weight hoodie in charcoal grey, minimalist background, moody high-key lighting, professional product photography for luxury streetwear." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4TxGDhOxXsUoXS309gyYANv14wfEOP9v9nGhlOMXLWFdKCzRitTYT1vwpbqRXWOfO43p5x2s_yzGl3I7-34aZkX19M3EgmkKg2JQ-2heYM6HmzT6dZLNIsnX556j6p9gXh3m9CkibHOFgs8g-nNeNP8Y0yXShYy6APLyXmVT2X7cNN2ykwU0MazXy_Jvy0L9bSF4AHjEfpukc34VRRJru08gdcm_1g9yhD-J2iNEv5dL-p6HEhACw_pOyEZcjsFVdc9kjoWQjGH2C"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="font-headline-md text-headline-md -rotate-12 border-2 border-white/40 px-4 py-1 uppercase opacity-40">Sold Out</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold uppercase tracking-tight line-through decoration-primary-fixed">REBEL HOODIE</h3>
+<span class="font-label-bold text-secondary">Rs. 9,500</span>
+</div>
+<p class="text-secondary font-label-sm uppercase mb-4 opacity-60">ARCHIVE / TOPS</p>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="product-card group relative border-r border-b border-white/15 flex flex-col">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container-lowest">
+<img class="img-primary absolute inset-0 w-full h-full object-cover grayscale brightness-75 transition-opacity duration-500" data-alt="Sleek modern windbreaker with cyber lime reflective details, midnight black fabric, high-fashion editorial style, sharp architectural lighting for wearveyro." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEA24spKNv534sdcmmu_Zx0WQ58RkaWameHcKiimFjPAHm6C90hpDelXql_59OPImo_hzUNYMHJibMp47SIDLj7dMNKt0N0iMMXPM-KrDkd_aL_f37bUapmxd_mroH6aIIUaOf1AUBSKUWRHPLTqiYYsXCLFeOHrsWcGxYLTVd-ZaX8iJc-huAdFE19epWcVhlDuKIBjor-fw_J82ittpY6jkXT9Oq4OqWuYO7sHuYSEfSSK4pWbC55GkE7qMmf2sGEwlTUD89qbTA"/>
+<div class="quick-add absolute inset-x-0 bottom-0 p-4 bg-black/60 backdrop-blur-sm border-t border-primary-fixed">
+<p class="font-label-bold text-[10px] text-primary-fixed mb-2">QUICK ADD SIZE</p>
+<div class="flex justify-between gap-1">
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">S</button>
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">M</button>
+<button class="flex-1 py-1 text-[10px] border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors">L</button>
+</div>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold uppercase tracking-tight">NEON WINDRUNNER</h3>
+<span class="font-label-bold text-primary-fixed">Rs. 11,000</span>
+</div>
+<p class="text-secondary font-label-sm uppercase mb-4 opacity-60">ARCHIVE / OUTERWEAR</p>
+<div class="mt-auto">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-label-bold uppercase text-primary-fixed border border-primary-fixed px-2 py-0.5">New Drop</span>
+</div>
+</div>
+</div>
+</div>
+<!-- More cards would repeat here in a real app -->
+</div>
+<!-- Pagination / Load More -->
+<div class="flex justify-center mt-section-gap-sm">
+<button class="group flex items-center gap-4 py-4 px-12 border border-white/15 hover:border-primary-fixed transition-all duration-300">
+<span class="font-label-bold text-label-bold uppercase tracking-widest group-hover:text-primary-fixed">Load More Archive Items</span>
+<span class="material-symbols-outlined text-primary-fixed group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface border-t border-white/15 p-container-margin mt-12">
+<div class="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-gutter py-8">
+<div class="flex flex-col gap-4">
+<span class="font-headline-lg text-headline-lg text-primary tracking-tighter">wearveyro</span>
+<p class="font-label-sm text-secondary max-w-xs uppercase">Premium technical apparel for the digital native generation. Exclusive drops only.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-12">
+<div class="flex flex-col gap-2">
+<span class="font-label-bold text-primary mb-2">COLLECTIONS</span>
+<a class="font-label-sm text-secondary hover:text-primary-fixed transition-colors" href="#">THE ARCHIVE</a>
+<a class="font-label-sm text-secondary hover:text-primary-fixed transition-colors" href="#">LATEST DROPS</a>
+<a class="font-label-sm text-secondary hover:text-primary-fixed transition-colors" href="#">ACCESSORIES</a>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-label-bold text-primary mb-2">ASSISTANCE</span>
+<a class="font-label-sm text-secondary hover:text-primary-fixed transition-colors" href="#">SHIPPING</a>
+<a class="font-label-sm text-secondary hover:text-primary-fixed transition-colors" href="#">RETURNS</a>
+<a class="font-label-sm text-secondary hover:text-primary-fixed transition-colors" href="#">CONTACT</a>
+</div>
+</div>
+<div class="flex flex-col items-center md:items-end gap-6">
+<div class="flex gap-4">
+<a class="w-10 h-10 border border-white/15 flex items-center justify-center hover:bg-primary-fixed hover:text-on-primary-fixed transition-all" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+<a class="w-10 h-10 border border-white/15 flex items-center justify-center hover:bg-primary-fixed hover:text-on-primary-fixed transition-all" href="#"><span class="material-symbols-outlined">public</span></a>
+</div>
+<span class="font-label-sm text-secondary opacity-50 uppercase tracking-widest">©2024 WEARVEYRO. ALL RIGHTS RESERVED.</span>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for magnetic buttons or custom cursor could go here
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = 'scale(0.98)';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple visibility observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0', 'translate-y-4');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+            observer.observe(card);
+        });
+    </script>
+</body></html>

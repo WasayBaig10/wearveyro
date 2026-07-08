@@ -1,0 +1,359 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>VORTEX GRAIL TEE | NOVA_VAULT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container": "#20201f",
+                        "primary-fixed": "#c3f400",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#131313",
+                        "primary": "#ffffff",
+                        "tertiary-fixed": "#e5e2e1",
+                        "primary-fixed-dim": "#abd600",
+                        "inverse-primary": "#506600",
+                        "on-secondary-fixed-variant": "#454747",
+                        "surface-variant": "#353535",
+                        "secondary-fixed": "#e2e2e2",
+                        "secondary-container": "#454747",
+                        "on-primary": "#283500",
+                        "tertiary-fixed-dim": "#c9c6c5",
+                        "on-primary-fixed": "#161e00",
+                        "on-surface-variant": "#c4c9ac",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#313030",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-error": "#690005",
+                        "on-background": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-highest": "#353535",
+                        "secondary": "#c6c6c7",
+                        "surface-tint": "#abd600",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-container": "#656464",
+                        "outline": "#8e9379",
+                        "surface": "#131313",
+                        "surface-bright": "#393939",
+                        "on-tertiary-fixed-variant": "#474646",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-primary-container": "#556d00",
+                        "tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#1c1b1b",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-container": "#b4b5b5",
+                        "on-secondary": "#2f3131",
+                        "on-error-container": "#ffdad6",
+                        "background": "#131313",
+                        "primary-container": "#c3f400",
+                        "outline-variant": "#444933",
+                        "tertiary-container": "#e5e2e1",
+                        "on-surface": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "section-gap-sm": "40px",
+                        "container-margin": "20px",
+                        "unit": "4px",
+                        "section-gap-lg": "80px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Syne"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "display-xl": ["Syne"],
+                        "label-bold": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Syne"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.0", "fontWeight": "500"}],
+                        "display-xl": ["80px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                        "label-bold": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0e0e0e; }
+        ::-webkit-scrollbar-thumb { background: #353535; }
+        ::-webkit-scrollbar-thumb:hover { background: #c3f400; }
+        .bento-border { border: 1px solid rgba(255,255,255,0.15); }
+        .cyber-glow { box-shadow: 0 0 15px rgba(195, 244, 0, 0.3); }
+        .marquee-container { overflow: hidden; white-space: nowrap; }
+        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed overflow-x-hidden">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-white/15 flex justify-between items-center px-container-margin py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:text-primary-fixed transition-colors active:scale-95 duration-200">menu</button>
+<span class="font-headline-md text-headline-md tracking-tighter text-primary">wearveyro</span>
+</div>
+<div class="hidden md:flex gap-8 font-label-bold text-label-bold">
+<a class="text-secondary hover:text-primary-fixed transition-colors" href="#">DROPS</a>
+<a class="text-secondary hover:text-primary-fixed transition-colors" href="#">COLLECTIONS</a>
+<a class="text-secondary hover:text-primary-fixed transition-colors" href="#">ARCHIVE</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-secondary hover:text-primary-fixed transition-colors">search</button>
+<button class="material-symbols-outlined text-primary hover:text-primary-fixed transition-colors active:scale-95 duration-200">shopping_bag</button>
+</div>
+</nav>
+<!-- Marquee -->
+<div class="pt-20 bg-surface border-b border-white/15 py-2 marquee-container">
+<div class="marquee-content font-headline-md text-headline-md italic opacity-20 select-none">VORTEX GRAIL TEE — LIMITED DROP — VORTEX GRAIL TEE — LIMITED DROP — VORTEX GRAIL TEE — LIMITED DROP — VORTEX GRAIL TEE — LIMITED DROP —</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="min-h-screen pt-4 pb-section-gap-lg px-container-margin md:px-0">
+<div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-0 md:border-x border-white/15">
+<!-- Left Side: Image Gallery -->
+<section class="md:col-span-7 flex flex-col border-r border-white/15">
+<div class="sticky top-24">
+<div class="w-full aspect-[3/4] bg-surface-container-lowest overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A high-fashion minimalist streetwear photography shot of a heavy oversized black cotton t-shirt. The shirt features a subtle, glossy black-on-black vortex graphic on the chest. Lighting is harsh and dramatic, casting sharp shadows against a dark, concrete industrial background, highlighting the premium texture of the fabric. The aesthetic is clean, expensive, and futuristic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCdlWXZgKEw3FryVbQNghSSYQTeL-K3Gz8lLSDSdl7w5fAPBXnxCk-mLIZDZpLBDZj9Ix9abyQub4wsKK-w6Ezn4b3XYp1jrBW8GQnnYylFUywxezygs-QjHOXfYtpsDEBbUqMN3Sn4w3PuERKQpUbxYVC5Kbz3cb3V6Mo9Kuis_6RYjH9Lc6ot1sTqTM3ILgzsmr9eDfOMvmNe89tqmGwKjk24NNKmnyG7RxZxHQdH4ijramGpir_2Y7HXqWbjyx2Yr1a8Mut42Kc">
+</div>
+<div class="grid grid-cols-2 border-t border-white/15">
+<div class="aspect-square border-r border-white/15 overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A macro close-up shot of a high-end streetwear garment neckline and shoulder seam, showing tight, double-needle stitching on heavy black jersey cotton. The lighting is directional and moody, revealing the rich grain and density of the textile. Tiny dust particles are caught in a single beam of light, emphasizing the raw, authentic streetwear aesthetic of a luxury drop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-Amf6QsW0n8215QUjcbVqWtwL9Dx7lysVakiCPiwvvZ4OfInGz0GryIxQRX3OI2GHH952JDyFzjG_tWCsElIt2PWuwnyQdHp1RpC8zTSLs4UNILIXDh0qo5PaaZB-K2KDWFp3omDWkQ0WAXf_dadDOCwM7p9nmtGWrtbKY-3J9gXjhaP-M6CsHOosIQVQ7wVtsUmzbDXL_MBmrSRsjEn7lwPg8OKdNVnuX-ZEhaTOsei6033ftK-QDyJWEJBXEYvCq1_3dmIYaGCb">
+</div>
+<div class="aspect-square overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A detailed shot of the back of a black oversized tee with a large, abstract white and grey kinetic vortex graphic that feels energetic and rebellious. The lighting is cinematic and high-contrast, making the graphic pop against the dark fabric. The composition is slightly off-center to maintain the brutalist, asymmetric visual tension of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH8iPc6sRbMx8nNuvUESOVbx1dUhcHyE5TLCi7OqQymDAWI__6c6R2gULCxGa1VWt01qhtwD3g-zEUhqFiR617Qfrs2biln-KIrifsAcR-MWD2hbZ3M91H_FCc3IVBMqXRu8yEtdrbJzb3-2MC2vaVkfGYC6qQ8ibXn8Fv1dOMne5ei3AP1LRC8nTJ06ZOv_7pCUxYmgBGhuSBXbW8fgS0UkJhfW4Y7QjeuQd_vYg9xE0cR1DXSFxUJnLdGrRxjHFBCjN9btlGt0pQ">
+</div>
+</div>
+</div>
+</section>
+<!-- Right Side: Product Info -->
+<section class="md:col-span-5 px-container-margin py-12 md:py-16 bg-background">
+<div class="flex flex-col gap-10">
+<!-- Title & Price -->
+<div class="space-y-4">
+<div class="flex justify-between items-start">
+<h1 class="font-headline-lg text-headline-lg max-w-[70%]">VORTEX GRAIL TEE</h1>
+<div class="flex flex-col items-end">
+<span class="font-headline-md text-headline-md text-primary-fixed">Rs. 4,800</span>
+<span class="font-label-sm text-label-sm text-secondary opacity-60">TAX INCL.</span>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="px-2 py-1 border border-primary-fixed text-primary-fixed text-label-sm font-label-bold tracking-widest uppercase">Limited Edition</span>
+<span class="px-2 py-1 border border-white/15 text-secondary text-label-sm font-label-bold tracking-widest uppercase">240GSM COTTON</span>
+</div>
+</div>
+<!-- Description -->
+<div class="space-y-4 max-w-md">
+<p class="font-body-lg text-body-lg text-secondary leading-relaxed">
+                            Engineered for the digital nomad. The Vortex Grail Tee features a relaxed, drop-shoulder silhouette constructed from our custom-developed heavy-weight jersey. 
+                        </p>
+<div class="w-full h-[1px] bg-white/15"></div>
+<div class="flex items-center gap-3 text-primary-fixed">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-label-bold text-label-bold">ONLY 12 PIECES REMAINING</span>
+</div>
+<div class="w-full h-1 bg-white/5 overflow-hidden">
+<div class="h-full bg-primary-fixed w-[12%] transition-all duration-1000 ease-out"></div>
+</div>
+</div>
+<!-- Size Selector -->
+<div class="space-y-6">
+<div class="flex justify-between items-center">
+<label class="font-label-bold text-label-bold tracking-tighter uppercase">Select Size</label>
+<button class="text-label-sm font-label-bold underline text-secondary hover:text-primary transition-colors">SIZE GUIDE</button>
+</div>
+<div class="grid grid-cols-4 gap-2">
+<button class="h-14 border border-white/15 flex items-center justify-center font-label-bold text-secondary hover:border-primary transition-all active:scale-95">S</button>
+<button class="h-14 border border-primary-fixed bg-primary-fixed text-on-primary-fixed flex items-center justify-center font-label-bold active:scale-95">M</button>
+<button class="h-14 border border-white/15 flex items-center justify-center font-label-bold text-secondary hover:border-primary transition-all active:scale-95">L</button>
+<button class="h-14 border border-white/15 flex items-center justify-center font-label-bold text-secondary relative overflow-hidden group">
+<span class="z-10">XL</span>
+<div class="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+<div class="absolute top-0 right-0 w-8 h-8 flex items-center justify-center translate-x-1/2 -translate-y-1/2 rotate-45 bg-white/15"></div>
+</button>
+</div>
+</div>
+<!-- CTA Actions -->
+<div class="flex flex-col gap-4">
+<button class="w-full h-16 bg-primary-fixed text-on-primary font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white hover:border border-white transition-all active:scale-[0.98] cyber-glow">
+                            Add to Archive
+                        </button>
+<button class="w-full h-16 border border-white text-white font-label-bold text-lg tracking-widest uppercase hover:bg-white hover:text-black transition-all active:scale-[0.98]">
+                            Express Checkout
+                        </button>
+</div>
+<!-- Specs Table (Bento Style) -->
+<div class="mt-8 border border-white/15">
+<div class="p-6 border-b border-white/15 flex justify-between items-center">
+<span class="font-label-bold text-label-bold uppercase">Specifications</span>
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+<div class="grid grid-cols-2">
+<div class="p-6 border-r border-b border-white/15">
+<span class="block text-secondary font-label-sm mb-1">FABRIC</span>
+<span class="font-body-md">100% SUPIMA COTTON</span>
+</div>
+<div class="p-6 border-b border-white/15">
+<span class="block text-secondary font-label-sm mb-1">WEIGHT</span>
+<span class="font-body-md">240 GSM HEAVY</span>
+</div>
+<div class="p-6 border-r border-white/15">
+<span class="block text-secondary font-label-sm mb-1">FIT</span>
+<span class="font-body-md">BOX OVERSIZED</span>
+</div>
+<div class="p-6">
+<span class="block text-secondary font-label-sm mb-1">ORIGIN</span>
+<span class="font-body-md">KARACHI, PK</span>
+</div>
+</div>
+</div>
+<!-- Dynamic Details -->
+<div class="grid grid-cols-1 gap-4">
+<div class="p-4 bg-surface-container-low border-l-2 border-primary-fixed flex items-start gap-4">
+<span class="material-symbols-outlined text-primary-fixed">package_2</span>
+<div>
+<h4 class="font-label-bold text-label-bold">SAME-DAY DISPATCH</h4>
+<p class="text-label-sm text-secondary">Orders placed before 4PM PKT ship same day.</p>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low border-l-2 border-white/15 flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary">security</span>
+<div>
+<h4 class="font-label-bold text-label-bold">CRYPTO SECURE</h4>
+<p class="text-label-sm text-secondary">End-to-end encrypted checkout architecture.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Related Drops Section -->
+<section class="border-t border-white/15 py-section-gap-lg px-container-margin overflow-hidden bg-surface-dim">
+<div class="max-w-[1440px] mx-auto">
+<h2 class="font-headline-lg text-headline-lg mb-12">COMPLEMENTARY_ARCHIVE</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Product Card 1 -->
+<div class="group border border-white/15 hover:border-primary transition-colors cursor-pointer">
+<div class="aspect-[4/5] bg-surface overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A studio portrait of a model wearing high-fashion loose black tech-wear trousers with multiple cargo pockets and industrial straps. The aesthetic is monochromatic and dark, with cool-toned studio lighting. The model is posed dynamically against a stark white background to create sharp visual contrast and emphasize the silhouette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD87tdsc60IIdWVRUCURgk81dTKigc2Nmg2jH4jVdwnnMJygbqiFCvtnDeMG9oQImIXwKRb9j3JLVxHAtn5S30VxA02RoqOTfL3ko5MtGTTuTVEU4YZAvN56_6YKOCH4lSTvdlAWlnBq0WkURG0nyx7rEhIqfFaN7lz0COEZZvKejXogd7y7H3vcM9hiY1KCBCt-bWifYUi1Q0GCv8eQrzvjT2vO3IdNHXhrEi2QankCjAPob9dJr-YBKVsztLCy9mrc6a7h_ns2Pmq">
+</div>
+<div class="p-4 flex justify-between items-end">
+<div>
+<span class="block font-label-bold text-label-bold">VOID CARGO V2</span>
+<span class="text-label-sm text-secondary">PANTS</span>
+</div>
+<span class="font-label-bold text-primary-fixed">Rs. 8,500</span>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group border border-white/15 hover:border-primary transition-colors cursor-pointer">
+<div class="aspect-[4/5] bg-surface overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A minimalist overhead product shot of a black knit beanie with a small white rectangular brand tag. The beanie is placed on a matte black textured surface. Lighting is soft and atmospheric, highlighting the knit texture and the high-contrast logo label. The mood is modern, simple, and essential for a winter street style collection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDynRrqQd_X_2bpjYzxpGS5hqqViIef7yscWHeJz7hdUp6M7WVshox_sb4oU-wQHD1abyXOM2KWnzy1MhdLV_6QDF1aaCeXKAKNhC_qfGb7--4wv93Gzz-cF-3aJLD4Bb0CW09qyd6hNYKLysdyVXxpJiwgnrkw234GHE0MMToxhsWbEKk09q5ugm4xltDCrW9tRWEqxXQCctmCC6Awl26YK1VKT05Zb_Vx5FJz8BvVo0KfVFJZ8pzsdxqdfxsHftXvJPBnE4QBN8at">
+</div>
+<div class="p-4 flex justify-between items-end">
+<div>
+<span class="block font-label-bold text-label-bold">STATIC BEANIE</span>
+<span class="text-label-sm text-secondary">ACCESSORIES</span>
+</div>
+<span class="font-label-bold text-primary-fixed">Rs. 2,200</span>
+</div>
+</div>
+<!-- Product Card 3 (Sold Out) -->
+<div class="group border border-white/15 opacity-60 relative overflow-hidden">
+<div class="absolute inset-0 z-10 flex items-center justify-center">
+<div class="w-[150%] h-[1px] bg-white rotate-45 scale-150"></div>
+<span class="bg-black text-white px-4 py-2 font-label-bold text-label-bold border border-white z-20">SOLD OUT</span>
+</div>
+<div class="aspect-[4/5] bg-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-fashion shot of a thick black puffer vest with tactical buckle closures on a white studio background. The vest has a matte finish and exaggerated volume. The lighting is bright and clean, emphasizing the structured, brutalist design of the garment. It represents the high-end outerwear segment of the fashion drop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMQqr2ufuUSSKpPnnfHbDxJy5Bod3yeMEH1TxOciVuL7YvbSjPInOVRNxEhELV_GoK21vxiDbvWDDyYM8MlWR8eZwmSAv-P53xyXthnlWvPVd-TpRtdVUTD5tt6GLBdBssk1DsMVExIwKSIfoc0c3E7uZ7jJM2IR8zMQ6EawJy78SAXixjk2VL8O7n6702PexYhQ8HFgKYxlfy96SWK_IhLOCrMGRYLg3pwaswKdrlGK5c8gtbXsxB9M5dgUfntMM23PN_MK__fed0">
+</div>
+<div class="p-4 flex justify-between items-end">
+<div>
+<span class="block font-label-bold text-label-bold line-through">CORE VEST</span>
+<span class="text-label-sm text-secondary">OUTERWEAR</span>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group border border-white/15 hover:border-primary transition-colors cursor-pointer">
+<div class="aspect-[4/5] bg-surface overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A minimalist product photo of an oversized grey sweatshirt with raw edge seams and a heavy weight drape. The garment is hanging on a sleek industrial metal rack against a dark grey background. The lighting creates subtle gradients across the fabric, showcasing its high-quality fleece material and loose, comfortable fit." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0uo1kXMpqDs_ZB2xqUOiBAxWyDOgWekNSeM9MSkbyxq9UEKH3j0eUThmedhQ46LVrsTM3pVYjTRkcjjr-DryDiGtAYrGjK36IsN3-vEjLy2dsk6QsITqCIuAMB9mK9ZyMm_akkrl4zBqu4unWMfucUduDMc7wxFRst3Uj9aisUWWd64chhGBXHUlHpZtxRrk9Pnb95CgmoDg5TuGh7SamHtXZ9H7j2hDW8MfumHIrIOppVhjAN7pQYE37KM7fQq2ME693szuOhS6T">
+</div>
+<div class="p-4 flex justify-between items-end">
+<div>
+<span class="block font-label-bold text-label-bold">ASH HOODIE</span>
+<span class="text-label-sm text-secondary">FLEECE</span>
+</div>
+<span class="font-label-bold text-primary-fixed">Rs. 6,900</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface border-t border-white/15 flex flex-col md:flex-row justify-between items-center p-container-margin gap-gutter w-full">
+<div class="order-2 md:order-1">
+<span class="font-headline-lg text-headline-lg text-primary tracking-tighter">wearveyro</span>
+<p class="font-label-sm text-label-sm text-secondary mt-2">©2024 WEARVEYRO. ALL RIGHTS RESERVED.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-12 gap-y-6 order-1 md:order-2 font-label-bold text-label-bold">
+<a class="text-secondary hover:line-through hover:text-primary-fixed transition-all duration-300" href="#">DROPS</a>
+<a class="text-secondary hover:line-through hover:text-primary-fixed transition-all duration-300" href="#">ARCHIVE</a>
+<a class="text-secondary hover:line-through hover:text-primary-fixed transition-all duration-300" href="#">LEGAL</a>
+<a class="text-secondary hover:line-through hover:text-primary-fixed transition-all duration-300" href="#">SUPPORT</a>
+</div>
+<div class="order-3 flex gap-4">
+<a class="p-2 border border-white/15 hover:border-primary-fixed transition-colors" href="#">
+<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.063 1.366-.333 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.063-2.633-.333-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.063-1.366.333-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+</a>
+<a class="p-2 border border-white/15 hover:border-primary-fixed transition-colors" href="#">
+<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+</a>
+</div>
+</footer>
+<script>
+        // Micro-interactions and subtle effects
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => el.style.transform = 'scale(0.95)');
+            el.addEventListener('mouseup', () => el.style.transform = 'scale(1)');
+            el.addEventListener('mouseleave', () => el.style.transform = 'scale(1)');
+        });
+
+        // Sticky buy button logic for mobile reflow if needed
+        const buyBtn = document.querySelector('.cyber-glow');
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            if (scroll > 500) {
+                // Potential dynamic changes on scroll for focus
+            }
+        });
+    </script>
+
+
+</body></html>
