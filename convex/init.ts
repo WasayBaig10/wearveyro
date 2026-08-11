@@ -45,6 +45,7 @@ export const seed = mutation({
         ? [{ productId: p1._id, name: p1.name, price: p1.price, quantity: 1, size: "M" }]
         : [],
       customerName: "Zara Vance",
+      customerEmail: "zara.vance@resilio.co",
       date: now - day * 2,
     });
 
@@ -56,6 +57,7 @@ export const seed = mutation({
         ? [{ productId: p2._id, name: p2.name, price: p2.price, quantity: 2, size: "L" }]
         : [],
       customerName: "Kai Okonkwo",
+      customerEmail: "kai.o@neuralbase.io",
       date: now - day * 4,
     });
 
@@ -70,6 +72,7 @@ export const seed = mutation({
           ]
         : [],
       customerName: "Lena Volkov",
+      customerEmail: "lena.v@cypher.pw",
       date: now - day * 1,
     });
 

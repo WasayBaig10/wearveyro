@@ -27,6 +27,7 @@ interface CartStore {
   removeItem: (productId: Id<"products">, size: string) => void;
   updateQuantity: (productId: Id<"products">, size: string, quantity: number) => void;
   clearCart: () => void;
+  pruneSoldOut: (soldOutProductIds: Set<Id<"products">>) => void;
 }
 
 function matchKey(a: Id<"products">, b: string) {
@@ -76,4 +77,11 @@ export const useCartStore = create<CartStore>((set) => ({
     })),
 
   clearCart: () => set({ items: [] }),
+
+  pruneSoldOut: (soldOutProductIds) =>
+    set((state) => {
+      if (soldOutProductIds.size === 0) return state;
+      const next = state.items.filter((i) => !soldOutProductIds.has(i.productId));
+      return next.length === state.items.length ? state : { items: next };
+    }),
 }));

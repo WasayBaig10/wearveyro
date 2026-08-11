@@ -24,9 +24,9 @@ export default function Navbar() {
         <div className="w-full max-w-7xl mx-auto px-4 flex justify-between items-center">
 
           {/* Brand Logo */}
-          <h1 className="font-headline-md text-headline-md tracking-tighter text-primary uppercase select-none">
+          <span className="font-headline-md text-headline-md tracking-tighter text-primary uppercase select-none">
             wearveyro
-          </h1>
+          </span>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-10">

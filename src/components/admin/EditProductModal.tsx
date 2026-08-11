@@ -33,13 +33,21 @@ export default function EditProductModal({
   const [priceValue, setPriceValue] = useState(String(product.priceValue));
   const [description, setDescription] = useState(product.description);
   const [category, setCategory] = useState(product.category);
-  const [imageId, setImageId] = useState<Id<"_storage"> | null>(product.imageId ?? null);
+  const imageId = product.imageId ?? null;
+  const secondaryImageId = product.imageSecondaryId ?? null;
+  const galleryImageIds = product.galleryImageIds ?? [];
   const [stock, setStock] = useState(String(product.stock));
   const [sizes, setSizes] = useState(product.sizes.join(", "));
   const [status, setStatus] = useState(product.status);
+  const [badge, setBadge] = useState<"new" | "hot" | null>(product.badge ?? null);
 
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [secondaryFile, setSecondaryFile] = useState<File | null>(null);
+  const secondaryFileInputRef = useRef<HTMLInputElement>(null);
+  const [galleryFiles, setGalleryFiles] = useState<(File | null)[]>([null, null]);
+  const galleryInputRef1 = useRef<HTMLInputElement>(null);
+  const galleryInputRef2 = useRef<HTMLInputElement>(null);
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +55,18 @@ export default function EditProductModal({
   const existingImageUrl = useQuery(
     api.storage.getUrl,
     imageId ? { storageId: imageId } : "skip"
+  );
+  const existingSecondaryUrl = useQuery(
+    api.storage.getUrl,
+    secondaryImageId ? { storageId: secondaryImageId } : "skip"
+  );
+  const galleryUrl0 = useQuery(
+    api.storage.getUrl,
+    galleryImageIds[0] ? { storageId: galleryImageIds[0] } : "skip"
+  );
+  const galleryUrl1 = useQuery(
+    api.storage.getUrl,
+    galleryImageIds[1] ? { storageId: galleryImageIds[1] } : "skip"
   );
 
   const slug = toSlug(name);
@@ -69,6 +89,29 @@ export default function EditProductModal({
         const { storageId } = await uploadResult.json();
         finalImageId = storageId;
       }
+
+      let finalSecondaryId = secondaryImageId;
+      if (secondaryFile) {
+        const sUploadUrl = await generateUploadUrl();
+        const sResult = await fetch(sUploadUrl, { method: "POST", body: secondaryFile });
+        const { storageId: sId } = await sResult.json();
+        finalSecondaryId = sId;
+      }
+
+      const finalGallery: (Id<"_storage"> | undefined)[] = [
+        galleryImageIds[0],
+        galleryImageIds[1],
+      ];
+      for (let i = 0; i < 2; i++) {
+        if (galleryFiles[i]) {
+          const gUploadUrl = await generateUploadUrl();
+          const gResult = await fetch(gUploadUrl, { method: "POST", body: galleryFiles[i]! });
+          const { storageId: gId } = await gResult.json();
+          finalGallery[i] = gId;
+        }
+      }
+      const finalGalleryIds = finalGallery.filter((id): id is Id<"_storage"> => !!id);
+
       await updateProduct({
         id: product._id,
         fields: {
@@ -79,9 +122,12 @@ export default function EditProductModal({
           description,
           category,
           imageId: finalImageId ?? undefined,
+          imageSecondaryId: finalSecondaryId ?? undefined,
+          galleryImageIds: finalGalleryIds.length > 0 ? finalGalleryIds : undefined,
           stock: Number(stock),
           sizes: sizes.split(",").map((s) => s.trim()).filter(Boolean),
           status,
+          badge: badge ?? undefined,
         },
       });
       onSuccess?.();
@@ -228,6 +274,35 @@ export default function EditProductModal({
             />
           </div>
 
+          {/* Badge */}
+          <div className="flex flex-col gap-2">
+            <label className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
+              Badge (optional)
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {(
+                [
+                  { value: null, label: "None" },
+                  { value: "new", label: "NEW" },
+                  { value: "hot", label: "HOT" },
+                ] as { value: "new" | "hot" | null; label: string }[]
+              ).map((opt) => (
+                <button
+                  key={opt.label}
+                  type="button"
+                  onClick={() => setBadge(opt.value)}
+                  className={`h-12 border font-label-bold text-[10px] uppercase tracking-widest transition-all cursor-pointer ${
+                    badge === opt.value
+                      ? "border-primary-fixed bg-primary-fixed text-on-primary-fixed"
+                      : "border-white/15 text-secondary hover:border-primary"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Image upload */}
           <div className="flex flex-col gap-2 md:col-span-2">
             <label className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
@@ -252,11 +327,117 @@ export default function EditProductModal({
                 {file ? file.name : existingImageUrl ? "Click to replace image" : "Click to upload image"}
               </span>
             </button>
+<input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            className="hidden"
+          />
+          </div>
+
+          {/* Secondary image upload */}
+          <div className="flex flex-col gap-2 md:col-span-2">
+            <label className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
+              Secondary Image (optional)
+            </label>
+            {existingSecondaryUrl && (
+              <div className="w-24 h-24 bg-surface-container overflow-hidden border border-white/15">
+                <img
+                  src={existingSecondaryUrl}
+                  alt="Current secondary image"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => secondaryFileInputRef.current?.click()}
+              className="w-full h-24 border border-dashed border-white/15 flex items-center justify-center gap-3 text-secondary hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer"
+            >
+              <span className="material-symbols-outlined">upload</span>
+              <span className="font-label-bold text-sm">
+                {secondaryFile ? secondaryFile.name : existingSecondaryUrl ? "Click to replace secondary image" : "Click to upload secondary image"}
+              </span>
+            </button>
             <input
-              ref={fileInputRef}
+              ref={secondaryFileInputRef}
               type="file"
               accept="image/*"
-              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+              onChange={(e) => setSecondaryFile(e.target.files?.[0] ?? null)}
+              className="hidden"
+            />
+          </div>
+
+          {/* Gallery images */}
+          <div className="flex flex-col gap-2 md:col-span-2">
+            <label className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
+              Gallery Images (optional, up to 2)
+            </label>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                {galleryUrl0 && (
+                  <div className="w-full h-24 bg-surface-container overflow-hidden border border-white/15 mb-2">
+                    <img
+                      src={galleryUrl0}
+                      alt="Current gallery image 1"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => galleryInputRef1.current?.click()}
+                  className="w-full h-24 border border-dashed border-white/15 flex items-center justify-center gap-3 text-secondary hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer"
+                >
+                  <span className="material-symbols-outlined">upload</span>
+                  <span className="font-label-bold text-[11px]">
+                    {galleryFiles[0] ? galleryFiles[0].name : "Gallery 1"}
+                  </span>
+                </button>
+              </div>
+              <div>
+                {galleryUrl1 && (
+                  <div className="w-full h-24 bg-surface-container overflow-hidden border border-white/15 mb-2">
+                    <img
+                      src={galleryUrl1}
+                      alt="Current gallery image 2"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => galleryInputRef2.current?.click()}
+                  className="w-full h-24 border border-dashed border-white/15 flex items-center justify-center gap-3 text-secondary hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer"
+                >
+                  <span className="material-symbols-outlined">upload</span>
+                  <span className="font-label-bold text-[11px]">
+                    {galleryFiles[1] ? galleryFiles[1].name : "Gallery 2"}
+                  </span>
+                </button>
+              </div>
+            </div>
+            <input
+              ref={galleryInputRef1}
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const next = [...galleryFiles];
+                next[0] = e.target.files?.[0] ?? null;
+                setGalleryFiles(next);
+              }}
+              className="hidden"
+            />
+            <input
+              ref={galleryInputRef2}
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const next = [...galleryFiles];
+                next[1] = e.target.files?.[0] ?? null;
+                setGalleryFiles(next);
+              }}
               className="hidden"
             />
           </div>

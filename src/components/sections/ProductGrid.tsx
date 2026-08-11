@@ -10,15 +10,13 @@ export default function ProductGrid() {
   const products = useQuery(api.products.listProducts);
 
   const activeProducts =
-    products?.filter(
-      (p) => p.status !== "draft" && p.category.toLowerCase() === "tees"
-    ) ?? [];
+    products?.filter((p) => p.status !== "draft") ?? [];
 
   return (
-    <section>
+    <section className="pb-16 md:pb-20">
       <div className="flex justify-between items-end border-b border-white/15 pb-4">
         <h2 className="font-headline-lg text-headline-lg text-primary uppercase select-none">
-          CURATED DROPS
+          MEN&apos;S SHIRTS & STREETWEAR DROPS
         </h2>
         <Link
           className="font-label-bold text-label-bold text-secondary hover:text-primary transition-all hover:line-through tracking-widest"
@@ -59,6 +57,7 @@ export default function ProductGrid() {
               imageSecondaryId={product.imageSecondaryId}
               status={product.status}
               stock={product.stock}
+              badge={product.badge}
             />
           ))}
         </div>

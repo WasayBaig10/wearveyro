@@ -34,7 +34,7 @@ export default function ItemsFilterBar({
   return (
     <section className="relative flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-4">
       <div className="flex items-center gap-4 text-secondary font-label-sm shrink-0">
-        <span className="font-label-bold text-[12px] tracking-wider">VIEWING {totalItems} SHIRTS</span>
+        <span className="font-label-bold text-[12px] tracking-wider">VIEWING {totalItems} ARCHIVE ITEMS</span>
         <div className="h-4 w-px bg-white/15" />
         <button
           onClick={() => setFilterOpen(!filterOpen)}

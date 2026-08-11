@@ -25,9 +25,7 @@ export default function ItemsPageContent() {
   const filtered = useMemo(() => {
     if (!products) return [];
 
-    let result = products.filter(
-      (p) => p.status !== "draft" && p.category.toLowerCase() === "tees"
-    );
+    let result = products.filter((p) => p.status !== "draft");
 
     const q = searchQuery.trim().toLowerCase();
     const min = priceMin ? parseFloat(priceMin) : NaN;

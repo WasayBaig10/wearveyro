@@ -6,6 +6,8 @@ import Link from "next/link";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/store/useCartStore";
+import type { Id } from "../../../convex/_generated/dataModel";
+import { getItemStockStatus, useInventory } from "@/hooks/useInventory";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -20,6 +22,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const items = useCartStore((s) => s.items);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
+  const pruneSoldOut = useCartStore((s) => s.pruneSoldOut);
+  const { inventory, loaded } = useInventory();
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -28,8 +32,27 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     };
   }, [isOpen]);
 
+  // Instantly purge any items whose stock has dropped to 0 whenever the
+  // drawer opens or the inventory snapshot (re)loads.
+  useEffect(() => {
+    if (!isOpen || !loaded) return;
+    const soldOut = new Set<Id<"products">>();
+    for (const item of items) {
+      if (getItemStockStatus(inventory, item.productId, item.quantity).soldOut) {
+        soldOut.add(item.productId);
+      }
+    }
+    if (soldOut.size > 0) {
+      pruneSoldOut(soldOut);
+    }
+  }, [isOpen, loaded, inventory, items, pruneSoldOut]);
+
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => sum + item.priceValue * item.quantity, 0);
+
+  const hasUnavailableItems = items.some((item) =>
+    getItemStockStatus(inventory, item.productId, item.quantity).soldOut
+  );
 
   return (
     <AnimatePresence>
@@ -94,71 +117,106 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 </div>
               ) : (
                 <div className="flex flex-col gap-6">
-                  {items.map((item) => (
-                    <div
-                      key={`${item.productId}-${item.size}`}
-                      className="flex gap-4 border border-white/15 p-4 bg-surface-container-lowest"
-                    >
-                      <div className="relative w-20 h-24 bg-surface-container shrink-0 overflow-hidden">
-                        {item.imageUrl ? (
-                          <Image
-                            src={item.imageUrl}
-                            alt={item.name}
-                            fill
-                            sizes="80px"
-                            className="object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-surface-container animate-pulse" />
-                        )}
-                      </div>
-                      <div className="flex flex-col flex-1 min-w-0">
-                        <div className="flex justify-between items-start gap-2 mb-1">
-                          <h3 className="font-label-bold text-label-bold text-primary truncate tracking-wide uppercase">
-                            {item.name}
-                          </h3>
-                          <button
-                            onClick={() => removeItem(item.productId, item.size)}
-                            className="text-secondary hover:text-error transition-colors cursor-pointer shrink-0"
-                            aria-label={`Remove ${item.name}`}
-                          >
-                            <X size={14} />
-                          </button>
+                  {items.map((item) => {
+                    const stockStatus = getItemStockStatus(
+                      inventory,
+                      item.productId,
+                      item.quantity
+                    );
+                    return (
+                      <div
+                        key={`${item.productId}-${item.size}`}
+                        className="flex gap-4 border border-white/15 p-4 bg-surface-container-lowest"
+                      >
+                        <div className="relative w-20 h-24 bg-surface-container shrink-0 overflow-hidden">
+                          {item.imageUrl ? (
+                            <Image
+                              src={item.imageUrl}
+                              alt={item.name}
+                              fill
+                              sizes="80px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-surface-container animate-pulse" />
+                          )}
+                          {stockStatus.soldOut && (
+                            <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
+                              <span className="font-label-bold text-[10px] text-error border border-error/50 px-2 py-0.5 uppercase tracking-widest rotate-[-6deg]">
+                                Sold Out
+                              </span>
+                            </div>
+                          )}
                         </div>
-                        <span className="font-label-sm text-[11px] text-secondary tracking-wider">
-                          Size: {item.size}
-                        </span>
-                        <span className="font-label-bold text-primary-fixed tracking-wide mb-3">
-                          {item.price}
-                        </span>
-                        <div className="mt-auto flex items-center justify-between">
-                          <div className="flex items-center border border-white/15">
-                            <button
-                              onClick={() =>
-                                updateQuantity(item.productId, item.size, item.quantity - 1)
-                              }
-                              className="p-1.5 text-secondary hover:text-primary transition-colors cursor-pointer"
-                              aria-label="Decrease quantity"
+                        <div className="flex flex-col flex-1 min-w-0">
+                          <div className="flex justify-between items-start gap-2 mb-1">
+                            <h3
+                              className={`font-label-bold text-label-bold truncate tracking-wide uppercase ${
+                                stockStatus.soldOut
+                                  ? "text-secondary/50 line-through"
+                                  : "text-primary"
+                              }`}
                             >
-                              <Minus size={14} />
-                            </button>
-                            <span className="px-3 py-1 font-label-bold text-label-bold text-primary text-sm border-x border-white/15 min-w-[32px] text-center">
-                              {item.quantity}
-                            </span>
+                              {item.name}
+                            </h3>
                             <button
-                              onClick={() =>
-                                updateQuantity(item.productId, item.size, item.quantity + 1)
-                              }
-                              className="p-1.5 text-secondary hover:text-primary transition-colors cursor-pointer"
-                              aria-label="Increase quantity"
+                              onClick={() => removeItem(item.productId, item.size)}
+                              className="text-secondary hover:text-error transition-colors cursor-pointer shrink-0"
+                              aria-label={`Remove ${item.name}`}
                             >
-                              <Plus size={14} />
+                              <X size={14} />
                             </button>
+                          </div>
+                          <span className="font-label-sm text-[11px] text-secondary tracking-wider">
+                            Size: {item.size}
+                          </span>
+                          <span className="font-label-bold text-primary-fixed tracking-wide mb-3">
+                            {item.price}
+                          </span>
+                          {stockStatus.soldOut && (
+                            <p className="text-[11px] font-label-bold uppercase tracking-wider text-error mb-2">
+                              {stockStatus.message}
+                            </p>
+                          )}
+                          {stockStatus.overStock && (
+                            <p className="text-[11px] font-label-bold uppercase tracking-wider text-primary-fixed mb-2">
+                              {stockStatus.message}
+                            </p>
+                          )}
+                          <div className="mt-auto flex items-center justify-between">
+                            <div
+                              className={`flex items-center border border-white/15 ${
+                                stockStatus.soldOut ? "opacity-40 pointer-events-none" : ""
+                              }`}
+                            >
+                              <button
+                                onClick={() =>
+                                  updateQuantity(item.productId, item.size, item.quantity - 1)
+                                }
+                                className="p-1.5 text-secondary hover:text-primary transition-colors cursor-pointer"
+                                aria-label="Decrease quantity"
+                              >
+                                <Minus size={14} />
+                              </button>
+                              <span className="px-3 py-1 font-label-bold text-label-bold text-primary text-sm border-x border-white/15 min-w-[32px] text-center">
+                                {item.quantity}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  updateQuantity(item.productId, item.size, item.quantity + 1)
+                                }
+                                disabled={stockStatus.overStock}
+                                className="p-1.5 text-secondary hover:text-primary transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                                aria-label="Increase quantity"
+                              >
+                                <Plus size={14} />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -177,13 +235,24 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <p className="font-label-sm text-label-sm text-secondary opacity-50 uppercase tracking-wider">
                   Shipping &amp; taxes calculated at checkout
                 </p>
-                <Link
-                  href="/checkout"
-                  onClick={onClose}
-                  className="block w-full h-14 leading-[3.5rem] bg-primary-fixed text-on-primary-fixed font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-white transition-all active:scale-[0.98] text-center neon-glow"
-                >
-                  PROCEED TO CHECKOUT
-                </Link>
+                {hasUnavailableItems ? (
+                  <>
+                    <p className="p-3 border border-error/30 bg-error/10 text-error font-label-bold text-[11px] uppercase tracking-wider">
+                      Some items are out of stock. Remove them to continue.
+                    </p>
+                    <div className="block w-full h-14 leading-[3.5rem] bg-white/10 text-secondary font-label-bold text-lg tracking-widest uppercase text-center select-none">
+                      PROCEED TO CHECKOUT
+                    </div>
+                  </>
+                ) : (
+                  <Link
+                    href="/checkout"
+                    onClick={onClose}
+                    className="block w-full h-14 leading-[3.5rem] bg-primary-fixed text-on-primary-fixed font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-white transition-all active:scale-[0.98] text-center neon-glow"
+                  >
+                    PROCEED TO CHECKOUT
+                  </Link>
+                )}
                 <button
                   onClick={onClose}
                   className="w-full font-label-bold text-label-bold text-secondary hover:text-primary transition-colors cursor-pointer text-center uppercase tracking-wider text-sm"

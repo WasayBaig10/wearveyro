@@ -3,8 +3,10 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "WEARVEYRO | Shipping Policy",
-  description: "Wearveyro shipping and delivery information.",
+  title: "Shipping & Delivery in Pakistan",
+  description:
+    "Wearveyro delivers men's shirts and streetwear across Pakistan — 3–7 business day shipping nationwide, tracked courier delivery.",
+  keywords: ["wearveyro shipping", "streetwear delivery pakistan", "buy shirts online delivery"],
   alternates: { canonical: "/shipping" },
 };
 

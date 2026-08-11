@@ -17,12 +17,13 @@ interface ItemsProductCardProps {
     sizes: string[];
     stock: number;
     status: string;
+    badge?: string;
     inventoryPercent?: number;
   };
 }
 
 export default function ItemsProductCard({ product }: ItemsProductCardProps) {
-  const { slug, name, price, category, imageId, imageSecondaryId, sizes, stock, status, inventoryPercent } = product;
+  const { slug, name, price, category, imageId, imageSecondaryId, sizes, stock, status, badge, inventoryPercent } = product;
 
   const mainUrl = useQuery(
     api.storage.getUrl,
@@ -43,8 +44,12 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
       ? "low"
       : "normal";
 
-  return (
-    <Link href={`/product/${slug}`} className={`border-r border-b border-white/15 flex flex-col group relative ${isSoldOut ? "opacity-80" : ""}`}>
+  const cardClassName = `border-r border-b border-white/15 flex flex-col group relative cursor-pointer ${
+    isSoldOut ? "opacity-70 cursor-not-allowed pointer-events-none select-none" : ""
+  }`;
+
+  const inner = (
+    <>
       <div className="relative aspect-[3/4] overflow-hidden bg-surface-container-lowest">
         {imagePrimary ? (
           <Image
@@ -72,6 +77,20 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="font-headline-md text-headline-md -rotate-12 border-2 border-white/40 px-4 py-1 uppercase opacity-40 select-none">
               Sold Out
+            </span>
+          </div>
+        )}
+
+        {badge && !isSoldOut && (
+          <div className="absolute top-3 left-3 z-10 select-none">
+            <span
+              className={`text-[10px] font-bold px-2 py-1 tracking-widest uppercase ${
+                badge === "hot"
+                  ? "bg-primary text-background"
+                  : "bg-primary-fixed text-on-primary-fixed"
+              }`}
+            >
+              {badge === "hot" ? "HOT" : "NEW"}
             </span>
           </div>
         )}
@@ -107,15 +126,12 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
         </p>
 
         {stockStatus === "low" && !isSoldOut && (
-          <div className="mt-auto flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-primary-fixed animate-pulse" />
-              <span className="text-[10px] font-label-bold uppercase text-primary-fixed tracking-wider">Low Stock</span>
+          <div className="mt-auto">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary-fixed animate-pulse" />
+                <span className="text-[10px] font-label-bold uppercase text-primary-fixed tracking-wider">Low Stock</span>
+              </div>
             </div>
-            <button className="material-symbols-outlined text-lg text-primary hover:text-primary-fixed transition-colors cursor-pointer">
-              add_circle
-            </button>
-          </div>
         )}
 
         {stockStatus === "normal" && typeof inventoryPercent === "number" && !isSoldOut && (
@@ -146,6 +162,16 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
           </div>
         )}
       </div>
+    </>
+  );
+
+  if (isSoldOut) {
+    return <div className={cardClassName}>{inner}</div>;
+  }
+
+  return (
+    <Link href={`/product/${slug}`} className={cardClassName}>
+      {inner}
     </Link>
   );
 }

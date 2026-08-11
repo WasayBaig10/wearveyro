@@ -4,8 +4,9 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "WEARVEYRO | Terms of Service",
-  description: "Wearveyro terms and conditions — governing use of our store.",
+  title: "Terms of Service",
+  description: "Wearveyro terms and conditions — governing use of our online men's clothing store.",
+  keywords: ["wearveyro terms of service", "online clothing store terms pakistan"],
   alternates: { canonical: "/terms" },
 };
 

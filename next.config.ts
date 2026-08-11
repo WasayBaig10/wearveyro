@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
         hostname: 'mendeez.com',
         pathname: '/cdn/shop/files/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
   },
 };

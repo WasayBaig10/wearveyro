@@ -62,14 +62,14 @@ export default function ProductPurchasePanel({
         <div className="flex justify-between items-start gap-4">
           <h1
             className="font-headline-lg uppercase leading-none tracking-tight text-primary"
-            style={{ fontSize: "clamp(28px, 3.5vw, 48px)", lineHeight: "1.05", letterSpacing: "-0.02em", fontFamily: "var(--font-syne)" }}
+            style={{ fontSize: "clamp(28px, 3.5vw, 48px)", lineHeight: "1.05", letterSpacing: "-0.02em", fontFamily: "var(--font-funnel-display)" }}
           >
             {name}
           </h1>
           <div className="flex flex-col items-end shrink-0">
             <span
               className="font-headline-md text-primary-fixed"
-              style={{ fontSize: "clamp(22px, 2.5vw, 32px)", lineHeight: "1.2", fontWeight: 700, fontFamily: "var(--font-syne)" }}
+              style={{ fontSize: "clamp(22px, 2.5vw, 32px)", lineHeight: "1.2", fontWeight: 700, fontFamily: "var(--font-funnel-display)" }}
             >
               {price}
             </span>

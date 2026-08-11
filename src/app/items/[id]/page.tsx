@@ -1,26 +1,63 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { fetchQuery } from "convex/nextjs";
+import { api } from "../../../../convex/_generated/api";
 
 import Navbar from "@/components/layout/Navbar";
 import ProductMarquee from "@/components/product/ProductMarquee";
 import ProductDetailContent from "@/components/product/ProductDetailContent";
 import ProductRelated from "@/components/product/ProductRelated";
+import ProductSchemaJsonLd from "@/components/seo/ProductSchemaJsonLd";
+import { SITE_NAME } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Product | WEARVEYRO",
-  description: "View product details from the WEARVEYRO archive.",
+async function getProduct(id: string) {
+  try {
+    return await fetchQuery(api.products.getProductBySlug, { slug: id });
+  } catch (error) {
+    console.error("[items/[id]] fetchQuery failed:", error);
+    return null;
+  }
+}
+
+type Props = {
+  params: Promise<{ id: string }>;
 };
 
-export default async function ProductDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
+  const product = await getProduct(id);
+
+  if (!product) {
+    return {
+      title: "Shop Men's Shirts Online — Streetwear Apparel Pakistan",
+      description:
+        "Browse premium men's shirts and streetwear apparel from Wearveyro, delivered across Pakistan.",
+    };
+  }
+
+  const description = `${product.name} by ${SITE_NAME}. ${
+    product.description || "Shop this premium men's shirt online in Pakistan with nationwide delivery."
+  }`;
+
+  return {
+    title: `${product.name} — Men's Shirts in Pakistan`,
+    description,
+    openGraph: {
+      title: `${product.name} — Shop Men's Shirts Online | ${SITE_NAME}`,
+      description,
+      images: product?.imageUrl ? [{ url: product.imageUrl }] : undefined,
+    },
+  };
+}
+
+export default async function ProductDetailPage({ params }: Props) {
+  const { id } = await params;
+  const product = await getProduct(id);
 
   return (
     <>
       <Navbar />
+      {product && <ProductSchemaJsonLd product={product} />}
       <ProductMarquee />
 
       <main className="min-h-screen pt-4 pb-section-gap-lg">

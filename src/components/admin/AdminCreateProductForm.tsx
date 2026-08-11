@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 
 interface AdminCreateProductFormProps {
   onSuccess?: () => void;
@@ -33,9 +34,15 @@ export default function AdminCreateProductForm({
   const [stock, setStock] = useState("");
   const [sizes, setSizes] = useState("S, M, L, XL");
   const [status, setStatus] = useState<"active" | "draft" | "soldout">("active");
+  const [badge, setBadge] = useState<"new" | "hot" | null>(null);
 
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [secondaryFile, setSecondaryFile] = useState<File | null>(null);
+  const secondaryFileInputRef = useRef<HTMLInputElement>(null);
+  const [galleryFiles, setGalleryFiles] = useState<(File | null)[]>([null, null]);
+  const galleryInputRef1 = useRef<HTMLInputElement>(null);
+  const galleryInputRef2 = useRef<HTMLInputElement>(null);
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -61,6 +68,24 @@ export default function AdminCreateProductForm({
       const uploadUrl = await generateUploadUrl();
       const uploadResult = await fetch(uploadUrl, { method: "POST", body: file });
       const { storageId } = await uploadResult.json();
+
+      let secondaryStorageId: Id<"_storage"> | undefined;
+      if (secondaryFile) {
+        const sUploadUrl = await generateUploadUrl();
+        const sResult = await fetch(sUploadUrl, { method: "POST", body: secondaryFile });
+        const { storageId: sId } = await sResult.json();
+        secondaryStorageId = sId;
+      }
+
+      const galleryIds: string[] = [];
+      for (const gFile of galleryFiles) {
+        if (!gFile) continue;
+        const gUploadUrl = await generateUploadUrl();
+        const gResult = await fetch(gUploadUrl, { method: "POST", body: gFile });
+        const { storageId: gId } = await gResult.json();
+        galleryIds.push(gId);
+      }
+
       await createProduct({
         name,
         slug,
@@ -69,9 +94,13 @@ export default function AdminCreateProductForm({
         description,
         category,
         imageId: storageId,
+        imageSecondaryId: secondaryStorageId,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        galleryImageIds: galleryIds.length > 0 ? (galleryIds as any) : undefined,
         stock: Number(stock),
         sizes: sizes.split(",").map((s) => s.trim()).filter(Boolean),
         status,
+        badge: badge ?? undefined,
       });
       onSuccess?.();
     } catch (err) {
@@ -221,6 +250,35 @@ export default function AdminCreateProductForm({
           />
         </div>
 
+        {/* Badge */}
+        <div className="flex flex-col gap-2">
+          <label className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
+            Badge (optional)
+          </label>
+          <div className="grid grid-cols-3 gap-2">
+            {(
+              [
+                { value: null, label: "None" },
+                { value: "new", label: "NEW" },
+                { value: "hot", label: "HOT" },
+              ] as { value: "new" | "hot" | null; label: string }[]
+            ).map((opt) => (
+              <button
+                key={opt.label}
+                type="button"
+                onClick={() => setBadge(opt.value)}
+                className={`h-12 border font-label-bold text-[10px] uppercase tracking-widest transition-all cursor-pointer ${
+                  badge === opt.value
+                    ? "border-primary-fixed bg-primary-fixed text-on-primary-fixed"
+                    : "border-white/15 text-secondary hover:border-primary"
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Image upload */}
         <div className="flex flex-col gap-2 md:col-span-2">
           <label className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
@@ -241,6 +299,81 @@ export default function AdminCreateProductForm({
             type="file"
             accept="image/*"
             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            className="hidden"
+          />
+        </div>
+
+        {/* Secondary image upload */}
+        <div className="flex flex-col gap-2 md:col-span-2">
+          <label className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
+            Secondary Image (optional)
+          </label>
+          <button
+            type="button"
+            onClick={() => secondaryFileInputRef.current?.click()}
+            className="w-full h-24 border border-dashed border-white/15 flex items-center justify-center gap-3 text-secondary hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer"
+          >
+            <span className="material-symbols-outlined">upload</span>
+            <span className="font-label-bold text-sm">
+              {secondaryFile ? secondaryFile.name : "Click to upload secondary image"}
+            </span>
+          </button>
+          <input
+            ref={secondaryFileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={(e) => setSecondaryFile(e.target.files?.[0] ?? null)}
+            className="hidden"
+          />
+        </div>
+
+        {/* Gallery images */}
+        <div className="flex flex-col gap-2 md:col-span-2">
+          <label className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
+            Gallery Images (optional, up to 2)
+          </label>
+          <div className="grid grid-cols-2 gap-4">
+            <button
+              type="button"
+              onClick={() => galleryInputRef1.current?.click()}
+              className="h-24 border border-dashed border-white/15 flex items-center justify-center gap-3 text-secondary hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer"
+            >
+              <span className="material-symbols-outlined">upload</span>
+              <span className="font-label-bold text-[11px]">
+                {galleryFiles[0] ? galleryFiles[0].name : "Gallery 1"}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => galleryInputRef2.current?.click()}
+              className="h-24 border border-dashed border-white/15 flex items-center justify-center gap-3 text-secondary hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer"
+            >
+              <span className="material-symbols-outlined">upload</span>
+              <span className="font-label-bold text-[11px]">
+                {galleryFiles[1] ? galleryFiles[1].name : "Gallery 2"}
+              </span>
+            </button>
+          </div>
+          <input
+            ref={galleryInputRef1}
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const next = [...galleryFiles];
+              next[0] = e.target.files?.[0] ?? null;
+              setGalleryFiles(next);
+            }}
+            className="hidden"
+          />
+          <input
+            ref={galleryInputRef2}
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const next = [...galleryFiles];
+              next[1] = e.target.files?.[0] ?? null;
+              setGalleryFiles(next);
+            }}
             className="hidden"
           />
         </div>

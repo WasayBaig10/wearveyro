@@ -65,13 +65,15 @@
   --spacing-section-gap-lg: 80px;
 
   /* Font mappings */
-  --font-headline-lg: var(--font-syne);
-  --font-body-md: var(--font-plus-jakarta-sans);
-  --font-label-sm: var(--font-plus-jakarta-sans);
-  --font-display-xl: var(--font-syne);
-  --font-label-bold: var(--font-plus-jakarta-sans);
-  --font-body-lg: var(--font-plus-jakarta-sans);
-  --font-headline-md: var(--font-syne);
+  --default-font-family: var(--font-funnel-display);
+  --font-headline-lg: var(--font-funnel-display);
+  --font-body-md: var(--font-funnel-display);
+  --font-label-sm: var(--font-funnel-display);
+  --font-display-xl: var(--font-funnel-display);
+  --font-label-bold: var(--font-funnel-display);
+  --font-body-lg: var(--font-funnel-display);
+  --font-headline-md: var(--font-funnel-display);
+  --font-wordmark: var(--font-funnel-display);
 
   /* Radius overrides for sharp brutalist borders */
   --radius-DEFAULT: 0rem;
@@ -159,8 +161,8 @@ input:focus {
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+  --font-heading: var(--font-funnel-display);
+  --font-sans: var(--font-funnel-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -231,8 +233,10 @@ input:focus {
   }
   body {
     @apply bg-background text-foreground;
+    font-weight: 700;
   }
   html {
     @apply font-sans;
+    font-size: 125%;
   }
 }

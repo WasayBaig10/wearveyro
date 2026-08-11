@@ -32,6 +32,7 @@ interface ConvexProduct {
   sizes: string[];
   stock: number;
   status: string;
+  badge?: string;
   inventoryPercent?: number;
 }
 

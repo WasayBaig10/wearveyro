@@ -14,6 +14,7 @@ interface ProductCardProps {
   imageSecondaryId?: string;
   status?: string;
   stock?: number;
+  badge?: string;
 }
 
 export default function ProductCard({
@@ -25,6 +26,7 @@ export default function ProductCard({
   imageSecondaryId,
   status,
   stock,
+  badge,
 }: ProductCardProps) {
   const mainUrl = useQuery(
     api.storage.getUrl,
@@ -39,10 +41,12 @@ export default function ProductCard({
   const hoverImageSrc = hoverUrl ?? undefined;
 
   const isSoldOut = status === "soldout" || stock === 0;
-  const isNew = status === "active" && stock !== undefined && stock > 0;
 
-  return (
-    <Link href={`/product/${slug}`} className="border-r border-b border-white/15 relative overflow-hidden group flex flex-col bg-surface-container-lowest">
+  const cardClassName = `border-r border-b border-white/15 relative overflow-hidden group flex flex-col bg-surface-container-lowest ${
+    isSoldOut ? "cursor-not-allowed pointer-events-none select-none" : ""
+  }`;
+  const inner = (
+    <>
       <div className="aspect-[3/4] bg-surface-container-lowest relative overflow-hidden w-full">
         {imageSrc ? (
           <Image
@@ -78,10 +82,16 @@ export default function ProductCard({
           </div>
         )}
 
-        {isNew && (
+        {badge && (
           <div className="absolute top-4 left-4 z-10 select-none">
-            <span className="bg-primary-fixed text-on-primary-fixed text-[10px] font-bold px-2 py-1 tracking-widest uppercase">
-              NEW
+            <span
+              className={`text-[10px] font-bold px-2 py-1 tracking-widest uppercase ${
+                badge === "hot"
+                  ? "bg-primary text-background"
+                  : "bg-primary-fixed text-on-primary-fixed"
+              }`}
+            >
+              {badge === "hot" ? "HOT" : "NEW"}
             </span>
           </div>
         )}
@@ -122,6 +132,16 @@ export default function ProductCard({
           {description}
         </p>
       </div>
+    </>
+  );
+
+  if (isSoldOut) {
+    return <div className={cardClassName}>{inner}</div>;
+  }
+
+  return (
+    <Link href={`/product/${slug}`} className={cardClassName}>
+      {inner}
     </Link>
   );
 }

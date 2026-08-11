@@ -10,18 +10,12 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/15 bg-surface">
       <div className="max-w-[1600px] mx-auto px-container-margin py-12 md:py-16">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-12">
-          <div className="space-y-6 w-full md:max-w-sm">
-            <h2 className="font-headline-lg text-headline-lg text-primary select-none">
-              wearveyro
-            </h2>
-            <p className="text-secondary text-sm leading-relaxed">
-              Join the inner circle. Be the first to know about secret drops and
-              archival releases.
-            </p>
-          </div>
+        <div className="flex flex-col items-center gap-12 mb-12 text-center">
+          <span className="font-wordmark font-bold text-[clamp(2rem,6.5vw,5rem)] uppercase leading-[1.05] text-primary select-none">
+            wearw<span className="text-primary-fixed">/</span>veyro
+          </span>
 
-          <nav className="flex flex-col gap-3 items-start md:items-end">
+          <nav className="flex flex-wrap justify-center gap-x-8 gap-y-3">
             {legalLinks.map((link) => (
               <Link
                 key={link.label}

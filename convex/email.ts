@@ -1,7 +1,13 @@
 import { action } from "./_generated/server";
 import { v } from "convex/values";
 
-const FROM_EMAIL ='delivered@resend.dev';
+const FROM_EMAIL = "noreply@wearwithveyro.com";
+const ADMIN_EMAIL = "wearwithveyro@gmail.com";
+
+function labelLine(label: string, value: string | undefined): string {
+  return `<tr><td style="padding: 6px 0; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0;">${label}</td></tr>
+  <tr><td style="padding: 0 0 10px; font-size: 14px; color: #ffffff;">${value ?? "—"}</td></tr>`;
+}
 
 function buildOrderEmailHtml(params: {
   customerName: string;
@@ -178,5 +184,161 @@ export const sendOrderConfirmation = action({
     }
 
     return { sent: true };
+  },
+});
+
+export const sendOrderAdminNotification = action({
+  args: {
+    customerName: v.string(),
+    customerEmail: v.string(),
+    customerPhone: v.string(),
+    address: v.string(),
+    city: v.string(),
+    postalCode: v.string(),
+    orderId: v.string(),
+    total: v.number(),
+    items: v.array(
+      v.object({
+        name: v.string(),
+        size: v.string(),
+        quantity: v.number(),
+        price: v.string(),
+      })
+    ),
+  },
+  handler: async (ctx, args) => {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.error("RESEND_API_KEY not set — skipping admin email.");
+      return { sent: false };
+    }
+
+    const itemsHtml = args.items
+      .map(
+        (item) =>
+          `<tr>
+            <td style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 13px; color: #ffffff;">${item.name}</td>
+            <td style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 13px; color: #a0a0a0; text-align: center;">${item.size}</td>
+            <td style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 13px; color: #a0a0a0; text-align: center;">${item.quantity}</td>
+            <td style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 13px; color: #a0a0a0; text-align: right;">${item.price}</td>
+          </tr>`
+      )
+      .join("");
+
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>New Order — ${args.orderId}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #0a0a0a;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background-color: #131313; border: 1px solid rgba(255,255,255,0.15);">
+          <tr>
+            <td style="padding: 40px 40px 0; text-align: center;">
+              <h1 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #c3f400;">New Order</h1>
+              <p style="margin: 12px 0 0; font-size: 15px; color: #a0a0a0;">${args.orderId}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px 40px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding: 12px; background-color: #1e1e1e; border: 1px solid rgba(255,255,255,0.1);">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      ${labelLine("Customer", args.customerName)}
+                      ${labelLine("Email", args.customerEmail)}
+                      ${labelLine("Phone", args.customerPhone)}
+                      ${labelLine(
+                        "Shipping Address",
+                        [args.address, args.city, args.postalCode]
+                          .filter(Boolean)
+                          .join(", ")
+                      )}
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px 40px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: left;">Item</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: center;">Size</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: center;">Qty</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: right;">Price</th>
+                  </tr>
+                </thead>
+                <tbody>${itemsHtml}</tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px 40px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding: 16px 0; border-top: 1px solid #2a2a2a;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="font-size: 14px; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase;">Total</td>
+                        <td style="font-size: 18px; font-weight: 800; color: #c3f400; text-align: right;">Rs. ${args.total.toLocaleString("en-PK")}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: FROM_EMAIL,
+          to: ADMIN_EMAIL,
+          subject: `New Order — ${args.orderId} (${args.customerName})`,
+          html,
+        }),
+      });
+
+      if (!res.ok) {
+        const body = await res.text();
+        console.error(
+          "Resend Admin Notification Error:",
+          res.status,
+          res.statusText,
+          body
+        );
+        return { sent: false, status: res.status, error: body };
+      }
+
+      const data = (await res.json()) as { id?: string };
+      console.log(
+        "Resend admin notification accepted — messageId:",
+        data.id ?? "unknown",
+        "order:",
+        args.orderId
+      );
+      return { sent: true, messageId: data.id ?? null };
+    } catch (error) {
+      console.error("Resend Admin Notification Error:", error);
+      return { sent: false, error: String(error) };
+    }
   },
 });

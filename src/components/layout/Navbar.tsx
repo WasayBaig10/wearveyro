@@ -47,9 +47,9 @@ export default function Navbar() {
     <>
       <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-white/15">
         <div className="max-w-[1600px] mx-auto px-container-margin flex justify-between items-center h-16">
-          <h1 className="font-headline-md text-headline-md tracking-tighter text-primary select-none">
+          <span className="font-headline-md text-headline-md tracking-tighter text-primary select-none">
             wearveyro
-          </h1>
+          </span>
 
           <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => {

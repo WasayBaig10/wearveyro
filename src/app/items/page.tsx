@@ -7,16 +7,23 @@ import ItemsPageContent from "@/components/items/ItemsPageContent";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "WEARVEYRO | EXPLORER — Volume 04 / The Archive",
+  title: "Buy Premium Shirts Online — Streetwear Apparel Pakistan",
   description:
-    "Browse the wearveyro archive. Volume 04 features limited-release outerwear, tops, and accessories from Collection 004.",
-  openGraph: {
-    title: "WEARVEYRO | EXPLORER — Volume 04 / The Archive",
-    description:
-      "Browse the wearveyro archive. Volume 04 features limited-release outerwear, tops, and accessories from Collection 004.",
-  },
+    "Buy premium men's shirts online with Wearveyro. Volume 04 features limited-release outerwear, tops and accessories from Collection 004, delivered across Pakistan.",
+  keywords: [
+    "buy shirts online",
+    "premium shirts Pakistan",
+    "men's shirts in Pakistan",
+    "streetwear apparel Pakistan",
+    "designer shirts online Pakistan",
+  ],
   alternates: {
     canonical: "/items",
+  },
+  openGraph: {
+    title: "Buy Premium Shirts Online — Streetwear Apparel Pakistan",
+    description:
+      "Buy premium men's shirts online with Wearveyro. Volume 04 features limited-release outerwear, tops and accessories from Collection 004.",
   },
 };
 

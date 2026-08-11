@@ -7,16 +7,23 @@ import ItemsPageContent from "@/components/items/ItemsPageContent";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "WEARVEYRO | SHOP — The Archive",
+  title: "Shop Men's Shirts Online — Streetwear Apparel in Pakistan",
   description:
-    "Browse the wearveyro archive. Limited-release outerwear, tops, and accessories.",
-  openGraph: {
-    title: "WEARVEYRO | SHOP — The Archive",
-    description:
-      "Browse the wearveyro archive. Limited-release outerwear, tops, and accessories.",
-  },
+    "Browse the Wearveyro archive. Shop limited-release men's shirts, outerwear, tops and streetwear apparel online in Pakistan with nationwide delivery.",
+  keywords: [
+    "buy shirts online",
+    "men's shirts in Pakistan",
+    "streetwear apparel Pakistan",
+    "shop streetwear online Pakistan",
+    "men's shirts online",
+  ],
   alternates: {
     canonical: "/shop",
+  },
+  openGraph: {
+    title: "Shop Men's Shirts Online — Streetwear Apparel in Pakistan",
+    description:
+      "Shop limited-release men's shirts, outerwear and streetwear apparel online in Pakistan.",
   },
 };
 

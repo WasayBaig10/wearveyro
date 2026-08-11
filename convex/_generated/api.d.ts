@@ -8,13 +8,16 @@
  * @module
  */
 
+import type * as admin from "../admin.js";
 import type * as cart from "../cart.js";
 import type * as customers from "../customers.js";
 import type * as email from "../email.js";
+import type * as http from "../http.js";
 import type * as init from "../init.js";
 import type * as orders from "../orders.js";
 import type * as products from "../products.js";
 import type * as storage from "../storage.js";
+import type * as whatsapp from "../whatsapp.js";
 
 import type {
   ApiFromModules,
@@ -23,13 +26,16 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  admin: typeof admin;
   cart: typeof cart;
   customers: typeof customers;
   email: typeof email;
+  http: typeof http;
   init: typeof init;
   orders: typeof orders;
   products: typeof products;
   storage: typeof storage;
+  whatsapp: typeof whatsapp;
 }>;
 
 /**

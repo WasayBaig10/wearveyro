@@ -2,13 +2,29 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { useQuery } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
+const statusMeta: Record<string, { label: string; color: string }> = {
+  pending: { label: "Verifying", color: "text-yellow-400" },
+  confirmed: { label: "Confirmed", color: "text-emerald-400" },
+  shipped: { label: "Shipped", color: "text-sky-400" },
+  delivered: { label: "Delivered", color: "text-primary-fixed" },
+};
+
 function SuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
+  const order = useQuery(
+    api.orders.getOrderByDisplayId,
+    orderId ? { orderId } : "skip"
+  );
+
+  const status = order?.status ?? "pending";
+  const meta = statusMeta[status] ?? statusMeta.pending;
 
   return (
     <main className="max-w-[600px] mx-auto pt-28 pb-24 px-container-margin">
@@ -23,13 +39,23 @@ function SuccessContent() {
         </div>
 
         {orderId && (
-          <div className="border border-white/15 bg-surface-container p-6 space-y-2">
+          <div className="border border-white/15 bg-surface-container p-6 space-y-3">
             <p className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
               Order ID
             </p>
             <p className="font-label-bold text-lg text-primary tracking-wide break-all">
               {orderId}
             </p>
+            <div className="flex items-center justify-center gap-2 pt-1">
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  status === "pending" ? "bg-yellow-400 animate-pulse" : "bg-emerald-400"
+                }`}
+              />
+              <span className={`font-label-bold text-[11px] uppercase tracking-widest ${meta.color}`}>
+                {order === undefined ? "Verifying" : meta.label}
+              </span>
+            </div>
           </div>
         )}
 

@@ -3,16 +3,18 @@
 import { useState, useMemo } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import type { Doc } from "../../../convex/_generated/dataModel";
+import type { Doc, Id } from "../../../convex/_generated/dataModel";
 import AdminTableShell from "./AdminTableShell";
+import OrderDetailsModal from "../orders/OrderDetailsModal";
 
 const statusStyles: Record<Doc<"orders">["status"], string> = {
   pending: "text-yellow-300 border-yellow-300/60 bg-yellow-300/10",
+  confirmed: "text-emerald-300 border-emerald-300/60 bg-emerald-300/10",
   shipped: "text-sky-300 border-sky-300/60 bg-sky-300/10",
-  delivered: "text-emerald-300 border-emerald-300/60 bg-emerald-300/10",
+  delivered: "text-white border-white/30 bg-white/10",
 };
 
-const statusFilters = ["all", "pending", "shipped", "delivered"] as const;
+const statusFilters = ["all", "pending", "confirmed", "shipped", "delivered"] as const;
 type StatusFilter = (typeof statusFilters)[number];
 
 export default function OrdersTable() {
@@ -21,6 +23,10 @@ export default function OrdersTable() {
 
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState<{
+    id: Id<"orders">;
+    displayId: string;
+  } | null>(null);
 
   const filteredOrders = useMemo(() => {
     if (!orders) return [];
@@ -161,7 +167,15 @@ export default function OrdersTable() {
                 </td>
                 <td className="p-4">
                   <div className="flex flex-wrap items-center gap-2">
-                    {(["pending", "shipped", "delivered"] as const).map((status) => (
+                    <button
+                      onClick={() =>
+                        setSelectedOrder({ id: order._id, displayId: order.orderId })
+                      }
+                      className="px-3 py-1.5 border border-primary-fixed font-label-bold text-[10px] uppercase tracking-widest text-primary-fixed hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors cursor-pointer"
+                    >
+                      View
+                    </button>
+                    {(["pending", "confirmed", "shipped", "delivered"] as const).map((status) => (
                       <button
                         key={status}
                         onClick={() => updateOrderStatus({ id: order._id, status })}
@@ -176,6 +190,14 @@ export default function OrdersTable() {
             ))}
           </tbody>
         </table>
+      )}
+
+      {selectedOrder && (
+        <OrderDetailsModal
+          orderId={selectedOrder.id}
+          displayId={selectedOrder.displayId}
+          onClose={() => setSelectedOrder(null)}
+        />
       )}
     </AdminTableShell>
   );

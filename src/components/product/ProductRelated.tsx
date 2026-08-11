@@ -94,9 +94,20 @@ function RelatedCard({
 export default function ProductRelated({ currentSlug }: ProductRelatedProps) {
   const products = useQuery(api.products.listProducts);
 
-  const related = products
-    ?.filter((p) => p.slug !== currentSlug && p.status !== "draft")
-    .slice(0, 4) ?? [];
+  const current = (currentSlug ?? "").toLowerCase().trim();
+
+  const allAvailable = (products ?? []).filter(
+    (p) => p.status !== "draft" && p.slug
+  );
+
+  // Complementary archive: every published product except the one currently
+  // being viewed, matched case-insensitively so the slug never falsely
+  // poisons the comparison (e.g. with exactly two items in the store, viewing
+  // one must surface the other, not an empty grid).
+  const related =
+    allAvailable
+      .filter((p) => (p.slug?.toLowerCase().trim() ?? "") !== current)
+      .slice(0, 4) ?? [];
 
   return (
     <section className="border-t border-white/15 py-section-gap-lg px-container-margin overflow-hidden bg-surface-dim">

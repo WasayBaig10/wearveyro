@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -7,17 +8,48 @@ import Navbar from "@/components/layout/Navbar";
 import ShippingForm from "@/components/checkout/ShippingForm";
 import CheckoutForm from "@/components/checkout/CheckoutForm";
 import { useCartStore } from "../../store/useCartStore";
+import {
+  buildOrderWhatsAppMessage,
+  initialShipping,
+  openWhatsApp,
+  type CheckoutMethod,
+  type ShippingInfo,
+} from "@/lib/checkout";
 
 export default function CheckoutPage() {
   const router = useRouter();
   const items = useCartStore((s) => s.items);
   const clearCart = useCartStore((s) => s.clearCart);
+  const [shipping, setShipping] = useState<ShippingInfo>(initialShipping);
 
   const subtotal = items.reduce((sum, i) => sum + i.priceValue * i.quantity, 0);
-  const shipping = 350;
-  const total = subtotal + shipping;
+  const shippingCost = 350;
+  const total = subtotal + shippingCost;
 
-  function handleSuccess(orderId: string) {
+  function handleShippingChange(field: keyof ShippingInfo, value: string) {
+    setShipping((prev) => ({ ...prev, [field]: value }));
+  }
+
+  function handleSuccess(
+    orderId: string,
+    orderTotal: number,
+    method: CheckoutMethod
+  ) {
+    if (method === "whatsapp") {
+      const text = buildOrderWhatsAppMessage({
+        orderId,
+        total: orderTotal,
+        shipping,
+        items: items.map((i) => ({
+          name: i.name,
+          size: i.size,
+          quantity: i.quantity,
+          price: i.price,
+        })),
+      });
+      openWhatsApp(text);
+    }
+
     clearCart();
     router.push(`/checkout/success?orderId=${encodeURIComponent(orderId)}`);
   }
@@ -32,13 +64,14 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           <div className="lg:col-span-7 space-y-12">
-            <ShippingForm />
+            <ShippingForm values={shipping} onChange={handleShippingChange} />
             <CheckoutForm
               items={items.map((i) => ({
                 productId: i.productId,
                 quantity: i.quantity,
                 size: i.size,
               }))}
+              shipping={shipping}
               onSuccess={handleSuccess}
             />
           </div>
@@ -91,7 +124,7 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex justify-between font-label-bold text-sm text-secondary tracking-wider">
                       <span>Shipping</span>
-                      <span className="text-primary">Rs. {shipping.toLocaleString()}</span>
+                      <span className="text-primary">Rs. {shippingCost.toLocaleString()}</span>
                     </div>
                     <div className="border-t border-white/15 pt-3 flex justify-between font-headline-md text-headline-md">
                       <span className="text-primary uppercase">Total</span>

@@ -8,6 +8,7 @@ import AdminCreateProductForm from "@/components/admin/AdminCreateProductForm";
 import OrdersTable from "@/components/admin/OrdersTable";
 import CustomersTable from "@/components/admin/CustomersTable";
 
+
 type AdminTab = "products" | "orders" | "customers";
 
 export default function AdminPage() {

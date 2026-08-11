@@ -1,10 +1,23 @@
 import type { Metadata } from "next";
-import { Syne, Plus_Jakarta_Sans, Geist } from "next/font/google";
+import { Syne, Plus_Jakarta_Sans, Syncopate, Funnel_Display } from "next/font/google";
 import Providers from "@/components/Providers";
+import JsonLdScript from "@/components/seo/JsonLdScript";
+import {
+  SITE_NAME,
+  SITE_URL,
+  SITE_KEYWORDS,
+  clothingStoreJsonLd,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const funnelDisplay = Funnel_Display({
+  variable: "--font-funnel-display",
+  subsets: ["latin"],
+  weight: ["700", "800"],
+});
 
 const syne = Syne({
   variable: "--font-syne",
@@ -18,16 +31,39 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ["400", "500", "700"],
 });
 
+const syncopate = Syncopate({
+  variable: "--font-syncopate",
+  subsets: ["latin"],
+  weight: ["700"],
+});
+
 export const metadata: Metadata = {
-  title: "Wearveyro | Minimalist High-End Apparel",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — Men's Shirts & Streetwear Apparel in Pakistan`,
+    template: `%s | ${SITE_NAME}`,
+  },
   description:
-    "A curated collection of high-end, minimal clothing. Discover our latest drops and archival pieces.",
+    "Shop men's shirts and premium streetwear apparel online with Wearveyro. Buy stylish shirts, tees and archive pieces with nationwide delivery across Pakistan.",
+  keywords: SITE_KEYWORDS,
+  applicationName: SITE_NAME,
+  category: "fashion",
+  robots: { index: true, follow: true },
+  alternates: { canonical: SITE_URL },
   openGraph: {
-    title: "Wearveyro | Minimalist High-End Apparel",
+    title: `${SITE_NAME} — Men's Shirts & Streetwear Apparel in Pakistan`,
     description:
-      "A curated collection of high-end, minimal clothing. Discover our latest drops and archival pieces.",
-    url: process.env.SITE_URL || "http://localhost:3000",
+      "Buy shirts online in Pakistan. Premium men's shirts, streetwear apparel and limited drops with nationwide delivery.",
+    url: SITE_URL,
     type: "website",
+    siteName: SITE_NAME,
+    locale: "en_PK",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — Men's Shirts & Streetwear Apparel in Pakistan`,
+    description:
+      "Buy shirts online in Pakistan. Premium men's shirts, streetwear apparel and limited drops with nationwide delivery.",
   },
   icons: { shortcut: '/logo.png' },
 };
@@ -56,9 +92,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("dark", "antialiased", syne.variable, plusJakartaSans.variable, "font-sans", geist.variable)}
+      className={cn("dark", "antialiased", funnelDisplay.variable, syne.variable, plusJakartaSans.variable, syncopate.variable)}
     >
-      <body className="bg-background text-on-background font-body-md min-h-screen">
+      <body className={cn("bg-background text-on-background font-body-md min-h-screen", funnelDisplay.className)}>
+        <JsonLdScript data={organizationJsonLd()} />
+        <JsonLdScript data={websiteJsonLd()} />
+        <JsonLdScript data={clothingStoreJsonLd()} />
         <Providers>{children}</Providers>
       </body>
     </html>

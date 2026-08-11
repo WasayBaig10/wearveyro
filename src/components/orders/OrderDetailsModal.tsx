@@ -117,6 +117,47 @@ export default function OrderDetailsModal({
               ))}
             </div>
 
+            {/* Shipping */}
+            <div className="space-y-4">
+              <h3 className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
+                Shipping
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 border border-white/15 bg-surface-container p-4">
+                <div>
+                  <p className="font-label-bold text-[9px] uppercase tracking-[0.2em] text-secondary">
+                    Name
+                  </p>
+                  <p className="font-label-bold text-sm text-primary">{order.customerName}</p>
+                </div>
+                <div>
+                  <p className="font-label-bold text-[9px] uppercase tracking-[0.2em] text-secondary">
+                    Email
+                  </p>
+                  <p className="font-label-sm text-sm text-primary break-all">
+                    {order.customerEmail ?? "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-label-bold text-[9px] uppercase tracking-[0.2em] text-secondary">
+                    Phone
+                  </p>
+                  <p className="font-label-sm text-sm text-primary break-all">
+                    {order.customerPhone ?? "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-label-bold text-[9px] uppercase tracking-[0.2em] text-secondary">
+                    Address
+                  </p>
+                  <p className="font-label-sm text-sm text-primary break-words">
+                    {[order.address, order.city, order.postalCode]
+                      .filter(Boolean)
+                      .join(", ") || "—"}
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Total */}
             <div className="flex justify-between items-center border-t border-white/15 pt-4">
               <span className="font-headline-md text-headline-md text-primary uppercase">

@@ -3,8 +3,9 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "WEARVEYRO | Privacy Policy",
-  description: "Wearveyro privacy policy — how we handle your data.",
+  title: "Privacy Policy",
+  description: "Wearveyro privacy policy — how we handle your data when you shop men's shirts and streetwear online.",
+  keywords: ["wearveyro privacy policy", "online store privacy policy pakistan"],
   alternates: { canonical: "/privacy" },
 };
 

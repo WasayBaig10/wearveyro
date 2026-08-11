@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useCartStore } from "../../store/useCartStore";
 
 import ProductImageGallery from "./ProductImageGallery";
 import ProductInfo from "./ProductInfo";
+import ExpressCheckoutModal from "./ExpressCheckoutModal";
 
 interface ProductDetailContentProps {
   productId: string;
@@ -36,13 +36,13 @@ function NotFoundState() {
 }
 
 export default function ProductDetailContent({ productId }: ProductDetailContentProps) {
-  const router = useRouter();
   const product = useQuery(api.products.getProductBySlug, {
     slug: productId,
   });
 
   const addItem = useCartStore((s) => s.addItem);
   const [added, setAdded] = useState(false);
+  const [expressSize, setExpressSize] = useState<string | null>(null);
 
   const mainImageUrl = useQuery(
     api.storage.getUrl,
@@ -52,6 +52,16 @@ export default function ProductDetailContent({ productId }: ProductDetailContent
   const secondaryImageUrl = useQuery(
     api.storage.getUrl,
     product?.imageSecondaryId ? { storageId: product.imageSecondaryId } : "skip"
+  );
+
+  const galleryUrl1 = useQuery(
+    api.storage.getUrl,
+    product?.galleryImageIds?.[0] ? { storageId: product.galleryImageIds[0] } : "skip"
+  );
+
+  const galleryUrl2 = useQuery(
+    api.storage.getUrl,
+    product?.galleryImageIds?.[1] ? { storageId: product.galleryImageIds[1] } : "skip"
   );
 
   useEffect(() => {
@@ -70,28 +80,25 @@ export default function ProductDetailContent({ productId }: ProductDetailContent
     return <NotFoundState />;
   }
 
+  const isSoldOut = product.status === "soldout" || product.stock <= 0;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 overflow-hidden">
       <ProductImageGallery
         imageUrl={mainImageUrl ?? product.imageUrl ?? undefined}
         imageSecondaryUrl={secondaryImageUrl ?? product.imageSecondaryUrl ?? undefined}
+        galleryUrls={[galleryUrl1, galleryUrl2].filter((u): u is string => !!u)}
       />
       <ProductInfo
         name={product.name}
         price={product.price}
         description={product.description}
         sizes={product.sizes}
-        stockStatus={
-          product.stock === 0
-            ? "soldout"
-            : product.stock < 15
-              ? "low"
-              : "normal"
-        }
         stock={product.stock}
-        inventoryPercent={product.inventoryPercent}
+        isSoldOut={isSoldOut}
         isAdded={added}
         onAddToCart={(size) => {
+          if (isSoldOut) return;
           addItem({
             productId: product._id,
             name: product.name,
@@ -104,17 +111,20 @@ export default function ProductDetailContent({ productId }: ProductDetailContent
           setTimeout(() => setAdded(false), 2000);
         }}
         onCheckout={(size) => {
-          addItem({
-            productId: product._id,
-            name: product.name,
-            price: product.price,
-            priceValue: product.priceValue,
-            imageUrl: mainImageUrl ?? product.imageUrl ?? "",
-            size,
-          });
-          router.push("/checkout");
+          if (isSoldOut) return;
+          setExpressSize(size);
         }}
       />
+
+      {expressSize && (
+        <ExpressCheckoutModal
+          productId={product._id}
+          name={product.name}
+          price={product.price}
+          size={expressSize}
+          onClose={() => setExpressSize(null)}
+        />
+      )}
     </div>
   );
 }

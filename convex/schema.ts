@@ -8,8 +8,10 @@ export default defineSchema({
     priceValue: v.number(),
     description: v.string(),
     category: v.string(),
+    badge: v.optional(v.union(v.literal("new"), v.literal("hot"))),
     imageId: v.optional(v.id("_storage")),
     imageSecondaryId: v.optional(v.id("_storage")),
+    galleryImageIds: v.optional(v.array(v.id("_storage"))),
     imageUrl: v.optional(v.string()),
     imageSecondaryUrl: v.optional(v.string()),
     stock: v.number(),
@@ -23,7 +25,7 @@ export default defineSchema({
 
   orders: defineTable({
     orderId: v.string(),
-    status: v.union(v.literal("pending"), v.literal("shipped"), v.literal("delivered")),
+    status: v.union(v.literal("pending"), v.literal("confirmed"), v.literal("shipped"), v.literal("delivered")),
     total: v.number(),
     items: v.array(
       v.object({
@@ -35,6 +37,11 @@ export default defineSchema({
       })
     ),
     customerName: v.string(),
+    customerEmail: v.optional(v.string()),
+    customerPhone: v.optional(v.string()),
+    address: v.optional(v.string()),
+    city: v.optional(v.string()),
+    postalCode: v.optional(v.string()),
     userId: v.optional(v.string()),
     date: v.number(),
   })

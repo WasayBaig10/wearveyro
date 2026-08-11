@@ -7,9 +7,8 @@ interface ProductInfoProps {
   price?: string;
   description?: string;
   sizes?: string[];
-  stockStatus?: "low" | "soldout" | "new" | "normal";
   stock?: number;
-  inventoryPercent?: number;
+  isSoldOut?: boolean;
   isAdded?: boolean;
   onAddToCart?: (size: string) => void;
   onCheckout?: (size: string) => void;
@@ -27,9 +26,8 @@ export default function ProductInfo({
   price = "Rs. 4,800",
   description = "Engineered for the digital nomad. The Vortex Grail Tee features a relaxed, drop-shoulder silhouette constructed from our custom-developed heavy-weight jersey.",
   sizes = ["S", "M", "L", "XL"],
-  stockStatus,
   stock,
-  inventoryPercent,
+  isSoldOut = false,
   isAdded,
   onAddToCart,
   onCheckout,
@@ -53,11 +51,7 @@ export default function ProductInfo({
       setTimeout(() => setSizeError(false), 2000);
       return;
     }
-    const phone = "92318217144";
-    const text = selectedSize
-      ? `Hi! I would like to order the ${name} (Size: ${selectedSize}) for ${price}.`
-      : `Hi! I would like to order the ${name} for ${price}.`;
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, "_blank");
+    onCheckout?.(selectedSize);
   }
 
   return (
@@ -84,29 +78,19 @@ export default function ProductInfo({
             <div className="flex items-center gap-2">
               <span
                 className={`w-2 h-2 rounded-full ${
-                  stock <= 5 ? "bg-error animate-pulse" : "bg-emerald-500"
+                  isSoldOut ? "bg-white/25" : stock <= 5 ? "bg-error animate-pulse" : "bg-emerald-500"
                 }`}
               />
               <span
                 className={`font-label-bold text-[11px] uppercase tracking-widest ${
-                  stock <= 5 ? "text-error" : "text-emerald-500"
+                  isSoldOut ? "text-error" : stock <= 5 ? "text-error" : "text-emerald-500"
                 }`}
               >
-                {stock <= 5
-                  ? `Low Stock: Only ${stock} left`
-                  : "In Stock"}
+                {isSoldOut ? "Sold Out" : stock <= 5 ? `Low Stock: Only ${stock} left` : "In Stock"}
               </span>
             </div>
           )}
 
-          <div className="flex flex-wrap gap-2">
-            <span className="px-2 py-1 border border-primary-fixed text-primary-fixed text-label-sm font-label-bold tracking-widest uppercase">
-              Limited Edition
-            </span>
-            <span className="px-2 py-1 border border-white/15 text-secondary text-label-sm font-label-bold tracking-widest uppercase">
-              240GSM COTTON
-            </span>
-          </div>
         </div>
 
         {/* Description & Stock */}
@@ -114,22 +98,6 @@ export default function ProductInfo({
           <p className="font-body-lg text-body-lg text-secondary leading-relaxed">
             {description}
           </p>
-          <div className="w-full h-px bg-white/15" />
-          {(stockStatus === "low" || (typeof stock === "number" && stock > 0 && stock < 15)) && (
-            <>
-              <div className="flex items-center gap-3 text-primary-fixed">
-                <span className="material-symbols-outlined [font-variation-settings:'FILL'_1]">
-                  local_fire_department
-                </span>
-                <span className="font-label-bold text-label-bold">
-                  ONLY {stock} PIECES REMAINING
-                </span>
-              </div>
-              <div className="w-full h-1 bg-white/5 overflow-hidden">
-                <div className="h-full bg-primary-fixed w-[12%] transition-all duration-1000 ease-out" />
-              </div>
-            </>
-          )}
         </div>
 
         {/* Size Selector */}
@@ -151,6 +119,7 @@ export default function ProductInfo({
               <button
                 key={size}
                 type="button"
+                disabled={isSoldOut}
                 onClick={() => {
                   setSelectedSize(size);
                   setSizeError(false);
@@ -159,7 +128,7 @@ export default function ProductInfo({
                   size === selectedSize
                     ? "border-primary-fixed bg-primary-fixed text-on-primary-fixed"
                     : "border-white/15 text-secondary hover:border-primary"
-                }`}
+                } ${isSoldOut ? "opacity-40 cursor-not-allowed disabled:cursor-not-allowed" : ""}`}
               >
                 {size}
               </button>
@@ -178,81 +147,29 @@ export default function ProductInfo({
 
         {/* CTA Buttons */}
         <div className="w-full flex flex-col gap-4">
-          <button
-            onClick={handleAddToCart}
-            className={`w-full h-16 font-label-bold text-lg tracking-widest uppercase transition-all active:scale-[0.98] cursor-pointer ${
-              isAdded
-                ? "bg-emerald-600 text-white"
-                : "bg-primary-fixed text-on-primary hover:bg-black hover:text-white hover:border border-white neon-glow"
-            }`}>
-            {isAdded ? "ADDED TO ARCHIVE ✓" : "Add to Archive"}
-          </button>
-          <button
-            onClick={handleCheckout}
-            className="w-full h-16 border border-white text-white font-label-bold text-lg tracking-widest uppercase hover:bg-white hover:text-black transition-all active:scale-[0.98] cursor-pointer"
-          >
-            Express Checkout
-          </button>
-        </div>
-
-        {/* Specs Table */}
-        <div className="w-full border border-white/15">
-          <div className="p-6 border-b border-white/15 flex justify-between items-center">
-            <span className="font-label-bold text-label-bold uppercase tracking-wider">
-              Specifications
-            </span>
-            <span className="material-symbols-outlined text-secondary">
-              expand_more
-            </span>
-          </div>
-          <div className="grid grid-cols-2">
-            {[
-              { label: "FABRIC", value: "100% SUPIMA COTTON" },
-              { label: "WEIGHT", value: "240 GSM HEAVY" },
-              { label: "FIT", value: "BOX OVERSIZED" },
-              { label: "ORIGIN", value: "KARACHI, PK" },
-            ].map((spec, i) => (
-              <div
-                key={spec.label}
-                className={`p-6 ${i < 2 ? "border-b" : ""} ${i % 2 === 0 ? "border-r" : ""} border-white/15`}
+          {isSoldOut ? (
+            <div className="w-full h-16 flex items-center justify-center font-label-bold text-lg tracking-widest uppercase bg-white/5 text-secondary/50 border border-white/15 cursor-not-allowed select-none">
+              SOLD OUT
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={handleAddToCart}
+                className={`w-full h-16 font-label-bold text-lg tracking-widest uppercase transition-all active:scale-[0.98] cursor-pointer ${
+                  isAdded
+                    ? "bg-emerald-600 text-white"
+                    : "bg-primary-fixed text-on-primary hover:bg-black hover:text-white hover:border border-white neon-glow"
+                }`}>
+                {isAdded ? "ADDED TO ARCHIVE ✓" : "Add to Archive"}
+              </button>
+              <button
+                onClick={handleCheckout}
+                className="w-full h-16 border border-white text-white font-label-bold text-lg tracking-widest uppercase hover:bg-white hover:text-black transition-all active:scale-[0.98] cursor-pointer"
               >
-                <span className="block text-secondary font-label-sm mb-1 tracking-wider uppercase">
-                  {spec.label}
-                </span>
-                <span className="font-body-md text-primary">{spec.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Info Cards */}
-        <div className="w-full grid grid-cols-1 gap-4">
-          <div className="p-4 bg-surface-container-low border-l-2 border-primary-fixed flex items-start gap-4">
-            <span className="material-symbols-outlined text-primary-fixed">
-              package_2
-            </span>
-            <div>
-              <h4 className="font-label-bold text-label-bold uppercase tracking-wider">
-                SAME-DAY DISPATCH
-              </h4>
-              <p className="text-label-sm text-secondary">
-                Orders placed before 4PM PKT ship same day.
-              </p>
-            </div>
-          </div>
-          <div className="p-4 bg-surface-container-low border-l-2 border-white/15 flex items-start gap-4">
-            <span className="material-symbols-outlined text-secondary">
-              security
-            </span>
-            <div>
-              <h4 className="font-label-bold text-label-bold uppercase tracking-wider">
-                CRYPTO SECURE
-              </h4>
-              <p className="text-label-sm text-secondary">
-                End-to-end encrypted checkout architecture.
-              </p>
-            </div>
-          </div>
+                Express Checkout
+              </button>
+            </>
+          )}
         </div>
       </div>
 

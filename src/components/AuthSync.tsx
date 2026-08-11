@@ -2,10 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import { useUser } from "@clerk/nextjs";
-import { useConvex, useMutation } from "convex/react";
+import { useConvex, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useCartStore } from "../store/useCartStore";
 import type { CartItem } from "../store/useCartStore";
+import type { Id } from "../../convex/_generated/dataModel";
 
 const LS_KEY = "wearveyro-cart";
 
@@ -17,6 +18,7 @@ export default function AuthSync({ children }: { children: React.ReactNode }) {
   const { user } = useUser();
   const convex = useConvex();
   const saveCart = useMutation(api.cart.saveCart);
+  const products = useQuery(api.products.listProducts);
 
   const userId = user?.id ?? null;
   const saveCartRef = useRef(saveCart);
@@ -86,6 +88,19 @@ export default function AuthSync({ children }: { children: React.ReactNode }) {
     });
     return unsub;
   }, [userId]);
+
+  // Prune any persisted cart items whose stock has dropped to 0 as soon as
+  // the inventory snapshot loads so they vanish without manual deletion.
+  useEffect(() => {
+    if (!products) return;
+    const soldOut = new Set<Id<"products">>();
+    for (const p of products) {
+      if (p.status === "draft" || p.status === "soldout" || p.stock <= 0) {
+        soldOut.add(p._id);
+      }
+    }
+    useCartStore.getState().pruneSoldOut(soldOut);
+  }, [products]);
 
   return <>{children}</>;
 }

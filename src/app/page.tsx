@@ -5,17 +5,23 @@ import Hero from "@/components/sections/Hero";
 import MarqueeBar from "@/components/sections/MarqueeBar";
 import BentoGrid from "@/components/sections/BentoGrid";
 import ProductGrid from "@/components/sections/ProductGrid";
-import BrandStory from "@/components/sections/BrandStory";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "wearveyro | High-Fashion Rebellion",
+  title: "Men's Shirts & Streetwear Apparel in Pakistan",
   description:
-    "wearveyro is a digital-native streetwear movement, blending brutalist geometry with the precision of luxury tailoring.",
+    "Wearveyro is a digital-native streetwear movement in Pakistan, blending brutalist geometry with the precision of luxury tailoring. Shop premium men's shirts and streetwear apparel online with nationwide delivery.",
+  keywords: [
+    "men's shirts in Pakistan",
+    "buy shirts online",
+    "streetwear apparel Pakistan",
+    "men's fashion Pakistan",
+  ],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "wearveyro | High-Fashion Rebellion",
+    title: "Men's Shirts & Streetwear Apparel in Pakistan | Wearveyro",
     description:
-      "wearveyro is a digital-native streetwear movement, blending brutalist geometry with the precision of luxury tailoring.",
+      "Shop premium men's shirts and streetwear apparel in Pakistan. Limited drops, archive pieces and new collections.",
   },
 };
 
@@ -28,7 +34,6 @@ export default function Home() {
         <MarqueeBar />
         <BentoGrid />
         <ProductGrid />
-        <BrandStory />
       </main>
       <Footer />
     </>
