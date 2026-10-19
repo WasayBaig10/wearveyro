@@ -38,7 +38,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-white/15 bg-surface-container">
+      <header className="border-b border-black/15 bg-surface-container">
         <div className="max-w-[1600px] mx-auto px-container-margin py-4 flex justify-between items-center">
           <span className="font-headline-md text-headline-md tracking-tighter text-primary select-none">
             wearveyro

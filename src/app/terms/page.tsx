@@ -107,10 +107,10 @@ export default function TermsPage() {
             <p>
               For questions about these terms, reach us at
               <a
-                href="mailto:contact@wearveyro.com"
+                href="mailto:wearwithveyro@gmail.com"
                 className="text-primary-fixed hover:underline ml-1"
               >
-                contact@wearveyro.com
+                wearwithveyro@gmail.com
               </a>.
             </p>
           </section>

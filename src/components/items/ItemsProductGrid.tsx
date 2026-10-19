@@ -7,11 +7,11 @@ import ItemsProductCard from "./ItemsProductCard";
 
 export function ProductGridSkeleton() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-0 border-t border-l border-white/15">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-0 border-t border-l border-black/15">
       {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="border-r border-b border-white/15">
+        <div key={i} className="border-r border-b border-black/15">
           <Skeleton className="aspect-[3/4] rounded-none bg-surface-container" />
-          <div className="p-6 space-y-3">
+          <div className="p-4 md:p-6 space-y-2">
             <Skeleton className="h-4 rounded-none bg-surface-container w-3/4" />
             <Skeleton className="h-3 rounded-none bg-surface-container w-1/2" />
           </div>
@@ -34,6 +34,12 @@ interface ConvexProduct {
   status: string;
   badge?: string;
   inventoryPercent?: number;
+  colorVariants?: {
+    name: string;
+    hex?: string;
+    imageId?: string;
+    imageSecondaryId?: string;
+  }[];
 }
 
 interface ItemsProductGridProps {
@@ -57,7 +63,7 @@ export default function ItemsProductGrid({ items }: ItemsProductGridProps) {
 
   if (!items.length) {
     return (
-      <div className="border border-white/15 p-12 text-center">
+      <div className="border border-black/15 p-12 text-center">
         <p className="font-label-bold text-secondary tracking-widest uppercase">
           No items found for this category.
         </p>
@@ -67,7 +73,7 @@ export default function ItemsProductGrid({ items }: ItemsProductGridProps) {
 
   return (
     <section>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-0 border-t border-l border-white/15">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-0 border-t border-l border-black/15">
         {visibleProducts.map((product) => (
           <ItemsProductCard key={product._id} product={product} />
         ))}
@@ -78,7 +84,7 @@ export default function ItemsProductGrid({ items }: ItemsProductGridProps) {
           <button
             onClick={handleLoadMore}
             disabled={isLoading}
-            className="group flex items-center gap-4 py-4 px-8 md:px-12 border border-white/15 hover:border-primary-fixed transition-all duration-300 cursor-pointer disabled:opacity-50"
+            className="group flex items-center gap-4 py-4 px-8 md:px-12 border border-black/15 hover:border-primary-fixed transition-all duration-300 cursor-pointer disabled:opacity-50"
           >
             <span className="font-label-bold text-sm uppercase tracking-widest group-hover:text-primary-fixed">
               {isLoading ? "LOADING..." : "Load More Archive Items"}

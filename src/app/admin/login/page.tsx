@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-background flex items-center justify-center px-container-margin">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm border border-white/15 bg-surface-container-lowest p-8 space-y-6"
+        className="w-full max-w-sm border border-black/15 bg-surface-container-lowest p-8 space-y-6"
       >
         <div className="space-y-2">
           <h1 className="font-headline-md text-headline-md text-primary tracking-tighter uppercase">
@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="PASSWORD"
             autoFocus
-            className="w-full bg-surface border border-white/15 px-4 py-3 font-label-bold text-sm text-primary placeholder:text-white/30 focus:border-primary-fixed focus:ring-0 outline-none transition-colors tracking-wider"
+            className="w-full bg-surface border border-black/15 px-4 py-3 font-label-bold text-sm text-primary placeholder:text-black/30 focus:border-primary-fixed focus:ring-0 outline-none transition-colors tracking-wider"
           />
           {error && (
             <p className="font-label-bold text-[10px] uppercase tracking-widest text-error">
@@ -90,7 +90,7 @@ export default function AdminLoginPage() {
         <button
           type="submit"
           disabled={loading || !password}
-          className="w-full h-12 bg-primary-fixed text-on-primary-fixed font-label-bold text-sm uppercase tracking-widest hover:bg-black hover:text-white border border-transparent hover:border-white transition-all disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+          className="w-full h-12 bg-primary-fixed text-on-primary-fixed font-label-bold text-sm uppercase tracking-widest hover:bg-black hover:text-white border border-transparent hover:border-black transition-all disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
         >
           {loading ? "VERIFYING..." : "ENTER"}
         </button>

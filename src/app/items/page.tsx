@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import Navbar from "@/components/layout/Navbar";
 import ItemsHeader from "@/components/items/ItemsHeader";
@@ -33,7 +34,9 @@ export default function ItemsPage() {
       <Navbar />
       <main className="max-w-[1600px] mx-auto pt-28 md:pt-32 pb-24 px-container-margin">
         <ItemsHeader />
-        <ItemsPageContent />
+        <Suspense fallback={null}>
+          <ItemsPageContent />
+        </Suspense>
         <ItemsMarquee />
       </main>
       <Footer />

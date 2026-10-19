@@ -25,7 +25,7 @@ export default function ProductCard({
   const isSoldOut = badge?.type === "soldout";
 
   return (
-    <div className="product-card border border-white/15 relative overflow-hidden group flex flex-col bg-surface-container-lowest">
+    <div className="product-card border border-black/15 relative overflow-hidden group flex flex-col bg-surface-container-lowest">
       {/* Product Image Frame */}
       <div className="aspect-[3/4] bg-surface-container-lowest relative overflow-hidden w-full">
         {/* Main Product Image */}

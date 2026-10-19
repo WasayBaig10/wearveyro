@@ -12,7 +12,7 @@ export default function PaymentForm() {
           <input
             type="text"
             placeholder="XXXX XXXX XXXX XXXX"
-            className="w-full bg-transparent border border-white/15 px-4 py-3 font-body-md text-primary placeholder:text-white/20 focus:border-primary-fixed focus:outline-none transition-colors"
+            className="w-full bg-transparent border border-black/15 px-4 py-3 font-body-md text-primary placeholder:text-black/20 focus:border-primary-fixed focus:outline-none transition-colors"
           />
         </div>
         <div className="space-y-2">
@@ -22,7 +22,7 @@ export default function PaymentForm() {
           <input
             type="text"
             placeholder="MM/YY"
-            className="w-full bg-transparent border border-white/15 px-4 py-3 font-body-md text-primary placeholder:text-white/20 focus:border-primary-fixed focus:outline-none transition-colors"
+            className="w-full bg-transparent border border-black/15 px-4 py-3 font-body-md text-primary placeholder:text-black/20 focus:border-primary-fixed focus:outline-none transition-colors"
           />
         </div>
         <div className="space-y-2">
@@ -32,7 +32,7 @@ export default function PaymentForm() {
           <input
             type="text"
             placeholder="XXX"
-            className="w-full bg-transparent border border-white/15 px-4 py-3 font-body-md text-primary placeholder:text-white/20 focus:border-primary-fixed focus:outline-none transition-colors"
+            className="w-full bg-transparent border border-black/15 px-4 py-3 font-body-md text-primary placeholder:text-black/20 focus:border-primary-fixed focus:outline-none transition-colors"
           />
         </div>
       </div>

@@ -10,7 +10,7 @@ import AdminTableShell from "./AdminTableShell";
 
 const statusStyles: Record<string, string> = {
   active: "text-primary-fixed border-primary-fixed",
-  draft: "text-secondary border-white/30",
+  draft: "text-secondary border-black/30",
   soldout: "text-error border-error",
 };
 
@@ -29,7 +29,7 @@ export default function AdminTable() {
         <div className="animate-pulse">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-white/15 bg-surface-container">
+            <tr className="border-b border-black/15 bg-surface-container">
               <th className="p-4 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">Image</th>
               <th className="p-4 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">Product Name</th>
               <th className="p-4 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">Price</th>
@@ -40,7 +40,7 @@ export default function AdminTable() {
           </thead>
           <tbody>
             {[1, 2, 3].map((i) => (
-              <tr key={i} className="border-b border-white/5">
+              <tr key={i} className="border-b border-black/5">
                 <td className="p-4"><div className="w-10 h-12 bg-surface-container" /></td>
                 <td className="p-4"><div className="h-4 bg-surface-container w-32" /></td>
                 <td className="p-4"><div className="h-4 bg-surface-container w-20" /></td>
@@ -61,7 +61,7 @@ export default function AdminTable() {
     <AdminTableShell>
       <table className="w-full text-left">
         <thead>
-          <tr className="border-b border-white/15 bg-surface-container">
+          <tr className="border-b border-black/15 bg-surface-container">
             <th className="p-4 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">Image</th>
             <th className="p-4 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">Product Name</th>
             <th className="p-4 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">Price</th>
@@ -84,7 +84,7 @@ export default function AdminTable() {
             </tr>
           ) : (
             products.map((product) => (
-              <tr key={product._id} className="border-b border-white/5 hover:bg-surface-container-low transition-colors">
+              <tr key={product._id} className="border-b border-black/5 hover:bg-surface-container-low transition-colors">
                 <td className="p-4">
                     <AdminTableImage
                       storageId={product.imageId}
@@ -112,13 +112,13 @@ export default function AdminTable() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setEditingProduct(product)}
-                      className="px-3 py-1.5 border border-white/15 font-label-bold text-[10px] uppercase tracking-widest text-secondary hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer"
+                      className="px-3 py-1.5 border border-black/15 font-label-bold text-[10px] uppercase tracking-widest text-secondary hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(product._id)}
-                      className="px-3 py-1.5 border border-white/15 font-label-bold text-[10px] uppercase tracking-widest text-secondary hover:border-error hover:text-error transition-colors cursor-pointer"
+                      className="px-3 py-1.5 border border-black/15 font-label-bold text-[10px] uppercase tracking-widest text-secondary hover:border-error hover:text-error transition-colors cursor-pointer"
                     >
                       Delete
                     </button>

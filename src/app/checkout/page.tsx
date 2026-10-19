@@ -76,7 +76,7 @@ export default function CheckoutPage() {
             />
           </div>
           <div className="lg:col-span-5">
-            <aside className="bg-surface-container-lowest border border-white/15 p-6 md:p-8 md:sticky md:top-24 space-y-6">
+            <aside className="bg-surface-container-lowest border border-black/15 p-6 md:p-8 md:sticky md:top-24 space-y-6">
               <h2 className="font-headline-md text-headline-md uppercase text-primary">
                 Order Summary
               </h2>
@@ -89,7 +89,7 @@ export default function CheckoutPage() {
                 <>
                   <div className="space-y-4">
                     {items.map((item) => (
-                      <div key={`${item.productId}-${item.size}`} className="flex gap-4 border-b border-white/10 pb-4">
+                      <div key={`${item.productId}-${item.size}`} className="flex gap-4 border-b border-black/10 pb-4">
                         <div className="relative w-16 h-20 bg-surface-container shrink-0 overflow-hidden">
                           <Image
                             src={item.imageUrl}
@@ -126,7 +126,7 @@ export default function CheckoutPage() {
                       <span>Shipping</span>
                       <span className="text-primary">Rs. {shippingCost.toLocaleString()}</span>
                     </div>
-                    <div className="border-t border-white/15 pt-3 flex justify-between font-headline-md text-headline-md">
+                    <div className="border-t border-black/15 pt-3 flex justify-between font-headline-md text-headline-md">
                       <span className="text-primary uppercase">Total</span>
                       <span className="text-primary-fixed">Rs. {total.toLocaleString()}</span>
                     </div>

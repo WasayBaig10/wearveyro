@@ -37,15 +37,15 @@ export default function OrderDetailsModal({
         className="absolute inset-0 bg-background/80 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-white/15 bg-surface-container-low">
-        <div className="sticky top-0 z-10 px-6 py-4 border-b border-white/15 bg-surface-container-low flex justify-between items-center">
+      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-black/15 bg-surface-container-low">
+        <div className="sticky top-0 z-10 px-6 py-4 border-b border-black/15 bg-surface-container-low flex justify-between items-center">
           <h2 className="font-label-bold text-label-bold uppercase tracking-widest text-primary">
             Order {displayId}
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="px-3 py-1.5 border border-white/15 font-label-bold text-[10px] uppercase tracking-widest text-secondary hover:border-error hover:text-error transition-colors cursor-pointer"
+            className="px-3 py-1.5 border border-black/15 font-label-bold text-[10px] uppercase tracking-widest text-secondary hover:border-error hover:text-error transition-colors cursor-pointer"
           >
             Close
           </button>
@@ -56,7 +56,7 @@ export default function OrderDetailsModal({
             {Array.from({ length: 4 }).map((_, i) => (
               <div
                 key={i}
-                className="h-12 bg-surface-container animate-pulse border border-white/15"
+                className="h-12 bg-surface-container animate-pulse border border-black/15"
               />
             ))}
           </div>
@@ -70,7 +70,7 @@ export default function OrderDetailsModal({
             <div className="flex justify-between items-center">
               <span
                 className={`inline-block px-4 py-2 text-xs font-label-bold uppercase tracking-wider border ${
-                  statusColors[order.status] ?? "text-secondary border-white/15 bg-white/5"
+                  statusColors[order.status] ?? "text-secondary border-black/15 bg-black/5"
                 }`}
               >
                 {order.status}
@@ -88,10 +88,10 @@ export default function OrderDetailsModal({
               {order.items.map((item) => (
                 <div
                   key={item._id}
-                  className="flex gap-4 border-b border-white/10 pb-4"
+                  className="flex gap-4 border-b border-black/10 pb-4"
                 >
                   {item.imageUrl && (
-                    <div className="w-16 h-20 bg-surface-container shrink-0 overflow-hidden border border-white/10">
+                    <div className="w-16 h-20 bg-surface-container shrink-0 overflow-hidden border border-black/10">
                       <img
                         src={item.imageUrl}
                         alt={item.name}
@@ -122,7 +122,7 @@ export default function OrderDetailsModal({
               <h3 className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
                 Shipping
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 border border-white/15 bg-surface-container p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 border border-black/15 bg-surface-container p-4">
                 <div>
                   <p className="font-label-bold text-[9px] uppercase tracking-[0.2em] text-secondary">
                     Name
@@ -159,7 +159,7 @@ export default function OrderDetailsModal({
             </div>
 
             {/* Total */}
-            <div className="flex justify-between items-center border-t border-white/15 pt-4">
+            <div className="flex justify-between items-center border-t border-black/15 pt-4">
               <span className="font-headline-md text-headline-md text-primary uppercase">
                 Total
               </span>

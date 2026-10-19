@@ -1,7 +1,6 @@
 "use client";
 
 import { ClerkProvider, useAuth } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { ConvexReactClient } from "convex/react";
 import AuthSync from "./AuthSync";
@@ -14,24 +13,23 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <ClerkProvider
       appearance={{
-        theme: dark,
         variables: {
-          colorPrimary: "#c3f400",
-          colorBackground: "#131313",
+          colorPrimary: "#90a1b9",
+          colorBackground: "#ffffff",
           borderRadius: "0px",
         },
         elements: {
-          card: "border border-white/15 shadow-none",
-          headerTitle: "font-label-bold text-lg uppercase tracking-wider",
+          card: "border border-black/15 shadow-none",
+          headerTitle: "font-label-bold text-lg uppercase tracking-wider text-primary",
           headerSubtitle: "text-secondary text-sm",
           socialButtonsBlockButton:
-            "border-white/15 text-primary hover:bg-white/5",
+            "border-black/15 text-primary hover:bg-black/5",
           formButtonPrimary:
-            "bg-primary-fixed text-on-primary-fixed font-label-bold text-sm uppercase tracking-widest hover:bg-black hover:text-white border border-transparent hover:border-white",
+            "bg-primary-fixed text-on-primary-fixed font-label-bold text-sm uppercase tracking-widest hover:bg-black hover:text-white border border-transparent hover:border-black",
           footerActionLink: "text-primary-fixed hover:text-primary-fixed",
           formFieldLabel: "text-secondary uppercase text-[10px] tracking-wider",
           formFieldInput:
-            "bg-[#1e1e1e] border-white/15 text-primary focus:border-primary-fixed",
+            "bg-surface border-black/15 text-primary focus:border-primary-fixed",
         },
       }}
     >

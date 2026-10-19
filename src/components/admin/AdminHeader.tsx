@@ -38,7 +38,7 @@ export default function AdminHeader({ activeTab, onTabChange, onAddProduct }: Ad
             className={`px-4 py-2 border font-label-bold text-[10px] uppercase tracking-widest transition-colors cursor-pointer ${
               activeTab === tab
                 ? "border-primary-fixed text-primary-fixed bg-primary-fixed/10"
-                : "border-white/15 text-secondary hover:border-primary-fixed hover:text-primary-fixed"
+                : "border-black/15 text-secondary hover:border-primary-fixed hover:text-primary-fixed"
             }`}
           >
             {tab}
@@ -47,7 +47,7 @@ export default function AdminHeader({ activeTab, onTabChange, onAddProduct }: Ad
         {activeTab === "products" && onAddProduct && (
           <button
             onClick={onAddProduct}
-            className="bg-primary-fixed text-on-primary-fixed px-6 py-3 font-label-bold text-label-bold tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-white transition-all cursor-pointer"
+            className="bg-primary-fixed text-on-primary-fixed px-6 py-3 font-label-bold text-label-bold tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-black transition-all cursor-pointer"
           >
             + Add Product
           </button>

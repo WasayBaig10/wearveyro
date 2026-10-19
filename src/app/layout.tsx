@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Syne, Plus_Jakarta_Sans, Syncopate, Funnel_Display } from "next/font/google";
 import Providers from "@/components/Providers";
+import PageLoader from "@/components/ui/PageLoader";
+import RouteLoader from "@/components/ui/RouteLoader";
 import JsonLdScript from "@/components/seo/JsonLdScript";
 import {
   SITE_NAME,
@@ -65,7 +67,7 @@ export const metadata: Metadata = {
     description:
       "Buy shirts online in Pakistan. Premium men's shirts, streetwear apparel and limited drops with nationwide delivery.",
   },
-  icons: { shortcut: '/logo.png' },
+  icons: { shortcut: '/icon.svg' },
 };
 
 export const viewport = {
@@ -92,9 +94,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("dark", "antialiased", funnelDisplay.variable, syne.variable, plusJakartaSans.variable, syncopate.variable)}
+      className={cn("antialiased", funnelDisplay.variable, syne.variable, plusJakartaSans.variable, syncopate.variable)}
     >
       <body className={cn("bg-background text-on-background font-body-md min-h-screen", funnelDisplay.className)}>
+        <PageLoader />
+        <RouteLoader />
         <JsonLdScript data={organizationJsonLd()} />
         <JsonLdScript data={websiteJsonLd()} />
         <JsonLdScript data={clothingStoreJsonLd()} />

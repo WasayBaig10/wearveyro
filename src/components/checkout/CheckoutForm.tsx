@@ -5,7 +5,7 @@ import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import type { Id } from "../../../convex/_generated/dataModel";
 import {
-  isShippingComplete,
+  getShippingError,
   type CheckoutMethod,
   type ShippingInfo,
 } from "@/lib/checkout";
@@ -31,8 +31,9 @@ export default function CheckoutForm({
   async function processOrder(method: CheckoutMethod) {
     setError(null);
 
-    if (!isShippingComplete(shipping)) {
-      setError("Please fill in all shipping fields.");
+    const shippingError = getShippingError(shipping);
+    if (shippingError) {
+      setError(shippingError);
       return;
     }
     if (items.length === 0) {
@@ -62,17 +63,18 @@ export default function CheckoutForm({
         address: shipping.address,
         city: shipping.city,
         postalCode: shipping.postalCode,
+        paymentMethod: method,
       });
 
       if (!result.ok) {
         setError(result.message);
-        setSubmitting(false);
         return;
       }
 
       onSuccess?.(result.orderId, result.total, method);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Checkout failed.");
+    } finally {
       setSubmitting(false);
     }
   }
@@ -84,7 +86,7 @@ export default function CheckoutForm({
       </h2>
       <div className="space-y-4">
         {error && (
-          <div className="p-4 border border-error/30 bg-error/10 text-error font-label-bold text-sm">
+          <div role="alert" className="p-4 border border-error/30 bg-error/10 text-red-600 font-label-bold text-sm">
             {error}
           </div>
         )}
@@ -94,7 +96,7 @@ export default function CheckoutForm({
             type="button"
             onClick={() => processOrder("cod")}
             disabled={submitting}
-            className="w-full h-14 bg-primary-fixed text-on-primary-fixed font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-white transition-all active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-14 bg-primary-fixed text-on-primary-fixed font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-black transition-all active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? "Processing..." : "Cash on Delivery Checkout"}
           </button>
@@ -102,7 +104,7 @@ export default function CheckoutForm({
             type="button"
             onClick={() => processOrder("whatsapp")}
             disabled={submitting}
-            className="w-full h-14 border border-white text-white font-label-bold text-lg tracking-widest uppercase hover:bg-white hover:text-black transition-all active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-14 border border-black text-black font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white transition-all active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Pay via Online & Continue on WhatsApp
           </button>

@@ -84,10 +84,10 @@ export default function PrivacyPage() {
               correct, delete, or port your personal data. To exercise any of
               these rights, contact us at
               <a
-                href="mailto:contact@wearveyro.com"
+                href="mailto:wearwithveyro@gmail.com"
                 className="text-primary-fixed hover:underline ml-1"
               >
-                contact@wearveyro.com
+                wearwithveyro@gmail.com
               </a>.
             </p>
           </section>
@@ -101,10 +101,10 @@ export default function PrivacyPage() {
               [Business Address]<br />
               [City, Country]<br />
               <a
-                href="mailto:contact@wearveyro.com"
+                href="mailto:wearwithveyro@gmail.com"
                 className="text-primary-fixed hover:underline"
               >
-                contact@wearveyro.com
+                wearwithveyro@gmail.com
               </a>
             </p>
           </section>

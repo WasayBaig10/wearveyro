@@ -80,7 +80,7 @@ export default function ProductCarousel() {
 
   return (
     <div
-      className="relative h-[300px] md:h-[600px] overflow-hidden border border-white/15 bg-surface-container-lowest select-none"
+      className="relative h-[300px] md:h-[600px] overflow-hidden border border-black/15 bg-surface-container-lowest select-none"
       onMouseEnter={stop}
       onMouseLeave={start}
       onTouchStart={stop}
@@ -118,7 +118,7 @@ export default function ProductCarousel() {
         type="button"
         aria-label="Previous slide"
         onClick={() => goTo(active - 1)}
-        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full border border-white/25 bg-black/40 backdrop-blur-md text-primary hover:bg-primary-fixed hover:text-on-primary-fixed hover:border-primary-fixed transition-colors cursor-pointer"
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full border border-black/25 bg-black/40 backdrop-blur-md text-primary hover:bg-primary-fixed hover:text-on-primary-fixed hover:border-primary-fixed transition-colors cursor-pointer"
       >
         <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
       </button>
@@ -127,12 +127,12 @@ export default function ProductCarousel() {
         type="button"
         aria-label="Next slide"
         onClick={() => goTo(active + 1)}
-        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full border border-white/25 bg-black/40 backdrop-blur-md text-primary hover:bg-primary-fixed hover:text-on-primary-fixed hover:border-primary-fixed transition-colors cursor-pointer"
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full border border-black/25 bg-black/40 backdrop-blur-md text-primary hover:bg-primary-fixed hover:text-on-primary-fixed hover:border-primary-fixed transition-colors cursor-pointer"
       >
         <ChevronRight className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
       </button>
 
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-3 border border-white/15 bg-black/50 backdrop-blur-md px-4 py-2 select-none">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-3 border border-black/15 bg-black/50 backdrop-blur-md px-4 py-2 select-none">
         <span className="font-label-bold text-primary-fixed text-[12px] tracking-wider whitespace-nowrap">
           {String(active + 1).padStart(2, "0")} /{" "}
           {String(SLIDES.length).padStart(2, "0")}
@@ -147,7 +147,7 @@ export default function ProductCarousel() {
               className={`h-1 transition-all cursor-pointer ${
                 i === active
                   ? "w-6 bg-primary-fixed"
-                  : "w-3 bg-white/25 hover:bg-white/50"
+                  : "w-3 bg-black/25 hover:bg-black/50"
               }`}
             />
           ))}

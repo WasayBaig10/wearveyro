@@ -66,7 +66,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
       <ProductRelated currentSlug={id} />
 
-      <footer className="bg-surface border-t border-white/15">
+      <footer className="bg-surface border-t border-black/15">
         <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center px-container-margin py-8 gap-6">
           <div className="text-center md:text-left">
             <span className="font-headline-lg text-headline-lg text-primary tracking-tighter">
@@ -94,7 +94,7 @@ export default async function ProductDetailPage({ params }: Props) {
             {["instagram", "twitter"].map((social) => (
               <a
                 key={social}
-                className="p-2 border border-white/15 hover:border-primary-fixed transition-colors"
+                className="p-2 border border-black/15 hover:border-primary-fixed transition-colors"
                 href="#"
                 aria-label={social}
               >

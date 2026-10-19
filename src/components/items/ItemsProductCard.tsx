@@ -1,7 +1,9 @@
 "use client";
 
-import { useQuery } from "convex/react";
+import { useMemo, useState } from "react";
+import { useQueries, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { buildStorageUrlQueries } from "@/lib/storageQueries";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,6 +21,12 @@ interface ItemsProductCardProps {
     status: string;
     badge?: string;
     inventoryPercent?: number;
+    colorVariants?: {
+      name: string;
+      hex?: string;
+      imageId?: string;
+      imageSecondaryId?: string;
+    }[];
   };
 }
 
@@ -27,15 +35,50 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
 
   const mainUrl = useQuery(
     api.storage.getUrl,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     imageId ? { storageId: imageId as any } : "skip"
   );
   const secondaryUrl = useQuery(
     api.storage.getUrl,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     imageSecondaryId ? { storageId: imageSecondaryId as any } : "skip"
   );
 
-  const imagePrimary = mainUrl ?? "";
-  const imageSecondary = secondaryUrl ?? undefined;
+  const variants = product.colorVariants ?? [];
+  const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
+
+  // Memoized so the `useQueries` object identity is stable across renders —
+  // Convex's useSubscription render-phase-setStates on identity change.
+  const variantPrimaryQueries = useMemo(
+    () =>
+      buildStorageUrlQueries(
+        (product.colorVariants ?? []).map((v) => v.imageId),
+        "p"
+      ),
+    [product.colorVariants]
+  );
+  const variantSecondaryQueries = useMemo(
+    () =>
+      buildStorageUrlQueries(
+        (product.colorVariants ?? []).map((v) => v.imageSecondaryId),
+        "s"
+      ),
+    [product.colorVariants]
+  );
+
+  const variantPrimaryResults = useQueries(variantPrimaryQueries);
+  const variantSecondaryResults = useQueries(variantSecondaryQueries);
+
+  const activeVariant = variants[selectedVariantIdx];
+  const variantPrimary = variantPrimaryResults[`p${selectedVariantIdx}`];
+  const variantSecondary = variantSecondaryResults[`s${selectedVariantIdx}`];
+  const imagePrimary =
+    typeof variantPrimary === "string" ? variantPrimary : mainUrl ?? "";
+  const imageSecondary = activeVariant
+    ? typeof variantSecondary === "string"
+      ? variantSecondary
+      : undefined
+    : secondaryUrl ?? undefined;
 
   const isSoldOut = status === "soldout" || stock === 0;
   const stockStatus = isSoldOut
@@ -44,7 +87,7 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
       ? "low"
       : "normal";
 
-  const cardClassName = `border-r border-b border-white/15 flex flex-col group relative cursor-pointer ${
+  const cardClassName = `border-r border-b border-black/15 flex flex-col group relative cursor-pointer ${
     isSoldOut ? "opacity-70 cursor-not-allowed pointer-events-none select-none" : ""
   }`;
 
@@ -56,8 +99,8 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
             src={imagePrimary}
             alt={name}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-            className={`absolute inset-0 w-full h-full object-cover grayscale brightness-75 transition-opacity duration-500 group-hover:opacity-0 ${isSoldOut ? "brightness-50" : ""}`}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 20vw"
+            className={`absolute inset-0 w-full h-full object-cover grayscale brightness-75 transition-opacity duration-500 ${imageSecondary && !isSoldOut ? "group-hover:opacity-0" : ""} ${isSoldOut ? "brightness-50" : ""}`}
           />
         ) : (
           <div className="w-full h-full bg-surface-container animate-pulse" />
@@ -68,23 +111,23 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
             src={imageSecondary}
             alt={`${name} detail`}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 20vw"
             className="absolute inset-0 w-full h-full object-cover grayscale brightness-90 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           />
         )}
 
         {isSoldOut && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-headline-md text-headline-md -rotate-12 border-2 border-white/40 px-4 py-1 uppercase opacity-40 select-none">
+            <span className="font-headline-md text-headline-md -rotate-12 border-2 border-black/40 px-4 py-1 uppercase opacity-40 select-none">
               Sold Out
             </span>
           </div>
         )}
 
         {badge && !isSoldOut && (
-          <div className="absolute top-3 left-3 z-10 select-none">
+          <div className="absolute top-2 md:top-3 left-2 md:left-3 z-10 select-none">
             <span
-              className={`text-[10px] font-bold px-2 py-1 tracking-widest uppercase ${
+              className={`text-[8px] md:text-[10px] font-bold px-1.5 md:px-2 py-0.5 md:py-1 tracking-widest uppercase ${
                 badge === "hot"
                   ? "bg-primary text-background"
                   : "bg-primary-fixed text-on-primary-fixed"
@@ -96,13 +139,13 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
         )}
 
         {!isSoldOut && (
-          <div className="absolute inset-x-0 bottom-0 p-4 bg-black/60 backdrop-blur-sm border-t border-primary-fixed translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-            <p className="font-label-bold text-[10px] text-primary-fixed mb-2 tracking-wider">QUICK ADD SIZE</p>
-            <div className="flex justify-between gap-1">
+          <div className="absolute inset-x-0 bottom-0 p-3 md:p-4 bg-black/60 backdrop-blur-sm border-t border-primary-fixed translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+            <p className="font-label-bold text-[9px] md:text-[10px] text-primary-fixed mb-1.5 md:mb-2 tracking-wider">SIZES</p>
+            <div className="flex justify-between gap-0.5 md:gap-1">
               {sizes.map((size) => (
                 <button
                   key={size}
-                  className="flex-1 py-1.5 text-[10px] font-label-bold border border-white/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer tracking-wider"
+                  className="flex-1 py-1 md:py-1.5 text-[9px] md:text-[10px] font-label-bold border border-black/30 hover:border-primary-fixed hover:text-primary-fixed transition-colors cursor-pointer tracking-wider"
                 >
                   {size}
                 </button>
@@ -112,18 +155,47 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
         )}
       </div>
 
-      <div className="p-4 md:p-6 flex flex-col flex-grow bg-surface-container-lowest">
-        <div className="flex justify-between items-start mb-2 gap-4">
-          <h3 className={`font-label-bold text-sm uppercase tracking-tight ${isSoldOut ? "line-through decoration-primary-fixed" : "text-primary"}`}>
+      <div className="p-3 md:p-6 flex flex-col flex-grow bg-surface-container-lowest">
+        <div className="flex justify-between items-start mb-1.5 md:mb-2 gap-2">
+          <h3 className={`font-label-bold text-[11px] md:text-sm uppercase tracking-tight ${isSoldOut ? "line-through decoration-primary-fixed" : "text-primary"}`}>
             {name}
           </h3>
-          <span className={`font-label-bold text-sm shrink-0 ${isSoldOut ? "text-secondary" : "text-primary-fixed"}`}>
+          <span className={`font-label-bold text-[11px] md:text-sm shrink-0 ${isSoldOut ? "text-secondary" : "text-primary-fixed"}`}>
             {price}
           </span>
         </div>
-        <p className="text-secondary font-label-sm text-[11px] uppercase mb-4 opacity-60 tracking-wider">
+        <p className="text-secondary font-label-sm text-[9px] md:text-[11px] uppercase mb-3 md:mb-4 opacity-60 tracking-wider">
           ARCHIVE / {category}
         </p>
+        {variants.length > 0 && (
+          <div className="flex items-center gap-2 mb-3">
+            {variants.slice(0, 6).map((variant, i) => (
+              <button
+                key={i}
+                type="button"
+                title={variant.name}
+                aria-label={`Select ${variant.name}`}
+                aria-pressed={i === selectedVariantIdx}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setSelectedVariantIdx(i);
+                }}
+                className={`w-3 h-3 rounded-full border border-black/20 transition-all hover:scale-110 cursor-pointer ${
+                  i === selectedVariantIdx
+                    ? "ring-2 ring-black ring-offset-2"
+                    : ""
+                }`}
+                style={{ backgroundColor: variant.hex || "#000" }}
+              />
+            ))}
+            {variants.length > 6 && (
+              <span className="w-3 h-3 rounded-full border border-black/20 flex items-center justify-center text-[8px] font-label-bold text-secondary">
+                +{variants.length - 6}
+              </span>
+            )}
+          </div>
+        )}
 
         {stockStatus === "low" && !isSoldOut && (
           <div className="mt-auto">
@@ -136,7 +208,7 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
 
         {stockStatus === "normal" && typeof inventoryPercent === "number" && !isSoldOut && (
           <div className="mt-auto">
-            <div className="w-full h-[2px] bg-white/10 mb-2">
+            <div className="w-full h-[2px] bg-black/10 mb-2">
               <div className="h-full bg-primary-fixed transition-all" style={{ width: `${inventoryPercent}%` }} />
             </div>
             <div className="flex justify-between text-[9px] font-label-bold uppercase tracking-wider">
@@ -148,7 +220,7 @@ export default function ItemsProductCard({ product }: ItemsProductCardProps) {
 
         {stockStatus === "normal" && !inventoryPercent && !isSoldOut && (
           <div className="mt-auto">
-            <span className="block w-full py-2 border border-white/15 font-label-bold text-[10px] uppercase tracking-wider hover:bg-primary-fixed hover:text-on-primary-fixed transition-all duration-300 text-center cursor-pointer">
+            <span className="block w-full py-2 border border-black/15 font-label-bold text-[10px] uppercase tracking-wider hover:bg-primary-fixed hover:text-on-primary-fixed transition-all duration-300 text-center cursor-pointer">
               View Details
             </span>
           </div>

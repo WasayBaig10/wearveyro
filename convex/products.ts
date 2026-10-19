@@ -9,6 +9,18 @@ function toSlug(name: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
+const sizeChartRow = v.object({
+  size: v.string(),
+  measurements: v.record(v.string(), v.string()),
+});
+
+const colorVariant = v.object({
+  name: v.string(),
+  hex: v.optional(v.string()),
+  imageId: v.id("_storage"),
+  imageSecondaryId: v.optional(v.id("_storage")),
+});
+
 export const createProduct = mutation({
   args: {
     name: v.string(),
@@ -25,6 +37,13 @@ export const createProduct = mutation({
     sizes: v.array(v.string()),
     status: v.union(v.literal("active"), v.literal("draft"), v.literal("soldout")),
     inventoryPercent: v.optional(v.number()),
+    sizeChart: v.optional(
+      v.object({
+        headers: v.array(v.string()),
+        rows: v.array(sizeChartRow),
+      })
+    ),
+    colorVariants: v.optional(v.array(colorVariant)),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("products", args);
@@ -128,6 +147,13 @@ export const updateProduct = mutation({
       sizes: v.optional(v.array(v.string())),
       status: v.optional(v.union(v.literal("active"), v.literal("draft"), v.literal("soldout"))),
       inventoryPercent: v.optional(v.number()),
+      sizeChart: v.optional(
+        v.object({
+          headers: v.array(v.string()),
+          rows: v.array(sizeChartRow),
+        })
+      ),
+      colorVariants: v.optional(v.array(colorVariant)),
     }),
   },
   handler: async (ctx, args) => {

@@ -3,11 +3,14 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import type { Id } from "../../../convex/_generated/dataModel";
 import { useCartStore } from "../../store/useCartStore";
 
 import ProductImageGallery from "./ProductImageGallery";
 import ProductInfo from "./ProductInfo";
 import ExpressCheckoutModal from "./ExpressCheckoutModal";
+import ProductReviewList from "./ProductReviewList";
+import ProductReviewForm from "./ProductReviewForm";
 
 interface ProductDetailContentProps {
   productId: string;
@@ -35,6 +38,39 @@ function NotFoundState() {
   );
 }
 
+function VariantImages({
+  variants,
+  selectedIdx,
+  fallbackMainUrl,
+  fallbackSecondaryUrl,
+  onReady,
+}: {
+  variants: { imageId: Id<"_storage">; imageSecondaryId?: Id<"_storage"> }[];
+  selectedIdx: number;
+  fallbackMainUrl?: string;
+  fallbackSecondaryUrl?: string;
+  onReady: (main: string | null, secondary: string | null) => void;
+}) {
+  const v = variants[selectedIdx];
+  const mainUrl = useQuery(
+    api.storage.getUrl,
+    v ? { storageId: v.imageId } : "skip"
+  );
+  const secondaryUrl = useQuery(
+    api.storage.getUrl,
+    v?.imageSecondaryId ? { storageId: v.imageSecondaryId } : "skip"
+  );
+
+  useEffect(() => {
+    onReady(
+      mainUrl ?? fallbackMainUrl ?? null,
+      secondaryUrl ?? fallbackSecondaryUrl ?? null
+    );
+  }, [mainUrl, secondaryUrl, fallbackMainUrl, fallbackSecondaryUrl, onReady]);
+
+  return null;
+}
+
 export default function ProductDetailContent({ productId }: ProductDetailContentProps) {
   const product = useQuery(api.products.getProductBySlug, {
     slug: productId,
@@ -43,6 +79,7 @@ export default function ProductDetailContent({ productId }: ProductDetailContent
   const addItem = useCartStore((s) => s.addItem);
   const [added, setAdded] = useState(false);
   const [expressSize, setExpressSize] = useState<string | null>(null);
+  const [selectedColorIdx, setSelectedColorIdx] = useState(0);
 
   const mainImageUrl = useQuery(
     api.storage.getUrl,
@@ -64,6 +101,14 @@ export default function ProductDetailContent({ productId }: ProductDetailContent
     product?.galleryImageIds?.[1] ? { storageId: product.galleryImageIds[1] } : "skip"
   );
 
+  const colorVariants = product?.colorVariants ?? [];
+  const hasColorVariants = colorVariants.length > 0;
+
+  const [variantDisplay, setVariantDisplay] = useState<{
+    main: string | null;
+    secondary: string | null;
+  }>({ main: null, secondary: null });
+
   useEffect(() => {
     if (product !== undefined) {
       console.log("[ProductDetailContent] slug searched:", productId);
@@ -82,49 +127,79 @@ export default function ProductDetailContent({ productId }: ProductDetailContent
 
   const isSoldOut = product.status === "soldout" || product.stock <= 0;
 
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 overflow-hidden">
-      <ProductImageGallery
-        imageUrl={mainImageUrl ?? product.imageUrl ?? undefined}
-        imageSecondaryUrl={secondaryImageUrl ?? product.imageSecondaryUrl ?? undefined}
-        galleryUrls={[galleryUrl1, galleryUrl2].filter((u): u is string => !!u)}
-      />
-      <ProductInfo
-        name={product.name}
-        price={product.price}
-        description={product.description}
-        sizes={product.sizes}
-        stock={product.stock}
-        isSoldOut={isSoldOut}
-        isAdded={added}
-        onAddToCart={(size) => {
-          if (isSoldOut) return;
-          addItem({
-            productId: product._id,
-            name: product.name,
-            price: product.price,
-            priceValue: product.priceValue,
-            imageUrl: mainImageUrl ?? product.imageUrl ?? "",
-            size,
-          });
-          setAdded(true);
-          setTimeout(() => setAdded(false), 2000);
-        }}
-        onCheckout={(size) => {
-          if (isSoldOut) return;
-          setExpressSize(size);
-        }}
-      />
+  const displayMainUrl = variantDisplay.main ?? mainImageUrl ?? undefined;
+  const displaySecondaryUrl = variantDisplay.secondary ?? secondaryImageUrl ?? undefined;
 
-      {expressSize && (
-        <ExpressCheckoutModal
-          productId={product._id}
+  return (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 overflow-hidden">
+        <div className="flex flex-col gap-4">
+          {hasColorVariants && (
+            <VariantImages
+              variants={colorVariants}
+              selectedIdx={selectedColorIdx}
+              fallbackMainUrl={mainImageUrl ?? undefined}
+              fallbackSecondaryUrl={secondaryImageUrl ?? undefined}
+              onReady={(main, secondary) => {
+                setVariantDisplay((prev) =>
+                  prev.main === main && prev.secondary === secondary ? prev : { main, secondary }
+                );
+              }}
+            />
+          )}
+          <ProductImageGallery
+            imageUrl={displayMainUrl}
+            imageSecondaryUrl={displaySecondaryUrl}
+            galleryUrls={[galleryUrl1, galleryUrl2].filter((u): u is string => !!u)}
+          />
+        </div>
+        <ProductInfo
           name={product.name}
           price={product.price}
-          size={expressSize}
-          onClose={() => setExpressSize(null)}
+          description={product.description}
+          sizes={product.sizes}
+          stock={product.stock}
+          isSoldOut={isSoldOut}
+          isAdded={added}
+          sizeChart={product.sizeChart ?? undefined}
+          colorVariants={colorVariants.map((v, i) => ({
+            name: v.name,
+            hex: v.hex,
+            isSelected: i === selectedColorIdx,
+            onClick: () => setSelectedColorIdx(i),
+          }))}
+          onAddToCart={(size) => {
+            if (isSoldOut) return;
+            addItem({
+              productId: product._id,
+              name: product.name,
+              price: product.price,
+              priceValue: product.priceValue,
+              imageUrl: displayMainUrl ?? "",
+              size,
+            });
+            setAdded(true);
+            setTimeout(() => setAdded(false), 2000);
+          }}
+          onCheckout={(size) => {
+            if (isSoldOut) return;
+            setExpressSize(size);
+          }}
         />
-      )}
-    </div>
+
+        {expressSize && (
+          <ExpressCheckoutModal
+            productId={product._id}
+            name={product.name}
+            price={product.price}
+            size={expressSize}
+            onClose={() => setExpressSize(null)}
+          />
+        )}
+      </div>
+
+      <ProductReviewList productId={product._id} />
+      <ProductReviewForm productId={product._id} />
+    </>
   );
 }

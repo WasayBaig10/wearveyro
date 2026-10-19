@@ -9,6 +9,9 @@ import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import OrderDetailsModal from "@/components/orders/OrderDetailsModal";
+import ShipmentTrackingModal, {
+  courierBadgeClass,
+} from "@/components/orders/ShipmentTrackingModal";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function formatDate(ts: number): string {
@@ -36,6 +39,12 @@ export default function ProfileOrdersPage() {
     id: Id<"orders">;
     displayId: string;
   } | null>(null);
+  const [trackingOrder, setTrackingOrder] = useState<{
+    displayId: string;
+    consignmentId?: string;
+    slipUrl?: string;
+    storedStatus?: string;
+  } | null>(null);
 
   return (
     <>
@@ -58,10 +67,10 @@ export default function ProfileOrdersPage() {
             </Link>
           </div>
         ) : orders === undefined ? (
-          <div className="overflow-x-auto border border-white/15">
+          <div className="overflow-x-auto border border-black/15">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b border-white/15 text-left">
+                <tr className="border-b border-black/15 text-left">
                   <th className="pb-4 pr-6 pt-4 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
                     Order ID
                   </th>
@@ -78,7 +87,7 @@ export default function ProfileOrdersPage() {
               </thead>
               <tbody>
                 {Array.from({ length: 3 }).map((_, i) => (
-                  <tr key={i} className="border-b border-white/10">
+                  <tr key={i} className="border-b border-black/10">
                     <td className="py-5 pr-6">
                       <Skeleton className="h-4 w-24 rounded-none bg-surface-container" />
                     </td>
@@ -97,7 +106,7 @@ export default function ProfileOrdersPage() {
             </table>
           </div>
         ) : orders.length === 0 ? (
-          <div className="text-center py-24 space-y-6 border border-white/15 bg-surface-container-lowest">
+          <div className="text-center py-24 space-y-6 border border-black/15 bg-surface-container-lowest">
             <p className="font-headline-md text-secondary uppercase tracking-wider">
               No orders yet.
             </p>
@@ -112,7 +121,7 @@ export default function ProfileOrdersPage() {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b border-white/15 text-left">
+                <tr className="border-b border-black/15 text-left">
                   <th className="pb-4 pr-6 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">
                     Order ID
                   </th>
@@ -131,7 +140,7 @@ export default function ProfileOrdersPage() {
                 {orders.map((order) => (
                   <tr
                     key={order._id}
-                    className="border-b border-white/10 hover:bg-white/[0.02] transition-colors"
+                    className="border-b border-black/10 hover:bg-black/[0.02] transition-colors"
                   >
                     <td className="py-5 pr-6">
                       <button
@@ -146,6 +155,31 @@ export default function ProfileOrdersPage() {
                       >
                         {order.orderId}
                       </button>
+                      {order.courierConsignmentId ? (
+                        <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                          <span
+                            className={`inline-block px-2 py-0.5 text-[9px] font-label-bold uppercase tracking-widest border ${courierBadgeClass(
+                              order.courierStatus
+                            )}`}
+                          >
+                            {order.courierStatus || "Booked"}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setTrackingOrder({
+                                displayId: order.orderId,
+                                consignmentId: order.courierConsignmentId,
+                                slipUrl: order.courierSlipUrl,
+                                storedStatus: order.courierStatus,
+                              })
+                            }
+                            className="font-label-bold text-[10px] uppercase tracking-widest text-secondary hover:text-primary-fixed underline underline-offset-2 decoration-secondary/30 hover:decoration-primary-fixed transition-colors cursor-pointer"
+                          >
+                            Track Shipment
+                          </button>
+                        </div>
+                      ) : null}
                     </td>
                     <td className="py-5 pr-6">
                       <span className="font-label-sm text-sm text-secondary">
@@ -155,7 +189,7 @@ export default function ProfileOrdersPage() {
                     <td className="py-5 pr-6">
                       <span
                         className={`inline-block px-3 py-1 text-[10px] font-label-bold uppercase tracking-wider border ${
-                          statusColors[order.status] ?? "text-secondary border-white/15 bg-white/5"
+                          statusColors[order.status] ?? "text-secondary border-black/15 bg-black/5"
                         }`}
                       >
                         {order.status}
@@ -179,6 +213,16 @@ export default function ProfileOrdersPage() {
           orderId={selectedOrder.id}
           displayId={selectedOrder.displayId}
           onClose={() => setSelectedOrder(null)}
+        />
+      )}
+
+      {trackingOrder && (
+        <ShipmentTrackingModal
+          displayId={trackingOrder.displayId}
+          consignmentId={trackingOrder.consignmentId}
+          slipUrl={trackingOrder.slipUrl}
+          storedStatus={trackingOrder.storedStatus}
+          onClose={() => setTrackingOrder(null)}
         />
       )}
 

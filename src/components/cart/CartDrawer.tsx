@@ -76,10 +76,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 h-full w-full max-w-md z-[201] bg-background border-l border-white/15 flex flex-col"
+            className="fixed right-0 top-0 h-full w-full max-w-md z-[201] bg-background border-l border-black/15 flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-white/15">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-black/15">
               <div className="flex items-center gap-3">
                 <h2 className="font-headline-md text-headline-md text-primary tracking-tight">
                   YOUR ARCHIVE
@@ -126,7 +126,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     return (
                       <div
                         key={`${item.productId}-${item.size}`}
-                        className="flex gap-4 border border-white/15 p-4 bg-surface-container-lowest"
+                        className="flex gap-4 border border-black/15 p-4 bg-surface-container-lowest"
                       >
                         <div className="relative w-20 h-24 bg-surface-container shrink-0 overflow-hidden">
                           {item.imageUrl ? (
@@ -185,7 +185,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                           )}
                           <div className="mt-auto flex items-center justify-between">
                             <div
-                              className={`flex items-center border border-white/15 ${
+                              className={`flex items-center border border-black/15 ${
                                 stockStatus.soldOut ? "opacity-40 pointer-events-none" : ""
                               }`}
                             >
@@ -198,7 +198,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                               >
                                 <Minus size={14} />
                               </button>
-                              <span className="px-3 py-1 font-label-bold text-label-bold text-primary text-sm border-x border-white/15 min-w-[32px] text-center">
+                              <span className="px-3 py-1 font-label-bold text-label-bold text-primary text-sm border-x border-black/15 min-w-[32px] text-center">
                                 {item.quantity}
                               </span>
                               <button
@@ -223,7 +223,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
             {/* Footer */}
             {items.length > 0 && (
-              <div className="border-t border-white/15 px-6 py-6 space-y-4 bg-surface-container-lowest">
+              <div className="border-t border-black/15 px-6 py-6 space-y-4 bg-surface-container-lowest">
                 <div className="flex justify-between items-center">
                   <span className="font-label-bold text-label-bold text-secondary uppercase tracking-wider">
                     Subtotal
@@ -240,7 +240,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     <p className="p-3 border border-error/30 bg-error/10 text-error font-label-bold text-[11px] uppercase tracking-wider">
                       Some items are out of stock. Remove them to continue.
                     </p>
-                    <div className="block w-full h-14 leading-[3.5rem] bg-white/10 text-secondary font-label-bold text-lg tracking-widest uppercase text-center select-none">
+                    <div className="block w-full h-14 leading-[3.5rem] bg-black/10 text-secondary font-label-bold text-lg tracking-widest uppercase text-center select-none">
                       PROCEED TO CHECKOUT
                     </div>
                   </>
@@ -248,7 +248,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <Link
                     href="/checkout"
                     onClick={onClose}
-                    className="block w-full h-14 leading-[3.5rem] bg-primary-fixed text-on-primary-fixed font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-white transition-all active:scale-[0.98] text-center neon-glow"
+                    className="block w-full h-14 leading-[3.5rem] bg-primary-fixed text-on-primary-fixed font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-black transition-all active:scale-[0.98] text-center neon-glow"
                   >
                     PROCEED TO CHECKOUT
                   </Link>

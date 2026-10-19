@@ -37,7 +37,7 @@ export default function ProductImageGallery({
       </div>
       {displayImages.length > 1 && (
         <div
-          className="grid border-t border-white/15"
+          className="grid border-t border-black/15"
           style={{ gridTemplateColumns: `repeat(${Math.min(displayImages.length, 4)}, 1fr)` }}
         >
           {displayImages.map((src, i) => (
@@ -45,7 +45,7 @@ export default function ProductImageGallery({
               key={i}
               type="button"
               onClick={() => setActiveIdx(i)}
-              className={`aspect-square overflow-hidden cursor-pointer border-r border-white/15 last:border-r-0 transition-all ${
+              className={`aspect-square overflow-hidden cursor-pointer border-r border-black/15 last:border-r-0 transition-all ${
                 i === activeIdx ? "ring-2 ring-primary-fixed" : "opacity-60 hover:opacity-100"
               }`}
             >

@@ -5,8 +5,8 @@ const FROM_EMAIL = "noreply@wearwithveyro.com";
 const ADMIN_EMAIL = "wearwithveyro@gmail.com";
 
 function labelLine(label: string, value: string | undefined): string {
-  return `<tr><td style="padding: 6px 0; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0;">${label}</td></tr>
-  <tr><td style="padding: 0 0 10px; font-size: 14px; color: #ffffff;">${value ?? "—"}</td></tr>`;
+  return `<tr><td style="padding: 6px 0; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280;">${label}</td></tr>
+  <tr><td style="padding: 0 0 10px; font-size: 14px; color: #111827;">${value ?? "—"}</td></tr>`;
 }
 
 function buildOrderEmailHtml(params: {
@@ -20,10 +20,10 @@ function buildOrderEmailHtml(params: {
     .map(
       (item) => `
       <tr>
-        <td style="padding: 12px 0; border-bottom: 1px solid #eee; font-size: 14px;">${item.name}</td>
-        <td style="padding: 12px 0; border-bottom: 1px solid #eee; font-size: 14px; text-align: center;">${item.size}</td>
-        <td style="padding: 12px 0; border-bottom: 1px solid #eee; font-size: 14px; text-align: center;">${item.quantity}</td>
-        <td style="padding: 12px 0; border-bottom: 1px solid #eee; font-size: 14px; text-align: right;">${item.price}</td>
+        <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb; font-size: 14px; color: #111827;">${item.name}</td>
+        <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb; font-size: 14px; color: #374151; text-align: center;">${item.size}</td>
+        <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb; font-size: 14px; color: #374151; text-align: center;">${item.quantity}</td>
+        <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb; font-size: 14px; color: #374151; text-align: right;">${item.price}</td>
       </tr>`
     )
     .join("");
@@ -36,19 +36,19 @@ function buildOrderEmailHtml(params: {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order Confirmation</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #0a0a0a;">
+<body style="margin: 0; padding: 0; background-color: #f9fafb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9fafb;">
     <tr>
       <td align="center" style="padding: 40px 20px;">
-        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background-color: #131313; border: 1px solid rgba(255,255,255,0.15);">
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px;">
           <!-- Header -->
           <tr>
             <td style="padding: 40px 40px 0; text-align: center;">
-              <h1 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #c3f400;">
+              <h1 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #111827;">
                 Thank You
               </h1>
-              <p style="margin: 12px 0 0; font-size: 15px; color: #a0a0a0; line-height: 1.6;">
-                Your order has been placed and is being processed.
+              <p style="margin: 12px 0 0; font-size: 15px; color: #6b7280; line-height: 1.6;">
+                Your order has been placed and is being processed.You will shortly Receive an email and whatsapp message from our team.
               </p>
             </td>
           </tr>
@@ -56,11 +56,11 @@ function buildOrderEmailHtml(params: {
           <!-- Order ID -->
           <tr>
             <td style="padding: 32px 40px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #1e1e1e; border: 1px solid rgba(255,255,255,0.1);">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px;">
                 <tr>
                   <td style="padding: 20px; text-align: center;">
-                    <p style="margin: 0; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #a0a0a0;">Order ID</p>
-                    <p style="margin: 8px 0 0; font-size: 14px; font-weight: 700; color: #ffffff; letter-spacing: 1px;">${params.orderId}</p>
+                    <p style="margin: 0; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #6b7280;">Order ID</p>
+                    <p style="margin: 8px 0 0; font-size: 14px; font-weight: 700; color: #111827; letter-spacing: 1px;">${params.orderId}</p>
                   </td>
                 </tr>
               </table>
@@ -70,14 +70,14 @@ function buildOrderEmailHtml(params: {
           <!-- Items -->
           <tr>
             <td style="padding: 32px 40px 0;">
-              <h2 style="margin: 0; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #a0a0a0;">Items Ordered</h2>
+              <h2 style="margin: 0; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #6b7280;">Items Ordered</h2>
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 16px;">
                 <thead>
                   <tr>
-                    <th style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.15); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: left;">Item</th>
-                    <th style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.15); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: center;">Size</th>
-                    <th style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.15); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: center;">Qty</th>
-                    <th style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.15); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: right;">Price</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; text-align: left;">Item</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; text-align: center;">Size</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; text-align: center;">Qty</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; text-align: right;">Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -92,11 +92,11 @@ function buildOrderEmailHtml(params: {
             <td style="padding: 24px 40px 0;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.15);">
+                  <td style="padding: 16px 0; border-top: 1px solid #e5e7eb;">
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td style="font-size: 14px; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase;">Total</td>
-                        <td style="font-size: 18px; font-weight: 800; color: #c3f400; text-align: right;">Rs. ${params.total.toLocaleString("en-PK")}</td>
+                        <td style="font-size: 14px; font-weight: 700; color: #111827; letter-spacing: 1px; text-transform: uppercase;">Total</td>
+                        <td style="font-size: 18px; font-weight: 800; color: #111827; text-align: right;">Rs. ${params.total.toLocaleString("en-PK")}</td>
                       </tr>
                     </table>
                   </td>
@@ -108,7 +108,7 @@ function buildOrderEmailHtml(params: {
           <!-- CTA -->
           <tr>
             <td style="padding: 32px 40px 40px; text-align: center;">
-              <a href="${params.siteUrl}/profile/orders" style="display: inline-block; padding: 16px 40px; background-color: #c3f400; color: #0a0a0a; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none;">
+              <a href="${params.siteUrl}/profile/orders" style="display: inline-block; padding: 16px 40px; background-color: #111827; color: #ffffff; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; border-radius: 4px;">
                 View My Orders
               </a>
             </td>
@@ -117,7 +117,7 @@ function buildOrderEmailHtml(params: {
           <!-- Footer -->
           <tr>
             <td style="padding: 0 40px 32px; text-align: center;">
-              <p style="margin: 0; font-size: 11px; color: #666; line-height: 1.6;">
+              <p style="margin: 0; font-size: 11px; color: #9ca3af; line-height: 1.6;">
                 wearveyro<br>
                 Karachi, Pakistan
               </p>
@@ -217,10 +217,10 @@ export const sendOrderAdminNotification = action({
       .map(
         (item) =>
           `<tr>
-            <td style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 13px; color: #ffffff;">${item.name}</td>
-            <td style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 13px; color: #a0a0a0; text-align: center;">${item.size}</td>
-            <td style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 13px; color: #a0a0a0; text-align: center;">${item.quantity}</td>
-            <td style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 13px; color: #a0a0a0; text-align: right;">${item.price}</td>
+            <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 13px; color: #111827;">${item.name}</td>
+            <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 13px; color: #6b7280; text-align: center;">${item.size}</td>
+            <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 13px; color: #6b7280; text-align: center;">${item.quantity}</td>
+            <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 13px; color: #6b7280; text-align: right;">${item.price}</td>
           </tr>`
       )
       .join("");
@@ -232,22 +232,22 @@ export const sendOrderAdminNotification = action({
   <meta charset="utf-8">
   <title>New Order — ${args.orderId}</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #0a0a0a;">
+<body style="margin: 0; padding: 0; background-color: #f9fafb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9fafb;">
     <tr>
       <td align="center" style="padding: 40px 20px;">
-        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background-color: #131313; border: 1px solid rgba(255,255,255,0.15);">
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px;">
           <tr>
             <td style="padding: 40px 40px 0; text-align: center;">
-              <h1 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #c3f400;">New Order</h1>
-              <p style="margin: 12px 0 0; font-size: 15px; color: #a0a0a0;">${args.orderId}</p>
+              <h1 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #111827;">New Order</h1>
+              <p style="margin: 12px 0 0; font-size: 15px; color: #6b7280;">${args.orderId}</p>
             </td>
           </tr>
           <tr>
             <td style="padding: 32px 40px 0;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="padding: 12px; background-color: #1e1e1e; border: 1px solid rgba(255,255,255,0.1);">
+                  <td style="padding: 12px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px;">
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       ${labelLine("Customer", args.customerName)}
                       ${labelLine("Email", args.customerEmail)}
@@ -269,10 +269,10 @@ export const sendOrderAdminNotification = action({
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <thead>
                   <tr>
-                    <th style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: left;">Item</th>
-                    <th style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: center;">Size</th>
-                    <th style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: center;">Qty</th>
-                    <th style="padding: 8px 0; border-bottom: 1px solid #2a2a2a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a0a0a0; text-align: right;">Price</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; text-align: left;">Item</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; text-align: center;">Size</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; text-align: center;">Qty</th>
+                    <th style="padding: 8px 0; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; text-align: right;">Price</th>
                   </tr>
                 </thead>
                 <tbody>${itemsHtml}</tbody>
@@ -283,11 +283,11 @@ export const sendOrderAdminNotification = action({
             <td style="padding: 24px 40px 40px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="padding: 16px 0; border-top: 1px solid #2a2a2a;">
+                  <td style="padding: 16px 0; border-top: 1px solid #e5e7eb;">
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td style="font-size: 14px; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase;">Total</td>
-                        <td style="font-size: 18px; font-weight: 800; color: #c3f400; text-align: right;">Rs. ${args.total.toLocaleString("en-PK")}</td>
+                        <td style="font-size: 14px; font-weight: 700; color: #111827; letter-spacing: 1px; text-transform: uppercase;">Total</td>
+                        <td style="font-size: 18px; font-weight: 800; color: #111827; text-align: right;">Rs. ${args.total.toLocaleString("en-PK")}</td>
                       </tr>
                     </table>
                   </td>
@@ -299,8 +299,7 @@ export const sendOrderAdminNotification = action({
       </td>
     </tr>
   </table>
-</body>
-</html>`;
+</body></html>`;
 
     try {
       const res = await fetch("https://api.resend.com/emails", {

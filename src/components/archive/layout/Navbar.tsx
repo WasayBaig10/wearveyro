@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <>
       {/* ── Sticky header bar ─────────────────────────────────── */}
-      <header className="sticky top-0 w-full z-40 bg-surface/80 backdrop-blur-md border-b border-white/15 py-4">
+      <header className="sticky top-0 w-full z-40 bg-surface/80 backdrop-blur-md border-b border-black/15 py-4">
         <div className="w-full max-w-7xl mx-auto px-4 flex justify-between items-center">
 
           {/* Brand Logo */}
@@ -129,7 +129,7 @@ export default function Navbar() {
           {/* Close button — absolutely anchored to the overlay corner */}
           <button
             onClick={close}
-            className="absolute top-5 right-5 text-white hover:text-primary-fixed transition-colors cursor-pointer"
+            className="absolute top-5 right-5 text-black hover:text-primary-fixed transition-colors cursor-pointer"
             aria-label="Close menu"
           >
             <X size={28} />
@@ -145,21 +145,21 @@ export default function Navbar() {
               NEW DROPS
             </Link>
             <Link
-              className="font-label-bold text-2xl tracking-widest text-white hover:text-primary-fixed hover:line-through transition-all"
+              className="font-label-bold text-2xl tracking-widest text-black hover:text-primary-fixed hover:line-through transition-all"
               href="/shop"
               onClick={close}
             >
               TEES
             </Link>
             <Link
-              className="font-label-bold text-2xl tracking-widest text-white hover:text-primary-fixed hover:line-through transition-all"
+              className="font-label-bold text-2xl tracking-widest text-black hover:text-primary-fixed hover:line-through transition-all"
               href="/shop"
               onClick={close}
             >
               BOTTOMS
             </Link>
             <Link
-              className="font-label-bold text-2xl tracking-widest text-white hover:text-primary-fixed hover:line-through transition-all"
+              className="font-label-bold text-2xl tracking-widest text-black hover:text-primary-fixed hover:line-through transition-all"
               href="/shop"
               onClick={close}
             >

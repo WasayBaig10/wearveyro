@@ -1,6 +1,6 @@
 export default function ProductMarquee() {
   return (
-    <div className="bg-surface border-b border-white/15 py-2 overflow-hidden select-none">
+    <div className="bg-surface border-b border-black/15 py-2 overflow-hidden select-none">
       <div className="inline-flex whitespace-nowrap animate-marquee hover:[animation-play-state:paused] cursor-pointer">
         {Array.from({ length: 4 }).map((_, i) => (
           <span

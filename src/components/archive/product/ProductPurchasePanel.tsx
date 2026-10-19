@@ -85,7 +85,7 @@ export default function ProductPurchasePanel({
             </span>
           )}
           {material && (
-            <span className="px-2 py-1 border border-white/15 text-secondary font-label-bold text-[11px] tracking-widest uppercase">
+            <span className="px-2 py-1 border border-black/15 text-secondary font-label-bold text-[11px] tracking-widest uppercase">
               {material}
             </span>
           )}
@@ -99,7 +99,7 @@ export default function ProductPurchasePanel({
         </p>
 
         {/* 1px razor divider */}
-        <div className="w-full h-px bg-white/15" />
+        <div className="w-full h-px bg-black/15" />
 
         {/* Stock urgency indicator */}
         <div>
@@ -115,7 +115,7 @@ export default function ProductPurchasePanel({
             </span>
           </div>
           {/* Stock progress bar */}
-          <div className="w-full h-[3px] bg-white/5 overflow-hidden">
+          <div className="w-full h-[3px] bg-black/5 overflow-hidden">
             <div
               className="h-full bg-primary-fixed transition-all duration-1000 ease-out"
               style={{ width: `${stockPct}%` }}
@@ -145,7 +145,7 @@ export default function ProductPurchasePanel({
                 className={`h-14 flex items-center justify-center font-label-bold text-[13px] tracking-wider transition-all active:scale-95 cursor-pointer border ${
                   isActive
                     ? "bg-primary-fixed text-on-primary-fixed border-primary-fixed"
-                    : "border-white/15 text-secondary hover:border-primary hover:text-primary"
+                    : "border-black/15 text-secondary hover:border-primary hover:text-primary"
                 }`}
               >
                 {size}
@@ -166,10 +166,10 @@ export default function ProductPurchasePanel({
         <label className="font-label-bold tracking-widest uppercase text-[12px] text-primary">
           QUANTITY
         </label>
-        <div className="flex items-center border border-white/15 w-fit">
+        <div className="flex items-center border border-black/15 w-fit">
           <button
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-            className="w-12 h-12 flex items-center justify-center text-secondary hover:text-primary hover:bg-white/5 transition-all active:scale-90 cursor-pointer border-r border-white/15 text-xl"
+            className="w-12 h-12 flex items-center justify-center text-secondary hover:text-primary hover:bg-black/5 transition-all active:scale-90 cursor-pointer border-r border-black/15 text-xl"
           >
             −
           </button>
@@ -178,7 +178,7 @@ export default function ProductPurchasePanel({
           </span>
           <button
             onClick={() => setQuantity((q) => Math.min(stockRemaining, q + 1))}
-            className="w-12 h-12 flex items-center justify-center text-secondary hover:text-primary hover:bg-white/5 transition-all active:scale-90 cursor-pointer border-l border-white/15 text-xl"
+            className="w-12 h-12 flex items-center justify-center text-secondary hover:text-primary hover:bg-black/5 transition-all active:scale-90 cursor-pointer border-l border-black/15 text-xl"
           >
             +
           </button>
@@ -196,7 +196,7 @@ export default function ProductPurchasePanel({
               ? "bg-on-primary-fixed text-primary-fixed border-on-primary-fixed"
               : selectedSize
               ? "bg-primary-fixed text-on-primary-fixed border-primary-fixed hover:bg-black hover:text-primary hover:border-primary"
-              : "bg-white/5 text-secondary/30 border-white/10 cursor-not-allowed"
+              : "bg-black/5 text-secondary/30 border-black/10 cursor-not-allowed"
           }`}
         >
           {addedToCart ? "✓ ADDED TO ARCHIVE" : `ADD TO ARCHIVE — ${price}`}
@@ -206,8 +206,8 @@ export default function ProductPurchasePanel({
           disabled={!selectedSize}
           className={`w-full h-16 font-label-bold text-[13px] tracking-widest uppercase transition-all active:scale-[0.98] cursor-pointer border ${
             selectedSize
-              ? "border-white text-white hover:bg-white hover:text-black"
-              : "border-white/10 text-secondary/30 cursor-not-allowed"
+              ? "border-black text-black hover:bg-black hover:text-white"
+              : "border-black/10 text-secondary/30 cursor-not-allowed"
           }`}
         >
           EXPRESS CHECKOUT
@@ -215,10 +215,10 @@ export default function ProductPurchasePanel({
       </div>
 
       {/* ── Specifications Accordion ──────────────────── */}
-      <div className="border border-white/15">
+      <div className="border border-black/15">
         <button
           onClick={() => setSpecsOpen((o) => !o)}
-          className="w-full p-5 border-b border-white/15 flex justify-between items-center cursor-pointer hover:bg-white/5 transition-colors group"
+          className="w-full p-5 border-b border-black/15 flex justify-between items-center cursor-pointer hover:bg-black/5 transition-colors group"
         >
           <span className="font-label-bold tracking-widest uppercase text-[12px] text-primary">
             SPECIFICATIONS
@@ -259,7 +259,7 @@ export default function ProductPurchasePanel({
             </p>
           </div>
         </div>
-        <div className="p-4 bg-surface-container-low border-l-2 border-white/15 flex items-start gap-4">
+        <div className="p-4 bg-surface-container-low border-l-2 border-black/15 flex items-start gap-4">
           <span className="material-symbols-outlined text-secondary text-[22px] shrink-0">
             security
           </span>
@@ -272,7 +272,7 @@ export default function ProductPurchasePanel({
             </p>
           </div>
         </div>
-        <div className="p-4 bg-surface-container-low border-l-2 border-white/15 flex items-start gap-4">
+        <div className="p-4 bg-surface-container-low border-l-2 border-black/15 flex items-start gap-4">
           <span className="material-symbols-outlined text-secondary text-[22px] shrink-0">
             replay
           </span>

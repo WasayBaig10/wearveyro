@@ -1,5 +1,6 @@
 import { internalMutation, mutation, query } from "./_generated/server";
 import { api } from "./_generated/api";
+import type { Id } from "./_generated/dataModel";
 import { ConvexError, v } from "convex/values";
 
 export const listOrders = query({
@@ -58,10 +59,32 @@ export const updateOrderStatus = mutation({
 export const getOrderByDisplayId = query({
   args: { orderId: v.string() },
   handler: async (ctx, args) => {
-    return await ctx.db
+    const order = await ctx.db
       .query("orders")
       .withIndex("by_orderId", (q) => q.eq("orderId", args.orderId))
       .unique();
+
+    if (!order) return null;
+
+    const items = await Promise.all(
+      order.items.map(async (item) => {
+        // Prefer the image reference stamped on the order item itself at
+        // checkout; fall back to a live product lookup for older orders.
+        const product = await ctx.db.get(item.productId);
+        const storageId = item.imageId ?? product?.imageId ?? null;
+        let imageUrl: string | null = null;
+        if (storageId) {
+          imageUrl = await ctx.storage.getUrl(storageId);
+        }
+        return {
+          ...item,
+          imageId: storageId,
+          imageUrl: imageUrl ?? product?.imageUrl ?? null,
+        };
+      })
+    );
+
+    return { ...order, items };
   },
 });
 
@@ -96,6 +119,7 @@ export const checkout = mutation({
     city: v.optional(v.string()),
     postalCode: v.optional(v.string()),
     userId: v.optional(v.string()),
+    paymentMethod: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     let identity = null;
@@ -128,11 +152,12 @@ export const checkout = mutation({
 
     let total = 0;
     const orderItems: Array<{
-      productId: typeof args.items[number]["productId"];
+      productId: Id<"products">;
       name: string;
       price: string;
       quantity: number;
       size: string;
+      imageId?: Id<"_storage">;
     }> = [];
 
     for (const { productId, quantity, size } of args.items) {
@@ -185,6 +210,7 @@ export const checkout = mutation({
         price: product.price,
         quantity: qty,
         size: size?.trim() || "OS",
+        imageId: product.imageId ?? undefined,
       });
     }
 
@@ -204,10 +230,19 @@ export const checkout = mutation({
         postalCode,
         userId: effectiveUserId,
         date: Date.now(),
+        paymentMethod: args.paymentMethod === "whatsapp" ? "whatsapp" : "cod",
       });
     } catch (err) {
       console.error("[checkout] Failed to insert order:", err);
       throw new ConvexError("Failed to place order. Please try again.");
+    }
+
+    // Non-blocking Leopard Courier booking — returns the consignment/tracking
+    // number which is saved onto the order record.
+    try {
+      await ctx.scheduler.runAfter(0, api.leopard.bookOrderShipment, { orderId });
+    } catch (err) {
+      console.error("[checkout] Failed to schedule Leopard booking:", err);
     }
 
     // Non-blocking WhatsApp alert to admin

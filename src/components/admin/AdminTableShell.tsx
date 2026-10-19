@@ -5,5 +5,5 @@ interface AdminTableShellProps {
 }
 
 export default function AdminTableShell({ children }: AdminTableShellProps) {
-  return <div className="border border-white/15 overflow-x-auto">{children}</div>;
+  return <div className="border border-black/15 overflow-x-auto">{children}</div>;
 }

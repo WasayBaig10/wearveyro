@@ -14,7 +14,7 @@ export default function ProductGrid() {
 
   return (
     <section className="pb-16 md:pb-20">
-      <div className="flex justify-between items-end border-b border-white/15 pb-4">
+      <div className="flex justify-between items-end border-b border-black/15 pb-4">
         <h2 className="font-headline-lg text-headline-lg text-primary uppercase select-none">
           MEN&apos;S SHIRTS & STREETWEAR DROPS
         </h2>
@@ -27,25 +27,25 @@ export default function ProductGrid() {
       </div>
 
       {products === undefined ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border-l border-t border-white/15">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 border-l border-t border-black/15">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="border-r border-b border-white/15">
+            <div key={i} className="border-r border-b border-black/15">
               <Skeleton className="aspect-[3/4] rounded-none bg-surface-container" />
-              <div className="p-6 space-y-3">
-                <Skeleton className="h-4 rounded-none bg-surface-container w-3/4" />
-                <Skeleton className="h-3 rounded-none bg-surface-container w-1/2" />
+              <div className="p-2 md:p-4 lg:p-6 space-y-1.5 md:space-y-2">
+                <Skeleton className="h-3 md:h-4 rounded-none bg-surface-container w-3/4" />
+                <Skeleton className="h-2.5 md:h-3 rounded-none bg-surface-container w-1/2" />
               </div>
             </div>
           ))}
         </div>
       ) : activeProducts.length === 0 ? (
-        <div className="border border-white/15 p-12 text-center">
+        <div className="border border-black/15 p-12 text-center">
           <p className="font-label-bold text-secondary tracking-widest uppercase">
             No products available yet.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border-l border-t border-white/15">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 border-l border-t border-black/15">
           {activeProducts.map((product) => (
             <ProductCard
               key={product._id}
@@ -58,6 +58,7 @@ export default function ProductGrid() {
               status={product.status}
               stock={product.stock}
               badge={product.badge}
+              colorVariants={product.colorVariants}
             />
           ))}
         </div>

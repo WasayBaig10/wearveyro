@@ -4,7 +4,10 @@ import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/sections/Hero";
 import MarqueeBar from "@/components/sections/MarqueeBar";
 import BentoGrid from "@/components/sections/BentoGrid";
+import CategoryGrid from "@/components/sections/CategoryGrid";
 import ProductGrid from "@/components/sections/ProductGrid";
+import LivePurchasePopup from "@/components/sections/LivePurchasePopup";
+import HomepageReviewCarousel from "@/components/sections/HomepageReviewCarousel";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
@@ -33,8 +36,11 @@ export default function Home() {
         <Hero />
         <MarqueeBar />
         <BentoGrid />
+        <CategoryGrid />
         <ProductGrid />
+        <HomepageReviewCarousel />
       </main>
+      <LivePurchasePopup />
       <Footer />
     </>
   );

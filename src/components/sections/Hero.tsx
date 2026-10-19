@@ -20,7 +20,7 @@ export default function Hero() {
       .slice(0, 4) ?? [];
 
   return (
-    <section className="relative h-[80vh] min-h-[440px] md:h-screen overflow-hidden bg-black" aria-labelledby="hero-heading">
+    <section className="relative h-[40vh] min-h-[220px] md:h-[50vh] overflow-hidden bg-black" aria-labelledby="hero-heading">
       <h1 id="hero-heading" className="sr-only">
         Wearveyro — Men&apos;s Shirts & Streetwear Apparel in Pakistan
       </h1>

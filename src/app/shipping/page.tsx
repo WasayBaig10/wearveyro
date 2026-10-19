@@ -70,10 +70,10 @@ export default function ShippingPage() {
               If you have not received tracking within 3 business days of your
               order confirmation, please contact us at
               <a
-                href="mailto:contact@wearveyro.com"
+                href="mailto:wearwithveyro@gmail.com"
                 className="text-primary-fixed hover:underline ml-1"
               >
-                contact@wearveyro.com
+                wearwithveyro@gmail.com
               </a>.
             </p>
           </section>
@@ -87,10 +87,10 @@ export default function ShippingPage() {
               reach out within 48 hours of delivery (or the estimated delivery
               date) at
               <a
-                href="mailto:contact@wearveyro.com"
+                href="mailto:wearwithveyro@gmail.com"
                 className="text-primary-fixed hover:underline ml-1"
               >
-                contact@wearveyro.com
+                wearwithveyro@gmail.com
               </a>
               . We will investigate and arrange a replacement or refund.
             </p>
@@ -105,10 +105,10 @@ export default function ShippingPage() {
               [Business Address]<br />
               [City, Country]<br />
               <a
-                href="mailto:contact@wearveyro.com"
+                href="mailto:wearwithveyro@gmail.com"
                 className="text-primary-fixed hover:underline"
               >
-                contact@wearveyro.com
+                wearwithveyro@gmail.com
               </a>
             </p>
           </section>

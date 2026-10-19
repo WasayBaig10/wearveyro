@@ -5,7 +5,7 @@ export default function ItemsHeader() {
         MEN&apos;S SHIRTS &<br />
         STREETWEAR COLLECTION
       </h1>
-      <div className="w-full h-px bg-white/15" />
+      <div className="w-full h-px bg-black/15" />
     </header>
   );
 }

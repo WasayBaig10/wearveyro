@@ -1,6 +1,6 @@
 export default function ItemsMarquee() {
   return (
-    <div className="overflow-hidden mb-8 md:mb-12 border-y border-white/10 py-3 select-none">
+    <div className="overflow-hidden mb-8 md:mb-12 border-y border-black/10 py-3 select-none">
       <div className="inline-flex whitespace-nowrap animate-marquee hover:[animation-play-state:paused] cursor-pointer">
         {Array.from({ length: 4 }).map((_, i) => (
           <span

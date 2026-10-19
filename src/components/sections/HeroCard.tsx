@@ -37,7 +37,7 @@ export default function HeroCard({
     >
       <Link
         href={`/product/${slug}`}
-        className="group block w-40 md:w-44 overflow-hidden border border-white/15 bg-white/10 backdrop-blur-md transition-all duration-300 hover:-translate-y-6 hover:rotate-0 hover:border-primary-fixed/40 pointer-events-auto"
+        className="group block w-40 md:w-44 overflow-hidden border border-black/15 bg-black/10 backdrop-blur-md transition-all duration-300 hover:-translate-y-6 hover:rotate-0 hover:border-primary-fixed/40 pointer-events-auto"
       >
         <div className="relative aspect-[3/4] overflow-hidden">
           {imageUrl ? (

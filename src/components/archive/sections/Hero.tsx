@@ -17,7 +17,7 @@ export default function Hero() {
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter min-h-[80dvh] md:h-[819px] pt-10">
       {/* Left Column - Info & CTA */}
-      <div className="flex flex-col justify-center border border-white/15 p-8 md:p-12 bg-surface-container-lowest">
+      <div className="flex flex-col justify-center border border-black/15 p-8 md:p-12 bg-surface-container-lowest">
         <p className="font-label-bold text-primary-fixed mb-4 tracking-widest text-[13px]">
           SEASONAL RELEASE // 2024
         </p>
@@ -25,17 +25,17 @@ export default function Hero() {
           New <br /> Drop <br /> <span className="text-outline">Vol. 04</span>
         </h2>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-          <button className="bg-primary-fixed text-on-primary-fixed px-8 md:px-10 py-4 font-label-bold text-label-bold hover:bg-black hover:text-white border border-transparent hover:border-white transition-all active:scale-95 cursor-pointer text-center">
+          <button className="bg-primary-fixed text-on-primary-fixed px-8 md:px-10 py-4 font-label-bold text-label-bold hover:bg-black hover:text-white border border-transparent hover:border-black transition-all active:scale-95 cursor-pointer text-center">
             SHOP NOW
           </button>
-          <button className="border border-white text-primary px-8 md:px-10 py-4 font-label-bold text-label-bold hover:bg-white hover:text-black transition-all active:scale-95 cursor-pointer text-center">
+          <button className="border border-black text-primary px-8 md:px-10 py-4 font-label-bold text-label-bold hover:bg-black hover:text-white transition-all active:scale-95 cursor-pointer text-center">
             VIEW LOOKBOOK
           </button>
         </div>
       </div>
 
       {/* Right Column - Asymmetrical Image */}
-      <div className="lg:col-span-2 relative h-[50dvh] md:h-full overflow-hidden group border border-white/15">
+      <div className="lg:col-span-2 relative h-[50dvh] md:h-full overflow-hidden group border border-black/15">
         <div 
           className="w-full h-full relative"
           style={{

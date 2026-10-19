@@ -2,6 +2,23 @@
 
 import { useState } from "react";
 
+interface SizeChartRow {
+  size: string;
+  measurements: Record<string, string>;
+}
+
+interface SizeChartData {
+  headers: string[];
+  rows: SizeChartRow[];
+}
+
+interface ColorVariantOption {
+  name: string;
+  hex?: string;
+  isSelected: boolean;
+  onClick: () => void;
+}
+
 interface ProductInfoProps {
   name?: string;
   price?: string;
@@ -10,16 +27,21 @@ interface ProductInfoProps {
   stock?: number;
   isSoldOut?: boolean;
   isAdded?: boolean;
+  sizeChart?: SizeChartData;
+  colorVariants?: ColorVariantOption[];
   onAddToCart?: (size: string) => void;
   onCheckout?: (size: string) => void;
 }
 
-const sizeChart = [
-  { size: "S", chest: "36", length: "27", shoulder: "17" },
-  { size: "M", chest: "38", length: "28", shoulder: "18" },
-  { size: "L", chest: "40", length: "29", shoulder: "19" },
-  { size: "XL", chest: "42", length: "30", shoulder: "20" },
-];
+const fallbackSizeChart: SizeChartData = {
+  headers: ["Chest", "Length", "Shoulder"],
+  rows: [
+    { size: "S", measurements: { Chest: "36", Length: "27", Shoulder: "17" } },
+    { size: "M", measurements: { Chest: "38", Length: "28", Shoulder: "18" } },
+    { size: "L", measurements: { Chest: "40", Length: "29", Shoulder: "19" } },
+    { size: "XL", measurements: { Chest: "42", Length: "30", Shoulder: "20" } },
+  ],
+};
 
 export default function ProductInfo({
   name = "VORTEX GRAIL TEE",
@@ -29,12 +51,16 @@ export default function ProductInfo({
   stock,
   isSoldOut = false,
   isAdded,
+  sizeChart,
+  colorVariants = [],
   onAddToCart,
   onCheckout,
 }: ProductInfoProps) {
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [sizeError, setSizeError] = useState(false);
+
+  const chart = sizeChart ?? fallbackSizeChart;
 
   function handleAddToCart() {
     if (!selectedSize) {
@@ -73,12 +99,11 @@ export default function ProductInfo({
             </div>
           </div>
 
-          {/* Stock indicator */}
           {typeof stock === "number" && (
             <div className="flex items-center gap-2">
               <span
                 className={`w-2 h-2 rounded-full ${
-                  isSoldOut ? "bg-white/25" : stock <= 5 ? "bg-error animate-pulse" : "bg-emerald-500"
+                  isSoldOut ? "bg-black/25" : stock <= 5 ? "bg-error animate-pulse" : "bg-emerald-500"
                 }`}
               />
               <span
@@ -90,10 +115,43 @@ export default function ProductInfo({
               </span>
             </div>
           )}
-
         </div>
 
-        {/* Description & Stock */}
+        {/* Color Selector */}
+        {colorVariants.length > 0 && (
+          <div className="w-full flex flex-col gap-3">
+            <label className="font-label-bold text-label-bold tracking-tighter uppercase">
+              Select Color
+            </label>
+            <div className="flex items-center gap-3">
+              {colorVariants.map((variant, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={variant.onClick}
+                  title={variant.name}
+                  className={`w-10 h-10 border-2 transition-all cursor-pointer flex items-center justify-center ${
+                    variant.isSelected
+                      ? "border-primary-fixed scale-110"
+                      : "border-black/15 hover:border-black/40"
+                  }`}
+                  style={{ backgroundColor: variant.hex || "#000" }}
+                >
+                  {variant.isSelected && (
+                    <span className="text-white text-xs font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      ✓
+                    </span>
+                  )}
+                </button>
+              ))}
+              <span className="ml-2 font-label-bold text-[11px] uppercase tracking-widest text-secondary">
+                {colorVariants.find((v) => v.isSelected)?.name || ""}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Description */}
         <div className="w-full flex flex-col gap-4">
           <p className="font-body-lg text-body-lg text-secondary leading-relaxed">
             {description}
@@ -127,7 +185,7 @@ export default function ProductInfo({
                 className={`h-14 border flex items-center justify-center font-label-bold text-sm transition-all active:scale-95 cursor-pointer ${
                   size === selectedSize
                     ? "border-primary-fixed bg-primary-fixed text-on-primary-fixed"
-                    : "border-white/15 text-secondary hover:border-primary"
+                    : "border-black/15 text-secondary hover:border-primary"
                 } ${isSoldOut ? "opacity-40 cursor-not-allowed disabled:cursor-not-allowed" : ""}`}
               >
                 {size}
@@ -136,7 +194,6 @@ export default function ProductInfo({
           </div>
         </div>
 
-        {/* Size error toast */}
         {sizeError && (
           <div className="bg-error/10 border border-error/30 px-4 py-3">
             <p className="font-label-bold text-[11px] uppercase tracking-widest text-error">
@@ -148,7 +205,7 @@ export default function ProductInfo({
         {/* CTA Buttons */}
         <div className="w-full flex flex-col gap-4">
           {isSoldOut ? (
-            <div className="w-full h-16 flex items-center justify-center font-label-bold text-lg tracking-widest uppercase bg-white/5 text-secondary/50 border border-white/15 cursor-not-allowed select-none">
+            <div className="w-full h-16 flex items-center justify-center font-label-bold text-lg tracking-widest uppercase bg-black/5 text-secondary/50 border border-black/15 cursor-not-allowed select-none">
               SOLD OUT
             </div>
           ) : (
@@ -157,14 +214,14 @@ export default function ProductInfo({
                 onClick={handleAddToCart}
                 className={`w-full h-16 font-label-bold text-lg tracking-widest uppercase transition-all active:scale-[0.98] cursor-pointer ${
                   isAdded
-                    ? "bg-emerald-600 text-white"
-                    : "bg-primary-fixed text-on-primary hover:bg-black hover:text-white hover:border border-white neon-glow"
+                    ? "bg-emerald-600 text-black"
+                    : "bg-primary-fixed text-on-primary hover:bg-black hover:text-white hover:border border-black neon-glow"
                 }`}>
                 {isAdded ? "ADDED TO ARCHIVE ✓" : "Add to Archive"}
               </button>
               <button
                 onClick={handleCheckout}
-                className="w-full h-16 border border-white text-white font-label-bold text-lg tracking-widest uppercase hover:bg-white hover:text-black transition-all active:scale-[0.98] cursor-pointer"
+                className="w-full h-16 border border-black text-black font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white transition-all active:scale-[0.98] cursor-pointer"
               >
                 Express Checkout
               </button>
@@ -180,15 +237,15 @@ export default function ProductInfo({
             className="absolute inset-0 bg-background/80 backdrop-blur-sm"
             onClick={() => setShowSizeGuide(false)}
           />
-          <div className="relative w-full max-w-md border border-white/15 bg-surface-container-low">
-            <div className="sticky top-0 px-6 py-4 border-b border-white/15 bg-surface-container-low flex justify-between items-center">
+          <div className="relative w-full max-w-md border border-black/15 bg-surface-container-low">
+            <div className="sticky top-0 px-6 py-4 border-b border-black/15 bg-surface-container-low flex justify-between items-center">
               <h2 className="font-label-bold text-label-bold uppercase tracking-widest text-primary">
                 Size Guide
               </h2>
               <button
                 type="button"
                 onClick={() => setShowSizeGuide(false)}
-                className="px-3 py-1.5 border border-white/15 font-label-bold text-[10px] uppercase tracking-widest text-secondary hover:border-error hover:text-error transition-colors cursor-pointer"
+                className="px-3 py-1.5 border border-black/15 font-label-bold text-[10px] uppercase tracking-widest text-secondary hover:border-error hover:text-error transition-colors cursor-pointer"
               >
                 Close
               </button>
@@ -199,20 +256,22 @@ export default function ProductInfo({
               </p>
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-white/15">
+                  <tr className="border-b border-black/15">
                     <th className="pb-3 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary pr-4">Size</th>
-                    <th className="pb-3 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary pr-4">Chest</th>
-                    <th className="pb-3 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary pr-4">Length</th>
-                    <th className="pb-3 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary">Shoulder</th>
+                    {chart.headers.map((h) => (
+                      <th key={h} className="pb-3 font-label-bold text-[10px] uppercase tracking-[0.2em] text-secondary pr-4">{h}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {sizeChart.map((row) => (
-                    <tr key={row.size} className="border-b border-white/10">
+                  {chart.rows.map((row) => (
+                    <tr key={row.size} className="border-b border-black/10">
                       <td className="py-3 pr-4 font-label-bold text-sm text-primary">{row.size}</td>
-                      <td className="py-3 pr-4 font-label-sm text-sm text-secondary">{row.chest}</td>
-                      <td className="py-3 pr-4 font-label-sm text-sm text-secondary">{row.length}</td>
-                      <td className="py-3 font-label-sm text-sm text-secondary">{row.shoulder}</td>
+                      {chart.headers.map((h) => (
+                        <td key={h} className="py-3 pr-4 font-label-sm text-sm text-secondary">
+                          {row.measurements[h] || "—"}
+                        </td>
+                      ))}
                     </tr>
                   ))}
                 </tbody>

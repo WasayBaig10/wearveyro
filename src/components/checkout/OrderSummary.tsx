@@ -23,14 +23,14 @@ export default function OrderSummary() {
   const total = subtotal + shipping;
 
   return (
-    <aside className="bg-surface-container-lowest border border-white/15 p-6 md:p-8 md:sticky md:top-24 space-y-6">
+    <aside className="bg-surface-container-lowest border border-black/15 p-6 md:p-8 md:sticky md:top-24 space-y-6">
       <h2 className="font-headline-md text-headline-md uppercase text-primary">
         Order Summary
       </h2>
 
       <div className="space-y-4">
         {cartItems.map((item) => (
-          <div key={item.name} className="flex gap-4 border-b border-white/10 pb-4">
+          <div key={item.name} className="flex gap-4 border-b border-black/10 pb-4">
             <div className="relative w-16 h-20 bg-surface-container shrink-0 overflow-hidden">
               <Image src={item.src} alt={item.name} fill sizes="64px" className="object-cover" />
             </div>
@@ -56,13 +56,13 @@ export default function OrderSummary() {
           <span>Shipping</span>
           <span className="text-primary">Rs. {shipping.toLocaleString()}</span>
         </div>
-        <div className="border-t border-white/15 pt-3 flex justify-between font-headline-md text-headline-md">
+        <div className="border-t border-black/15 pt-3 flex justify-between font-headline-md text-headline-md">
           <span className="text-primary uppercase">Total</span>
           <span className="text-primary-fixed">Rs. {total.toLocaleString()}</span>
         </div>
       </div>
 
-      <button className="w-full h-14 bg-primary-fixed text-on-primary-fixed font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-white transition-all active:scale-[0.98] cursor-pointer neon-glow">
+      <button className="w-full h-14 bg-primary-fixed text-on-primary-fixed font-label-bold text-lg tracking-widest uppercase hover:bg-black hover:text-white border border-transparent hover:border-black transition-all active:scale-[0.98] cursor-pointer neon-glow">
         Place Order
       </button>
 

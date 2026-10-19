@@ -14,8 +14,10 @@ import type * as customers from "../customers.js";
 import type * as email from "../email.js";
 import type * as http from "../http.js";
 import type * as init from "../init.js";
+import type * as leopard from "../leopard.js";
 import type * as orders from "../orders.js";
 import type * as products from "../products.js";
+import type * as reviews from "../reviews.js";
 import type * as storage from "../storage.js";
 import type * as whatsapp from "../whatsapp.js";
 
@@ -32,8 +34,10 @@ declare const fullApi: ApiFromModules<{
   email: typeof email;
   http: typeof http;
   init: typeof init;
+  leopard: typeof leopard;
   orders: typeof orders;
   products: typeof products;
+  reviews: typeof reviews;
   storage: typeof storage;
   whatsapp: typeof whatsapp;
 }>;

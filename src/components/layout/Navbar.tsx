@@ -45,12 +45,11 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-white/15">
+      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-black/15">
         <div className="max-w-[1600px] mx-auto px-container-margin flex justify-between items-center h-16">
-          <span className="font-headline-md text-headline-md tracking-tighter text-primary select-none">
+          <Link href="/" className="font-headline-md text-headline-md tracking-tighter text-primary select-none">
             wearveyro
-          </span>
-
+          </Link>
           <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => {
               const isActive =
@@ -74,7 +73,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-4 md:gap-6 text-primary">
             {isShop && (searchOpen ? (
-              <div className="flex items-center border-b border-white/30 focus-within:border-primary-fixed transition-colors">
+              <div className="flex items-center border-b border-black/30 focus-within:border-primary-fixed transition-colors">
                 <Search size={16} className="text-secondary shrink-0" />
                 <input
                   ref={searchRef}
@@ -82,7 +81,7 @@ export default function Navbar() {
                   value={searchQuery}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="SEARCH SHIRTS..."
-                  className="bg-transparent border-none focus:ring-0 outline-none px-2 py-1 w-40 md:w-56 font-label-bold text-sm text-primary placeholder:text-white/30 tracking-wider"
+                  className="bg-transparent border-none focus:ring-0 outline-none px-2 py-1 w-40 md:w-56 font-label-bold text-sm text-primary placeholder:text-black/30 tracking-wider"
                 />
                 <button
                   onClick={closeSearch}
@@ -112,13 +111,13 @@ export default function Navbar() {
                 <UserButton
                   appearance={{
                     elements: {
-                      userButtonAvatarBox: "w-6 h-6 border border-white/15",
+                      userButtonAvatarBox: "w-6 h-6 border border-black/15",
                       userButtonTrigger:
                         "hover:text-primary-fixed transition-colors",
                       userButtonPopoverCard:
-                        "bg-surface-container border border-white/15 shadow-none",
+                        "bg-surface-container border border-black/15 shadow-none",
                       userButtonPopoverActionButton:
-                        "text-primary hover:bg-white/5",
+                        "text-primary hover:bg-black/5",
                       userButtonPopoverActionButtonText: "font-label-bold text-xs",
                       userButtonPopoverFooter: "hidden",
                     },

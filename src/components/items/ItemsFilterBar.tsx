@@ -12,6 +12,8 @@ const sortOptions = [
 
 interface ItemsFilterBarProps {
   totalItems: number;
+  activeCategory?: string;
+  onClearCategory?: () => void;
   priceMin: string;
   priceMax: string;
   onPriceMinChange: (v: string) => void;
@@ -22,6 +24,8 @@ interface ItemsFilterBarProps {
 
 export default function ItemsFilterBar({
   totalItems,
+  activeCategory,
+  onClearCategory,
   priceMin,
   priceMax,
   onPriceMinChange,
@@ -35,7 +39,16 @@ export default function ItemsFilterBar({
     <section className="relative flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-4">
       <div className="flex items-center gap-4 text-secondary font-label-sm shrink-0">
         <span className="font-label-bold text-[12px] tracking-wider">VIEWING {totalItems} ARCHIVE ITEMS</span>
-        <div className="h-4 w-px bg-white/15" />
+        {activeCategory && (
+          <button
+            onClick={onClearCategory}
+            className="flex items-center gap-2 border border-primary-fixed/40 text-primary-fixed uppercase font-label-bold text-[10px] tracking-wider px-2.5 py-1 hover:bg-primary-fixed hover:text-on-primary transition-colors cursor-pointer"
+            aria-label={`Clear category filter ${activeCategory}`}
+          >
+            {activeCategory} <span aria-hidden>✕</span>
+          </button>
+        )}
+        <div className="h-4 w-px bg-black/15" />
         <button
           onClick={() => setFilterOpen(!filterOpen)}
           className="flex items-center gap-1.5 hover:text-primary transition-colors uppercase font-label-bold text-[12px] tracking-wider cursor-pointer"
@@ -47,7 +60,7 @@ export default function ItemsFilterBar({
       </div>
 
       {filterOpen && (
-        <div className="w-full md:w-72 absolute top-full right-0 mt-2 bg-surface-container border border-white/15 p-6 space-y-5 z-10">
+        <div className="w-full md:w-72 absolute top-full right-0 mt-2 bg-surface-container border border-black/15 p-6 space-y-5 z-10">
           <h4 className="font-label-bold text-[10px] uppercase tracking-[0.2em] text-primary">Sort By</h4>
 
           <div className="flex flex-wrap gap-2">
@@ -58,7 +71,7 @@ export default function ItemsFilterBar({
                 className={`font-label-bold text-[10px] uppercase tracking-wider border px-3 py-1.5 transition-colors cursor-pointer ${
                   sortBy === opt.value
                     ? "border-primary-fixed text-primary-fixed"
-                    : "border-white/15 text-secondary hover:border-primary-fixed hover:text-primary-fixed"
+                    : "border-black/15 text-secondary hover:border-primary-fixed hover:text-primary-fixed"
                 }`}
               >
                 {opt.label}
@@ -74,7 +87,7 @@ export default function ItemsFilterBar({
                 value={priceMin}
                 onChange={(e) => onPriceMinChange(e.target.value)}
                 placeholder="Min"
-                className="w-full bg-surface border border-white/15 px-3 py-2 font-label-bold text-sm text-primary placeholder:text-white/30 focus:border-primary-fixed focus:ring-0 outline-none transition-colors"
+                className="w-full bg-surface border border-black/15 px-3 py-2 font-label-bold text-sm text-primary placeholder:text-black/30 focus:border-primary-fixed focus:ring-0 outline-none transition-colors"
               />
               <span className="text-secondary text-xs">—</span>
               <input
@@ -82,7 +95,7 @@ export default function ItemsFilterBar({
                 value={priceMax}
                 onChange={(e) => onPriceMaxChange(e.target.value)}
                 placeholder="Max"
-                className="w-full bg-surface border border-white/15 px-3 py-2 font-label-bold text-sm text-primary placeholder:text-white/30 focus:border-primary-fixed focus:ring-0 outline-none transition-colors"
+                className="w-full bg-surface border border-black/15 px-3 py-2 font-label-bold text-sm text-primary placeholder:text-black/30 focus:border-primary-fixed focus:ring-0 outline-none transition-colors"
               />
             </div>
           </div>

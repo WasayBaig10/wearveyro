@@ -62,11 +62,11 @@ export default async function ProductDetailPage({ params }: Props) {
       {product && <ProductSchemaJsonLd product={product} />}
       <ProductMarquee />
 
-      <main className="min-h-screen pt-4 pb-section-gap-lg">
+      <main className="max-w-[1600px] mx-auto pt-24 px-container-margin space-y-section-gap-lg">
         <ProductDetailContent productId={slug} />
+        <ProductRelated currentSlug={slug} />
       </main>
 
-      <ProductRelated currentSlug={slug} />
       <Footer />
     </>
   );
